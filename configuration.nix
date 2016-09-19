@@ -31,23 +31,16 @@
     # Nix related
     nox
     # Console environment
-    pmutils
-    nmap
-    pandoc
-    graphviz
-    highlight
-    rubber
-    pwgen
-    git
-    unzip
+    vim
     tmux
     ranger
+    pmutils
+    git
+    nmap
+    unzip
     python3
     python2
-    autossh
-    gawk
     htop
-    imagemagick
     tree
     ## Graphical environment
     #libreoffice
@@ -56,7 +49,8 @@
     #firefox
     #gnome3
     # Development environment
-    gcc gnumake
+    gcc
+    gnumake
   ];
 
   services = {
@@ -80,9 +74,14 @@
     # };
   };
 
+  # Set root password
+  users.users.root = {
+    initialHashedPassword = "$6$yroFuyfM2k7eBw6u$8aJV6cf4bR0ow4HxAnkTbpGNMEoi2U0B41mRkn5lno703FABy2yP50l3Xj4fkeNxVyiEry/PV2KlxemV5.MlZ0" ;
+  };
+
   #set password with ‘passwd’.
-  users.extraUsers.mercierm = {
-    initialHashedPassword = "$6$38Cus8EEHyVY9Fc4$yh.KOE2kCcfknQ162hO53BPVxaovkh22oxgz9Ff/4tbAVrwkwi4Yj6fFnDPkE8PKGCO5oeeqdORL5k8w3N.451" ;
+  users.users.mercierm = {
+    initialHashedPassword = "$6$yroFuyfM2k7eBw6u$8aJV6cf4bR0ow4HxAnkTbpGNMEoi2U0B41mRkn5lno703FABy2yP50l3Xj4fkeNxVyiEry/PV2KlxemV5.MlZ0" ;
     isNormalUser = true;
     home = "/home/mercierm";
     shell = "/run/current-system/sw/bin/zsh";
@@ -100,18 +99,18 @@
     ssh.startAgent = true;
   };
 
-  fonts = {
-    enableFontDir = true;
-    enableGhostscriptFonts = true;
-    fonts = with pkgs; [
-      corefonts
-      inconsolata
-      ubuntu_font_family
-      liberation_ttf
-      unifont
-      fira
-    ];
-  };
+  #fonts = {
+  #  enableFontDir = true;
+  #  enableGhostscriptFonts = true;
+  #  fonts = with pkgs; [
+  #    corefonts
+  #    inconsolata
+  #    ubuntu_font_family
+  #    liberation_ttf
+  #    unifont
+  #    fira
+  #  ];
+  #};
 
 }
 
