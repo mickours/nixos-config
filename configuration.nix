@@ -2,15 +2,10 @@
 {
   # Boot information
 
-  # imports = [./hardware-configuration.nix];
+  imports = [./hardware-configuration.nix];
 
   # boot on /dev/sda on nixos labeled fylesystem
   boot.loader.grub.device = "/dev/sda";
-  fileSystems = [
-    { mountPoint = "/";
-      label = "nixos";
-    }
-  ];
 
   time.timeZone = "Europe/Paris";
 
@@ -32,6 +27,7 @@
     nox
     # Console environment
     vim
+    ctags
     tmux
     ranger
     pmutils
