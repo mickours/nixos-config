@@ -62,6 +62,8 @@
     htop
     tree
     pass
+    zsh
+    grml-zsh-config
     ## Graphical environment
     libreoffice
     transmission_gtk
