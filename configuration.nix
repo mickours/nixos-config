@@ -78,6 +78,8 @@
     cmake
   ];
 
+  # use Vim by default
+  environment.variables.EDITOR = "vim";
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
 
