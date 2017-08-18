@@ -62,6 +62,7 @@
     python2
     htop
     tree
+    gnupg
     pass
     zsh
     ## Graphical environment
