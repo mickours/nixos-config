@@ -131,6 +131,7 @@
       displayManager.gdm.enable = true;
       # Include fix for gdm locales: https://github.com/NixOS/nixpkgs/issues/14318#issuecomment-309250231
       localectlFix.enable = true;
+      libinput.enable = true;
     };
 
   };
