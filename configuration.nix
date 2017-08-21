@@ -49,7 +49,8 @@
   environment.systemPackages = with pkgs; [
     # Nix related
     nox
-    polipo
+    nix-repl
+
     # Console environment
     vim
     tmux
@@ -66,6 +67,8 @@
     pass
     zsh
     nix-zsh-completions
+    ncdu
+    iotop
 
     ## Graphical environment
     libreoffice
@@ -85,10 +88,13 @@
     # Pro
     cntlm
     opensc
+    polipo
   ];
 
   # use Vim by default
   environment.variables.EDITOR = "vim";
+  environment.sessionVariables.EDITOR="vim";
+
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
 
