@@ -2,12 +2,14 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
-
+{ config,
+  pkgs ? import ../nixpkgs {},
+  ... }:
 {
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      ./config/fix-keymap.nix
     ];
 
   # Use the systemd-boot EFI boot loader.
@@ -92,7 +94,7 @@
   ];
 
   # use Vim by default
-  environment.variables.EDITOR = "vim";
+  # environment.variables.EDITOR = "vim";
   environment.sessionVariables.EDITOR="vim";
 
   # Enable the OpenSSH daemon.
@@ -127,6 +129,8 @@
       # Enable the Gnome Desktop Environment.
       desktopManager.gnome3.enable = true;
       displayManager.gdm.enable = true;
+      # Include fix for gdm locales: https://github.com/NixOS/nixpkgs/issues/14318#issuecomment-309250231
+      localectlFix.enable = true;
     };
 
   };
@@ -146,12 +150,12 @@
   };
 
   # Networking configuration
-  services.polipo.enable = true;
-  services.polipo.parentProxy = "193.56.47.8:8080";
+  #services.polipo.enable = true;
+  #services.polipo.parentProxy = "193.56.47.8:8080";
 
-  networking.proxy.httpProxy = "http://127.0.0.1:8123";
-  networking.proxy.httpsProxy = "http://127.0.0.1:8123";
-  networking.proxy.noProxy = "127.0.0.1,localhost,::1";
+  #networking.proxy.httpProxy = "http://127.0.0.1:8123";
+  #networking.proxy.httpsProxy = "http://127.0.0.1:8123";
+  #networking.proxy.noProxy = "127.0.0.1,localhost,::1";
 
   # TODO override polipo conf with parent proxy "http://193.56.47.8:8080";
 
@@ -176,7 +180,6 @@
 
   # Smart card
   services.pcscd.enable = true;
-  
 
   # The NixOS release to be compatible with for stateful data such as databases.
   system.stateVersion = "17.03";
