@@ -49,19 +49,24 @@
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
   environment.systemPackages = with pkgs; [
-    # Nix related
+    ## Nix related
     nox
     nix-repl
 
     # install nix-home
     ((pkgs.callPackage ./pkgs/nix-home.nix) {})
 
-    # utils
+    ## Utils
     ntfs3g
+    psmisc
 
-    # Console environment
+    ## Console environment
     vim
+    # vim plugins
+    vimPlugins.YouCompleteMe
+
     tmux
+
     ranger
     # ranger previews
     libcaca   # video
@@ -95,14 +100,14 @@
     gnome3.evolution
     usbutils
 
-    # Development environment
+    ## Development environment
     gcc
     ctags
     gnumake
     wget
     cmake
 
-    # Pro
+    ## Pro
     cntlm
     opensc
     polipo

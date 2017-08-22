@@ -28,4 +28,7 @@
 
   nix.maxJobs = lib.mkDefault 4;
   powerManagement.cpuFreqGovernor = "powersave";
+
+  # Save some power by disableling discrete GPU
+  hardware.amdHybridGraphics.disable = true;
 }
