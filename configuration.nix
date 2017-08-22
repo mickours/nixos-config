@@ -155,6 +155,18 @@
     };
   };
 
+  # Enable keyring unlock with session password
+  security.pam.services = with pkgs;[
+    { name = "gnome_keyring";
+      text = ''
+        auth     optional    ${gnome3.gnome_keyring}/lib/security/pam_gnome_keyring.so
+        session  optional    ${gnome3.gnome_keyring}/lib/security/pam_gnome_keyring.so auto_start
+
+        password  optional    ${gnome3.gnome_keyring}/lib/security/pam_gnome_keyring.so
+      '';
+    }
+  ];
+
   # Make fonts better...
   fonts = {
     enableFontDir = true;
