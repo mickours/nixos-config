@@ -16,14 +16,28 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  # manage encrypted partition
+  # manage encrypted ROOT partition
   boot.initrd.luks.devices = [
-    { name = "root";
+    {
+      name = "root";
       device = "/dev/disk/by-uuid/c3a6ae03-368b-4877-b8a3-9d02c0a64d47";
       preLVM = true;
       allowDiscards = true;
     }
+    {
+      name = "home";
+      device = "/dev/disk/by-uuid/edea857a-8e93-4eaf-b7cd-e94b753cd573";
+      preLVM = true;
+      allowDiscards = true;
+    }
   ];
+
+
+  ## manage encrypted HOME partition
+  #systemd.generator-packages = [
+  #  pkgs.systemd-cryptsetup-generator
+  #];
+
   networking.hostName = "oursbook"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
