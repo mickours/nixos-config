@@ -227,6 +227,10 @@
   #];
 
   # Make fonts better...
+  fonts.fontconfig = {
+    enable = true;
+    ultimate.enable = true;
+  };
   #fonts = {
   #  enableFontDir = true;
   #  enableGhostscriptFonts = true;
