@@ -158,6 +158,7 @@ rec {
     gnumake
     wget
     cmake
+    clang
 
     ## Pro
     cntlm
@@ -210,17 +211,22 @@ rec {
       enable = true;
       layout = "fr";
       xkbOptions = "eurosign:e";
+      libinput.enable = true;
+
       # Enable the Gnome Desktop Environment.
       desktopManager.gnome3.enable = true;
-      displayManager.gdm.enable = true;
+
       # Include fix for gdm locales: https://github.com/NixOS/nixpkgs/issues/14318#issuecomment-309250231
+      displayManager.gdm.enable = true;
       localectlFix.enable = true;
-      libinput.enable = true;
     };
+
+    gnome3.gnome-keyring.enable = true;
+    gnome3.at-spi2-core.enable = true;
   };
 
   # Fix GDM warining issue: https://github.com/NixOS/nixpkgs/issues/24172#issuecomment-304540789
-  systemd.targets."multi-user".conflicts = [ "getty@tty1.service" ];
+  # systemd.targets."multi-user".conflicts = [ "getty@tty1.service" ];
 
   # Enable keyring unlock with session password
   #security.pam.services = with pkgs;[
@@ -269,7 +275,7 @@ rec {
     description = "Michael Mercier";
     uid = 1000;
     isNormalUser = true;
-    extraGroups = [ "wheel" "lp" "networkmanager" "vboxusers" "gdm" "docker" ];
+    extraGroups = [ "wheel" "lp" "networkmanager" "vboxusers" "docker" "gdm" ];
     shell = pkgs.zsh;
     openssh.authorizedKeys.keys = [
     "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDXXsbhzexlZS+hCRS39cEo3BOZTLGtO8mKUE6U0gwDRNE0hE/H4Nr9Gn9NGxmmWFdTZmuaU85Z66ofe4C9Hz8pgRzB8b4Ids3XXzdeud5+znN7tKERt9Qi7a25q8vKTYlftcOIvT+6v4YVmih/NoLx5Dw9+B2tS0E20VY0skbL4s7TYmrXIrSPz6dX/JpjivF90eJSc0pVkT8ZSbZV2fygRW7JbgN490iJ+sRGnwfDjpYA7yQjyrpDJifXwdXg/NnilW6WnwbKBNXcjTIsVg1PEffZIJKAEOZzl/txNKU2kjYAZTtBGqJ491md+T3ptjvcNehia5if3GGbjm7xalzsRwOVmMisfQT4KP/cyZ66fxbU8qMgzspCjvCpEPXRQH2Q4jVWZkx2iulmB2wNbXaxs58ueelMJMO3gpZ2xBYwah7QSZK2nHG44dKfC6OAGcah7FI5+dplzwBtROWvPxkiSWJbBcxymcY5QkValWJeavC7gwDhC/zjNfa+oKRLYSsgoiiD0BRcvm+UisyGZ59C3T0lJTZpnn63RwY4WvVQzh1ltdqckZMFwaqn0ywIA9+JCD2u9P8STiRpcXq+kQnEMPYUIXRGm8KFXkdB08j8uNC0F+EF7oqgWTpGv8xVJnic48V49Vp9DDIK4BCuqgViwBMBaIqosX3j9E8JzWuAnQ== mercierm@oursbook"];
