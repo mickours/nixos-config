@@ -111,6 +111,8 @@ rec {
     # vim plugins
     vimPlugins.YouCompleteMe
 
+    neovim
+
     tmux
 
     ranger
@@ -173,8 +175,7 @@ rec {
   ];
 
   # use Vim by default
-  # environment.variables.EDITOR = "vim";
-  environment.sessionVariables.EDITOR="vim";
+  environment.sessionVariables.EDITOR="nvim";
 
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
