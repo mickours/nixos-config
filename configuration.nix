@@ -278,8 +278,8 @@ rec {
   # Smart card
   services.pcscd.enable = true;
 
-  # The NixOS release to be compatible with for stateful data such as databases.
-  system.stateVersion = "17.03";
-
   nixpkgs.config.firefox.enableAdobeFlash = true;
+
+  # every machine should be running antivirus
+  services.clamav.updater.enable = true;
 }
