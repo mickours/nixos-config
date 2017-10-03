@@ -145,9 +145,11 @@ rec {
     transmission_gtk
     gitg
     firefox
+    chrome-gnome-shell
     flashplayer
     gnome3.evolution
     gnome3.gnome-disk-utility
+    gnome3.gjs
     usbutils
 
     ## Development environment
