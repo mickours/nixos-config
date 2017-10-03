@@ -4,15 +4,23 @@
 
 { config,
   pkgs ? import ../nixpkgs {},
-  ... }: rec
-{
+  ...
+}:
+rec {
 
-  # keep build dpendencies to enable offline rebuild
-  nix.useSandbox = true;
-  nix.extraOptions = ''
-    gc-keep-outputs = true
-    gc-keep-derivations = true
-  '';
+  nix = {
+    # make sure dependencies are well defined
+    useSandbox = true;
+
+    # build with 3 out of 4 cores
+    #buildCores = 3;
+
+    # keep build dpendencies to enable offline rebuild
+    extraOptions = ''
+      gc-keep-outputs = true
+      gc-keep-derivations = true
+      '';
+  };
 
   imports =
     [ # Include the results of the hardware scan.
