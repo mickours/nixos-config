@@ -148,6 +148,8 @@ rec {
     chrome-gnome-shell
     flashplayer
     gnome3.evolution
+    aspellDicts.fr
+    aspellDicts.en
     gnome3.gnome-disk-utility
     gnome3.gjs
     usbutils
