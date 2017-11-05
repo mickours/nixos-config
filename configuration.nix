@@ -342,6 +342,7 @@ rec {
         sha256 = "0hyc25ygxrp8k0w1xmg5wx1d2l959glc23bjswf30agwlpyn2rwn";
       };
     });
+    sudo = pkgs.sudo.override { withInsults = true; };
   };
 }
 
