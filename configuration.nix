@@ -3,7 +3,7 @@
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
 { config,
-  pkgs ? import ../nixpkgs {},
+  pkgs ? import ../nixpkgs { },
   ...
 }:
 rec {
@@ -141,18 +141,23 @@ rec {
     emacs
 
     ## Graphical environment
-    libreoffice
-    transmission_gtk
-    gitg
+    # For system Monitor plugin
+    gobjectIntrospection
+    libgtop
+
+    # Fix Gnome crash
+    gnome3.gjs
+
+    usbutils
+
     firefox
     chrome-gnome-shell
     flashplayer
+
     gnome3.evolution
     aspellDicts.fr
     aspellDicts.en
     gnome3.gnome-disk-utility
-    gnome3.gjs
-    usbutils
 
     ## Development environment
     gcc
@@ -160,15 +165,18 @@ rec {
     gnumake
     wget
     cmake
-    clang
+    gitg
 
     ## Pro
     cntlm
     opensc
     polipo
+    libreoffice
 
     ## Backups and sync
     syncthing
+    transmission_gtk
+
   ];
 
   environment.gnome3.excludePackages = [
@@ -204,6 +212,7 @@ rec {
       browsedConf = ''
         BrowsePoll print.imag.fr:631
       '';
+      drivers = [ pkgs.samsung-unified-linux-driver ];
     };
     # Needed for printer discovery
     avahi.enable = true;
@@ -217,6 +226,7 @@ rec {
 
       # Enable the Gnome Desktop Environment.
       desktopManager.gnome3.enable = true;
+      #desktopManager.plasma5.enable = true;
 
       # Include fix for gdm locales: https://github.com/NixOS/nixpkgs/issues/14318#issuecomment-309250231
       displayManager.gdm.enable = true;
@@ -265,11 +275,15 @@ rec {
 
   # TODO override polipo conf with parent proxy "http://193.56.47.8:8080";
 
-  # FIXME (not sure if it is necessary...
-  # Enable system wide zsh and ssh agent
   programs = {
+    # FIXME (not sure if it is necessary...
+    # Enable system wide zsh and ssh agent
     zsh.enable = true;
     ssh.startAgent = true;
+
+    # Whether interactive shells should show which Nix package (if any)
+    # provides a missing command.
+    command-not-found.enable = true;
   };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
@@ -290,4 +304,44 @@ rec {
 
   # every machine should be running antivirus
   services.clamav.updater.enable = true;
+
+  # Enable browserpass to access pass within Firefox
+  programs.browserpass.enable = true;
+  programs.gnupg.agent.enableBrowserSocket = true;
+  programs.gnupg.agent.enable = true;
+
+  # enable thefuck!
+  programs.thefuck.enable = false;
+
+  # enable cron table
+  services.cron.enable = true;
+
+  security.sudo.extraConfig = ''
+    Defaults   insults
+    '';
+
+  # fix aspell path
+  # https://github.com/NixOS/nixpkgs/issues/28815
+  #system.replaceRuntimeDependencies = with pkgs; [
+  #    { original = aspell;
+  #      replacement = aspell.overrideAttrs (oldAttrs: rec {
+  #         patchPhase = oldAttrs.patchPhase + ''
+  #         patch -p1 < ${./patches/dict-dir-from-nix-profiles.patch}
+  #       '';
+  #      });
+  #   }
+  #];
+
+  nixpkgs.config.packageOverrides = pkgs:
+  {
+    flashplayer = pkgs.flashplayer.overrideAttrs (oldAttr: rec {
+      version = "27.0.0.170";
+      src = pkgs.fetchurl {
+        url =
+        "https://fpdownload.adobe.com/get/flashplayer/pdc/${version}/flash_player_npapi_linux.x86_64.tar.gz";
+        sha256 = "0hyc25ygxrp8k0w1xmg5wx1d2l959glc23bjswf30agwlpyn2rwn";
+      };
+    });
+  };
 }
+
