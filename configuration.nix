@@ -334,14 +334,14 @@ rec {
 
   nixpkgs.config.packageOverrides = pkgs:
   {
-    flashplayer = pkgs.flashplayer.overrideAttrs (oldAttr: rec {
-      version = "27.0.0.170";
-      src = pkgs.fetchurl {
-        url =
-        "https://fpdownload.adobe.com/get/flashplayer/pdc/${version}/flash_player_npapi_linux.x86_64.tar.gz";
-        sha256 = "0hyc25ygxrp8k0w1xmg5wx1d2l959glc23bjswf30agwlpyn2rwn";
-      };
-    });
+    #flashplayer = pkgs.flashplayer.overrideAttrs (oldAttr: rec {
+    #  version = "27.0.0.170";
+    #  src = pkgs.fetchurl {
+    #    url =
+    #    "https://fpdownload.adobe.com/get/flashplayer/pdc/${version}/flash_player_npapi_linux.x86_64.tar.gz";
+    #    sha256 = "0hyc25ygxrp8k0w1xmg5wx1d2l959glc23bjswf30agwlpyn2rwn";
+    #  };
+    #});
     sudo = pkgs.sudo.override { withInsults = true; };
   };
 }
