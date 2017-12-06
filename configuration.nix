@@ -13,7 +13,7 @@ rec {
     useSandbox = true;
 
     # build with 3 out of 4 cores
-    #buildCores = 3;
+    buildCores = 3;
 
     # keep build dpendencies to enable offline rebuild
     extraOptions = ''
@@ -25,7 +25,6 @@ rec {
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      ./config/fix-keymap.nix
       #./config/proxy.nix
     ];
 
@@ -63,17 +62,10 @@ rec {
   ];
 
 
-  ## manage encrypted HOME partition
-  #systemd.generator-packages = [
-  #  pkgs.systemd-cryptsetup-generator
-  #];
-
   networking.hostName = "oursbook"; # Define your hostname.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Select internationalisation properties.
   i18n = {
-    # consoleFont = "Lat2-Terminus16";
     consoleKeyMap = "fr";
     defaultLocale = "en_US.UTF-8";
   };
@@ -81,15 +73,13 @@ rec {
   # Set your time zone.
   time.timeZone = "Europe/Paris";
 
-  nixpkgs.config.allowUnfree = true;
-
-
-  # Add virtualbox
+  # Add virtualbox and docker
   virtualisation = {
     virtualbox.host.enable = true;
     docker.enable = true;
   };
 
+  nixpkgs.config.allowUnfree = true;
 
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
@@ -97,24 +87,36 @@ rec {
     ## Nix related
     nox
     nix-repl
+    nix-prefetch-scripts
+    nix-zsh-completions
 
     ## install nix-home
     #((pkgs.callPackage ./pkgs/nix-home.nix) {})
 
-    ## Utils
+    ## Admin tools
+    # Storage
     ntfs3g
+    parted
+    hdparm
+    linuxPackages.perf
+    # Monitoring
     psmisc
+    pmutils
+    nmap
+    htop
+    usbutils
+    iotop
+    stress
+    tcpdump
+    # Files
     file
-
-    ## Console environment
-    vim
-    # vim plugins
-    vimPlugins.YouCompleteMe
-
-    neovim
-
+    tree
+    ncdu
+    unzip
+    unrar
+    # Shell
+    zsh
     tmux
-
     ranger
     # ranger previews
     libcaca   # video
@@ -123,60 +125,93 @@ rec {
     w3m       # web
     poppler   # PDF
     mediainfo # audio and video
-
-    pmutils
-    git
-    nmap
-    unzip
-    python3
-    python2
-    htop
-    tree
+    # Password
     gnupg
     pass
-    zsh
-    nix-zsh-completions
-    ncdu
-    iotop
-    emacs
+    # Misc
+    cloc
+    jq
+    qemu
 
     ## Graphical environment
+    # Gnome stuff
     # For system Monitor plugin
-    gobjectIntrospection
-    libgtop
-
+    #gobjectIntrospection
+    #libgtop
     # Fix Gnome crash
     gnome3.gjs
-
-    usbutils
-
+    # Web
     firefox
     chrome-gnome-shell
     flashplayer
-
+    # Mail
     gnome3.evolution
     aspellDicts.fr
     aspellDicts.en
+    # Message
+    qtox
+    skype
+    tdesktop
+    gnome3.polari
+    liferea
+    # Media
+    vlc
+    # Utils
     gnome3.gnome-disk-utility
+    xorg.xkill
+    wireshark-gtk
 
     ## Development environment
+    git
+    git-cola
+    gitg
+    python3
+    python2
     gcc
     ctags
     gnumake
     wget
     cmake
-    gitg
+    gdb
+    # Editors
+    emacs
+    qtcreator
+    neovim
+    vim
+    vimPlugins.YouCompleteMe
+    # Web Site
+    hugo
+    # Graphic tools
+    gcolor3
+    graphviz
+    imagemagick
+    inkscape
+    # Text/Tex/PDF
+    entr
+    pandoc
+    rubber
+    texlive.combined.scheme-small
 
     ## Pro
     cntlm
     opensc
     polipo
     libreoffice
+    zotero
 
     ## Backups and sync
     syncthing
+    python27Packages.syncthing-gtk
     transmission_gtk
 
+    ## Printers
+    saneBackends
+    samsungUnifiedLinuxDriver
+
+    ## Fun
+    fortune
+    sl
+    wesnoth-dev
   ];
 
   environment.gnome3.excludePackages = [
@@ -189,6 +224,10 @@ rec {
 
   # use Vim by default
   environment.sessionVariables.EDITOR="nvim";
+
+  # Add Workaround for USB 3 Scanner for SANE
+  # See http://sane-project.org/ Note 3
+  environment.variables.SANE_USB_WORKAROUND = "1";
 
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
@@ -210,7 +249,11 @@ rec {
     printing = {
       enable = true;
       browsedConf = ''
-        BrowsePoll print.imag.fr:631
+        BrowsePoll print.imag.fr:631/version=1.7.5
+        BrowseAllow print.imag.fr
+        BrowseFilter name lig-copieur-4
+        BrowseRemoteProtocols dnssd cups
+        LocalQueueNamingRemoteCUPS RemoteName
       '';
       drivers = [ pkgs.samsung-unified-linux-driver ];
     };
@@ -228,52 +271,15 @@ rec {
       desktopManager.gnome3.enable = true;
       #desktopManager.plasma5.enable = true;
 
-      # Include fix for gdm locales: https://github.com/NixOS/nixpkgs/issues/14318#issuecomment-309250231
       displayManager.gdm.enable = true;
-      localectlFix.enable = true;
     };
-
-    gnome3.gnome-keyring.enable = true;
-    gnome3.at-spi2-core.enable = true;
   };
-
-  # Fix GDM warining issue: https://github.com/NixOS/nixpkgs/issues/24172#issuecomment-304540789
-  # systemd.targets."multi-user".conflicts = [ "getty@tty1.service" ];
-
-  # Enable keyring unlock with session password
-  #security.pam.services = with pkgs;[
-  #  { name = "login";
-  #    text = ''
-  #      auth     optional    ${gnome3.gnome_keyring}/lib/security/pam_gnome_keyring.so
-  #      session  optional    ${gnome3.gnome_keyring}/lib/security/pam_gnome_keyring.so auto_start
-  #    '';
-  #  }
-  #  { name = "passwd";
-  #    text = ''
-  #      password	optional	${gnome3.gnome_keyring}/lib/security/pam_gnome_keyring.so
-  #    '';
-  #  }
-  #];
 
   # Make fonts better...
   fonts.fontconfig = {
     enable = true;
     ultimate.enable = true;
   };
-  #fonts = {
-  #  enableFontDir = true;
-  #  enableGhostscriptFonts = true;
-  #  fonts = with pkgs; [
-  #    corefonts
-  #    inconsolata
-  #    ubuntu_font_family
-  #    liberation_ttf
-  #    unifont
-  #    fira
-  #  ];
-  #};
-
-  # TODO override polipo conf with parent proxy "http://193.56.47.8:8080";
 
   programs = {
     # FIXME (not sure if it is necessary...
@@ -306,9 +312,9 @@ rec {
   services.clamav.updater.enable = true;
 
   # Enable browserpass to access pass within Firefox
-  programs.browserpass.enable = true;
-  programs.gnupg.agent.enableBrowserSocket = true;
-  programs.gnupg.agent.enable = true;
+  #programs.browserpass.enable = true;
+  #programs.gnupg.agent.enableBrowserSocket = true;
+  #programs.gnupg.agent.enable = true;
 
   # enable thefuck!
   programs.thefuck.enable = false;
@@ -320,29 +326,17 @@ rec {
     Defaults   insults
     '';
 
-  # fix aspell path
-  # https://github.com/NixOS/nixpkgs/issues/28815
-  #system.replaceRuntimeDependencies = with pkgs; [
-  #    { original = aspell;
-  #      replacement = aspell.overrideAttrs (oldAttrs: rec {
-  #         patchPhase = oldAttrs.patchPhase + ''
-  #         patch -p1 < ${./patches/dict-dir-from-nix-profiles.patch}
-  #       '';
-  #      });
-  #   }
-  #];
-
   nixpkgs.config.packageOverrides = pkgs:
   {
-    #flashplayer = pkgs.flashplayer.overrideAttrs (oldAttr: rec {
-    #  version = "27.0.0.170";
+
+    sudo = pkgs.sudo.override { withInsults = true; };
+
+    #saneBackends = pkgs.saneBackends.overrideAttrs (oldAttrs: {
     #  src = pkgs.fetchurl {
-    #    url =
-    #    "https://fpdownload.adobe.com/get/flashplayer/pdc/${version}/flash_player_npapi_linux.x86_64.tar.gz";
-    #    sha256 = "0hyc25ygxrp8k0w1xmg5wx1d2l959glc23bjswf30agwlpyn2rwn";
+    #    url = "http://pkgs.fedoraproject.org/repo/pkgs/sane-backends/sane-backends-1.0.23.tar.gz/e226a89c54173efea80e91e9a5eb6573/sane-backends-1.0.23.tar.gz";
+    #    sha256 = "0adhrdih20g45xwky3z4h2g78fk2vkkxspyp1vygfnk1h4l5nksd";
     #  };
     #});
-    sudo = pkgs.sudo.override { withInsults = true; };
   };
 }
 
