@@ -6,8 +6,10 @@
   pkgs ? import ../nixpkgs { },
   ...
 }:
+let
+  mypkgs = import /home/mmercier/Projects/nixpkgs { };
+in
 rec {
-
   nix = {
     # make sure dependencies are well defined
     useSandbox = true;
@@ -127,7 +129,7 @@ rec {
     mediainfo # audio and video
     # Password
     gnupg
-    pass
+    (mypkgs.pass.override { tombPluginSupport = true; })
     # Misc
     cloc
     jq
@@ -162,7 +164,7 @@ rec {
     wireshark-gtk
 
     ## Development environment
-    git
+    gitAndTools.gitFull
     git-cola
     gitg
     python3
