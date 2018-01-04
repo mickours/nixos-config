@@ -73,7 +73,8 @@ rec {
   };
 
   # Set your time zone.
-  time.timeZone = "Europe/Paris";
+  # NOTE: Use NTP instead
+  #time.timeZone = "Europe/Paris";
 
   # Add virtualbox and docker
   virtualisation = {
@@ -138,8 +139,11 @@ rec {
     ## Graphical environment
     # Gnome stuff
     # For system Monitor plugin
-    #gobjectIntrospection
-    #libgtop
+    gobjectIntrospection
+    libgtop
+    json_glib
+    glib_networking
+
     # Fix Gnome crash
     gnome3.gjs
     # Web
@@ -247,6 +251,13 @@ rec {
       # permitRootLogin = "yes";
     };
 
+    # Network time
+    # Made by systemd time-sync daemon now
+    #ntp = {
+    #  enable = true;
+    #  servers = [ "server.local" "0.pool.ntp.org" "1.pool.ntp.org" "2.pool.ntp.org" ];
+    #};
+
     # Enable CUPS to print documents.
     printing = {
       enable = true;
@@ -340,5 +351,12 @@ rec {
     #  };
     #});
   };
+
+  # Try fix chrome extension error
+  services.dbus.socketActivated = true;
+  services.xserver.desktopManager.gnome3.sessionPath = [
+    pkgs.json_glib
+    pkgs.glib_networking
+    pkgs.libgtop ];
 }
 
