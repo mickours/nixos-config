@@ -1,0 +1,37 @@
+{vim_configurable, vimPlugins}:
+ vim_configurable.customize {
+    name = "v";
+    # add custom .vimrc lines like this:
+    #vimrcConfig.customRC = ''
+    #  set hidden
+    #'';
+    # store your plugins in Vim packages
+    vimrcConfig.packages.myVimPackage = with vimPlugins; {
+      # loaded on launch
+      start = [
+          youcompleteme
+          fugitive
+          ctrlp
+          airline
+          Syntastic
+          gitgutter
+          The_NERD_tree
+          vim-easytags
+          vim-misc
+          #LanguageClient-neovim
+          Tagbar
+          vim-orgmode
+          multiple-cursors
+          gundo
+          vim-nix
+          vim-autoformat
+          vim-go
+          tmux-navigator
+          rainbow_parentheses
+        ];
+      # manually loadable by calling `:packadd $plugin-name`
+      opt = [  ];
+      # To automatically load a plugin when opening a filetype, add vimrc lines like:
+      # autocmd FileType php :packadd phpCompletion
+    };
+ }

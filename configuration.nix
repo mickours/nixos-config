@@ -184,8 +184,7 @@ rec {
     emacs
     qtcreator
     neovim
-    vim
-    vimPlugins.YouCompleteMe
+    (callPackage ./my_vim.nix {})
     # Web Site
     hugo
     # Graphic tools
@@ -202,7 +201,6 @@ rec {
     ## Pro
     cntlm
     opensc
-    polipo
     libreoffice
     zotero
 
@@ -230,7 +228,11 @@ rec {
   ];
 
   # use Vim by default
-  environment.sessionVariables.EDITOR="nvim";
+  environment.sessionVariables.EDITOR="v";
+  environment.sessionVariables.VISUAL="v";
+  environment.shellAliases = {
+    "vim"="v";
+    };
 
   # Add Workaround for USB 3 Scanner for SANE
   # See http://sane-project.org/ Note 3
@@ -299,12 +301,23 @@ rec {
     ultimate.enable = true;
   };
 
+  fonts.fonts = [ pkgs.corefonts ];
+
   programs = {
-    # FIXME (not sure if it is necessary...
     # Enable system wide zsh and ssh agent
     zsh.enable = true;
     ssh.startAgent = true;
 
+    bash = {
+      enableCompletion = true;
+      # Make shell history shared and saved at each command
+      interactiveShellInit = ''
+        shopt -s histappend
+        PROMPT_COMMAND="history -n; history -a"
+        unset HISTFILESIZE
+        HISTSIZE=5000
+        '';
+      };
     # Whether interactive shells should show which Nix package (if any)
     # provides a missing command.
     command-not-found.enable = true;
