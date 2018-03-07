@@ -99,6 +99,7 @@ rec {
     ## Admin tools
     # Storage
     ntfs3g
+    exfat
     parted
     hdparm
     linuxPackages.perf
