@@ -8,6 +8,14 @@
 }:
 let
   mypkgs = import /home/mmercier/Projects/nixpkgs { };
+
+  # Import my dotfiles
+  my_dotfiles = pkgs.fetchFromGitHub {
+      owner = "mickours";
+      repo = "dotfiles";
+      rev = "master";
+      sha256 = "16rwlj1bci4i8dvl94wnnvw2dbq42abisvy1wdvlbhyjvnzf8n1f";
+    };
 in
 rec {
   nix = {
@@ -184,7 +192,7 @@ rec {
     emacs
     qtcreator
     neovim
-    (callPackage ./my_vim.nix {})
+    (callPackage ./my_vim.nix { my_vim_config= builtins.readFile("${my_dotfiles}/vimrc"); })
     # Web Site
     hugo
     # Graphic tools

@@ -1,10 +1,10 @@
-{vim_configurable, vimPlugins}:
+{vim_configurable, vimPlugins, my_vim_config}:
  vim_configurable.customize {
     name = "v";
-    # add custom .vimrc lines like this:
-    #vimrcConfig.customRC = ''
-    #  set hidden
-    #'';
+
+    # add imy custom .vimrc
+    vimrcConfig.customRC = my_vim_config;
+
     # store your plugins in Vim packages
     vimrcConfig.packages.myVimPackage = with vimPlugins; {
       # loaded on launch
