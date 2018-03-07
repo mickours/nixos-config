@@ -269,6 +269,10 @@ rec {
         BrowseRemoteProtocols dnssd cups
         LocalQueueNamingRemoteCUPS RemoteName
       '';
+      extraConf = ''
+      BrowsePoll print.imag.fr:631
+      BrowseRemoteProtocols dnssd cups
+      '';
       drivers = [ pkgs.samsung-unified-linux-driver ];
     };
     # Needed for printer discovery
