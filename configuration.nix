@@ -9,13 +9,14 @@
 let
   mypkgs = import /home/mmercier/Projects/nixpkgs { };
 
+  my_dotfiles = builtins.fetchTarball "https://github.com/mickours/dotfiles/archive/master.zip";
   # Import my dotfiles
-  my_dotfiles = pkgs.fetchFromGitHub {
-      owner = "mickours";
-      repo = "dotfiles";
-      rev = "master";
-      sha256 = "16rwlj1bci4i8dvl94wnnvw2dbq42abisvy1wdvlbhyjvnzf8n1f";
-    };
+  # my_dotfiles = pkgs.fetchFromGitHub {
+  #     owner = "mickours";
+  #     repo = "dotfiles";
+  #     rev = "master";
+  #     sha256 = "0z4a8nvh19413qr2y0wyyralcq2dbd7pwdagvykwwwlcg51rrxr1";
+  #   };
 in
 rec {
   nix = {
