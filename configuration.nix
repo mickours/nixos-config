@@ -9,7 +9,7 @@
 let
   mypkgs = import /home/mmercier/Projects/nixpkgs { };
 
-  my_dotfiles = builtins.fetchTarball "https://github.com/mickours/dotfiles/archive/master.zip";
+  my_dotfiles = builtins.fetchTarball "https://github.com/mickours/dotfiles/archive/master.tar.gz";
   # Import my dotfiles
   # my_dotfiles = pkgs.fetchFromGitHub {
   #     owner = "mickours";
