@@ -302,6 +302,14 @@ rec {
 
       displayManager.gdm.enable = true;
     };
+
+    syncthing = {
+      enable = true;
+      user = "mmercier";
+      group = "mmercier";
+      dataDir = /home/mmercier/.config/syncthing;
+      systemService = false;
+    };
   };
 
   # Make fonts better...
