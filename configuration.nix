@@ -10,13 +10,6 @@ let
   mypkgs = import /home/mmercier/Projects/nixpkgs { };
 
   my_dotfiles = builtins.fetchTarball "https://github.com/mickours/dotfiles/archive/master.tar.gz";
-  # Import my dotfiles
-  # my_dotfiles = pkgs.fetchFromGitHub {
-  #     owner = "mickours";
-  #     repo = "dotfiles";
-  #     rev = "master";
-  #     sha256 = "0z4a8nvh19413qr2y0wyyralcq2dbd7pwdagvykwwwlcg51rrxr1";
-  #   };
 in
 rec {
   nix = {
@@ -216,7 +209,6 @@ rec {
     zotero
 
     ## Backups and sync
-    syncthing
     python27Packages.syncthing-gtk
     transmission_gtk
 
@@ -249,9 +241,6 @@ rec {
   # See http://sane-project.org/ Note 3
   environment.variables.SANE_USB_WORKAROUND = "1";
 
-  # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
-
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];
@@ -262,7 +251,7 @@ rec {
     # Install but disable open SSH
     openssh = {
       enable = false;
-      # permitRootLogin = "yes";
+      permitRootLogin = "false";
     };
 
     # Network time
