@@ -72,6 +72,8 @@ rec {
     }
   ];
 
+  # Use LTS kernel
+  boot.kernelPackages = pkgs.linuxPackages_4_9;
 
   networking.hostName = "oursbook"; # Define your hostname.
 
