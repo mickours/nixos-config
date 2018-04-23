@@ -264,21 +264,15 @@ rec {
     # Enable CUPS to print documents.
     printing = {
       enable = true;
-      browsedConf = ''
-        BrowsePoll print.imag.fr:631/version=1.7.5
-        BrowseAllow print.imag.fr
-        BrowseFilter name lig-copieur-4
-        BrowseRemoteProtocols dnssd cups
-        LocalQueueNamingRemoteCUPS RemoteName
-      '';
-      extraConf = ''
-      BrowsePoll print.imag.fr:631
-      BrowseRemoteProtocols dnssd cups
+      browsing = true;
+      clientConf = ''
+        ServerName print.imag.fr:631
       '';
       drivers = [ pkgs.samsung-unified-linux-driver ];
     };
     # Needed for printer discovery
     avahi.enable = true;
+    avahi.nssmdns = true;
 
     # Enable the X11 windowing system.
     xserver = {
