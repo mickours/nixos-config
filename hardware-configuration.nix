@@ -11,11 +11,25 @@
   boot.initrd.availableKernelModules = [ "xhci_pci" "ehci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" "rtsx_pci_sdmmc" ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
+  boot.kernelParams = [
+    # Enable Multi queue IO scheduler
+    "scsi_mod.use_blk_mq=1"
+  ];
+  # Set the multiqueue scheduler depending on if it is an HDD or an SSD
+  services.udev.extraRules = ''
+    # set scheduler for non-rotating disks
+    ACTION=="add|change", KERNEL=="sd[a-z]|mmcblk[0-9]*", ATTR{queue/rotational}=="0", ATTR{queue/scheduler}="mq-deadline"
+    # set scheduler for rotating disks
+    ACTION=="add|change", KERNEL=="sd[a-z]", ATTR{queue/rotational}=="1", ATTR{queue/scheduler}="bfq"
+  '';
+
+  # Enable periodic SSD TRIM (default weekly)
+  services.fstrim.enable = true;
 
   fileSystems."/" =
     { device = "/dev/disk/by-uuid/f7860309-bc61-4906-814f-790c76f62eac";
       fsType = "ext4";
-      options = ["noatime"];
+      options = ["noatime" "barrier=0"];
     };
 
   fileSystems."/boot" =
@@ -26,7 +40,7 @@
   fileSystems."/home" =
     { device = "/dev/disk/by-uuid/fd02b73b-9bbd-4387-9998-cafed922169a";
       fsType = "ext4";
-      options = ["noatime"];
+      options = ["noatime" "barrier=0"];
     };
 
   swapDevices =

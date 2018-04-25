@@ -106,6 +106,8 @@ rec {
     exfat
     parted
     hdparm
+    sysstat
+    gsmartcontrol
     linuxPackages.perf
     # Monitoring
     psmisc
@@ -266,6 +268,7 @@ rec {
       enable = true;
       browsing = true;
       clientConf = ''
+        ServerName localhost:631
         ServerName print.imag.fr:631
       '';
       drivers = [ pkgs.samsung-unified-linux-driver ];
