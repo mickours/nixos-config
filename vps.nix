@@ -1,14 +1,18 @@
 let
   nixpkgs-stable = (fetchTarball "https://github.com/NixOS/nixpkgs/archive/18.03.tar.gz");
+  radicaleCollection = "/data/radicale";
+  radicalePort = 5232;
+  webPort = 80;
+  webSslPort = 443;
+  smtpSslPort = 587;
+  imapSslPort = 993;
 in
 {
   network.description = "Michael Mercier Personal Network";
 
   vps =
-  { config, pkgs, ... }:
-  let
-    radicaleCollection = "/data/radicale";
-  in
+  { config, pkgs, nodes, ... }:
+
   {
     deployment.targetHost = "176.10.125.101";
 
@@ -32,9 +36,102 @@ in
     services.openssh.enable = true;
     services.openssh.permitRootLogin = "yes";
 
-    networking.firewall.allowedTCPPorts = [ 5232 80 443 ];
 
-    # State problem
+    #containers.radicale.bindMounts = { "/data" = {hostPath = "/data";}; };
+
+    #containers.mailserver.bindMounts = { "/data" = {hostPath = "/data";}; };
+
+    networking = {
+      firewall.allowedTCPPorts = [ radicalePort webPort webSslPort ];
+
+      nat = {
+        enable=true;
+        internalInterfaces=["ve-+"];
+        externalInterface = "enp0s3";
+        forwardPorts = [
+          {
+            destination = "${nodes.nginx.config.networking.privateIPv4}:${builtins.toString webPort}";
+            sourcePort =  webPort;
+          }
+          {
+            destination = "${nodes.nginx.config.networking.privateIPv4}:${toString webSslPort}";
+            sourcePort =  webSslPort;
+          }
+          {
+            destination = "${nodes.mailserver.config.networking.privateIPv4}:${toString imapSslPort}";
+            sourcePort =  imapSslPort;
+          }
+          {
+            destination = "${nodes.mailserver.config.networking.privateIPv4}:${toString smtpSslPort}";
+            sourcePort =  smtpSslPort;
+          }
+          {
+            destination = "${nodes.radicale.config.networking.privateIPv4}:${toString radicalePort}";
+            sourcePort =  radicalePort;
+          }
+        ];
+      };
+    };
+
+    # Admin tools
+    environment.systemPackages = with pkgs; [
+      dstat
+      wget
+      git # Needed for radicale backup
+      rsync # for backups
+    ];
+
+    system.stateVersion = "18.03";
+  };
+
+
+
+  nginx =
+  { resources, nodes, ... }:
+  {
+    deployment = {
+      targetEnv = "container";
+      container.host = resources.machines.vps;
+    };
+
+    services.nginx.enable = true;
+    services.nginx.virtualHosts = {
+      "sync.michaelmercier.fr" = {
+        # Manage self signe certificate
+        forceSSL = true;
+        enableACME = true;
+        locations."/" = {
+          root = "/var/www";
+        };
+
+        # Add reverse proxy for radicale
+        locations."/radicale/" = {
+          proxyPass = "http://${nodes.radicale.config.networking.privateIPv4}:${builtins.toString radicalePort}/";
+          extraConfig = ''
+            proxy_set_header     X-Script-Name /radicale;
+            proxy_set_header     X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header     X-Remote-User $remote_user;
+          '';
+        };
+      };
+      "mail.libr.fr" = {
+        locations."/" = {
+          proxyPass = "http://${nodes.mailserver.config.networking.privateIPv4}/";
+        };
+      };
+    };
+  };
+
+
+
+  radicale =
+  { resources, pkgs, ... }:
+  {
+    deployment = {
+      targetEnv = "container";
+      container.host = resources.machines.vps;
+    };
+
     # FIXME put htpasswd in git crypt
     # FIXME need a git user config for radicale git hook in .git/config
     # [user]
@@ -45,7 +142,7 @@ in
       enable=true;
       config = ''
           [server]
-          hosts = localhost:5232
+          hosts = localhost:${builtins.toString radicalePort}
 
           [auth]
           type = htpasswd
@@ -76,58 +173,19 @@ in
       backupCron = pkgs.writeText "backupRadicalCron.sh" "@weekly ${backupScript}";
     in
     [ backupCron ];
-
-
-    services.nginx.enable = true;
-    services.nginx.virtualHosts = {
-      "sync.michaelmercier.fr" = {
-        # Manage self signe certificate
-        forceSSL = true;
-        enableACME = true;
-        locations."/" = {
-          root = "/var/www";
-        };
-
-        # Add reverse proxy for radicale
-        locations."/radicale/" = {
-          proxyPass = "http://localhost:5232/";
-          extraConfig = ''
-            proxy_set_header     X-Script-Name /radicale;
-            proxy_set_header     X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header     X-Remote-User $remote_user;
-          '';
-        };
-      };
-      ##"mail.libr.fr" = {
-      #  # Manage self signe certificate
-      #  forceSSL = true;
-      #  enableACME = true;
-      #  locations."/" = {
-      #    root = "/var/www";
-      #  };
-      #};
-    };
-
-    # Admin tools
-    environment.systemPackages = with pkgs; [
-      dstat
-      wget
-      git # Needed for radicale backup
-      rsync # for backups
-    ];
-
-    system.stateVersion = "18.03";
   };
 
+
+
   mailserver =
-  { resources, ... }:
+  { resources, config, ... }:
   {
     deployment = {
       targetEnv = "container";
       container.host = resources.machines.vps;
     };
 
-    networking.firewall.allowedTCPPorts = [ 80 443 ];
+    networking.firewall.allowedTCPPorts = [ webPort webSslPort smtpSslPort imapSslPort ];
 
     imports = [
       (builtins.fetchTarball "https://github.com/r-raymond/nixos-mailserver/archive/v2.1.4.tar.gz")
@@ -150,24 +208,27 @@ in
           };
         };
 
+      # Use imap on port 993 and smtp on 587
+      enableImap = true;
       enableImapSsl = true;
-      enablePop3Ssl = true;
 
       # Use Let's Encrypt certificates. Note that this needs to set up a stripped
       # down nginx and opens port 80.
       certificateScheme = 3;
+
+      mailDirectory = "/data/vmail";
     };
 
-    services.nginx.enable = true;
-    services.nginx.virtualHosts = {
-      "mail.libr.fr" = {
-        # Manage self signe certificate
-        forceSSL = true;
-        enableACME = true;
-        locations."/" = {
-          root = "/var/www";
-        };
-      };
-    };
+    #services.nginx.enable = true;
+    #services.nginx.virtualHosts = {
+    #  "mail.libr.fr" = {
+    #    # Manage self signe certificate
+    #    forceSSL = true;
+    #    enableACME = true;
+    #    locations."/" = {
+    #      root = "/var/www";
+    #    };
+    #  };
+    #};
   };
 }
