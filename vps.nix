@@ -6,6 +6,7 @@ let
   webSslPort = 443;
   smtpSslPort = 587;
   imapSslPort = 993;
+
 in
 {
   network.description = "Michael Mercier Personal Network";
@@ -24,6 +25,8 @@ in
       ./vps-hardware-configuration.nix
       # Include my config
       ./my-config.nix
+      # Mail server
+      (builtins.fetchTarball "https://github.com/r-raymond/nixos-mailserver/archive/v2.1.4.tar.gz")
     ];
 
     # Use the GRUB 2 boot loader.
@@ -36,108 +39,45 @@ in
     services.openssh.enable = true;
     services.openssh.permitRootLogin = "yes";
 
+    #containers = {
+    #  radicale = {
+    #    bindMounts = { "/data" = {hostPath = "/data";}; };
+    #    forwardPorts = [ { hostPort = radicalePort; containerPort = radicalePort;} ];
+    #    autoStart = true;
+    #    config = radicale_ctn;
+    #  };
+    #};
 
-    #containers.radicale.bindMounts = { "/data" = {hostPath = "/data";}; };
+    #### NGINX ####
 
-    #containers.mailserver.bindMounts = { "/data" = {hostPath = "/data";}; };
+    services.nginx = {
+      enable = true;
+      appendHttpConfig = ''
+        server_names_hash_bucket_size 64;
+      '';
+      virtualHosts = {
+        "sync.michaelmercier.fr" = {
+          # Manage self signe certificate
+          forceSSL = true;
+          enableACME = true;
+          locations."/" = {
+            root = "/var/www";
+          };
 
-    networking = {
-      firewall.allowedTCPPorts = [ radicalePort webPort webSslPort ];
-
-      nat = {
-        enable=true;
-        internalInterfaces=["ve-+"];
-        externalInterface = "enp0s3";
-        forwardPorts = [
-          {
-            destination = "${nodes.nginx.config.networking.privateIPv4}:${builtins.toString webPort}";
-            sourcePort =  webPort;
-          }
-          {
-            destination = "${nodes.nginx.config.networking.privateIPv4}:${toString webSslPort}";
-            sourcePort =  webSslPort;
-          }
-          {
-            destination = "${nodes.mailserver.config.networking.privateIPv4}:${toString imapSslPort}";
-            sourcePort =  imapSslPort;
-          }
-          {
-            destination = "${nodes.mailserver.config.networking.privateIPv4}:${toString smtpSslPort}";
-            sourcePort =  smtpSslPort;
-          }
-          {
-            destination = "${nodes.radicale.config.networking.privateIPv4}:${toString radicalePort}";
-            sourcePort =  radicalePort;
-          }
-        ];
-      };
-    };
-
-    # Admin tools
-    environment.systemPackages = with pkgs; [
-      dstat
-      wget
-      git # Needed for radicale backup
-      rsync # for backups
-    ];
-
-    system.stateVersion = "18.03";
-  };
-
-
-
-  nginx =
-  { resources, nodes, ... }:
-  {
-    deployment = {
-      targetEnv = "container";
-      container.host = resources.machines.vps;
-    };
-
-    services.nginx.enable = true;
-    services.nginx.virtualHosts = {
-      "sync.michaelmercier.fr" = {
-        # Manage self signe certificate
-        forceSSL = true;
-        enableACME = true;
-        locations."/" = {
-          root = "/var/www";
-        };
-
-        # Add reverse proxy for radicale
-        locations."/radicale/" = {
-          proxyPass = "http://${nodes.radicale.config.networking.privateIPv4}:${builtins.toString radicalePort}/";
-          extraConfig = ''
-            proxy_set_header     X-Script-Name /radicale;
-            proxy_set_header     X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header     X-Remote-User $remote_user;
-          '';
-        };
-      };
-      "mail.libr.fr" = {
-        locations."/" = {
-          proxyPass = "http://${nodes.mailserver.config.networking.privateIPv4}/";
+          # Add reverse proxy for radicale
+          locations."/radicale/" = {
+            proxyPass = "http://localhost:${toString radicalePort}/";
+            extraConfig = ''
+              proxy_set_header     X-Script-Name /radicale;
+              proxy_set_header     X-Forwarded-For $proxy_add_x_forwarded_for;
+              proxy_set_header     X-Remote-User $remote_user;
+            '';
+          };
         };
       };
     };
-  };
 
-
-
-  radicale =
-  { resources, pkgs, ... }:
-  {
-    deployment = {
-      targetEnv = "container";
-      container.host = resources.machines.vps;
-    };
-
-    # FIXME put htpasswd in git crypt
-    # FIXME need a git user config for radicale git hook in .git/config
-    # [user]
-    #   name = mickours
-    #   email = contact@michaelmercier.fr
-
+    #### Radicale ####
     services.radicale = {
       enable=true;
       config = ''
@@ -173,23 +113,9 @@ in
       backupCron = pkgs.writeText "backupRadicalCron.sh" "@weekly ${backupScript}";
     in
     [ backupCron ];
-  };
 
 
-
-  mailserver =
-  { resources, config, ... }:
-  {
-    deployment = {
-      targetEnv = "container";
-      container.host = resources.machines.vps;
-    };
-
-    networking.firewall.allowedTCPPorts = [ webPort webSslPort smtpSslPort imapSslPort ];
-
-    imports = [
-      (builtins.fetchTarball "https://github.com/r-raymond/nixos-mailserver/archive/v2.1.4.tar.gz")
-    ];
+    ### MailServer ###
 
     mailserver = {
       enable = true;
@@ -230,5 +156,49 @@ in
     #    };
     #  };
     #};
+
+    networking = {
+      firewall.allowedTCPPorts = [ radicalePort webPort webSslPort ];
+
+      #nat = {
+      #  enable=true;
+      #  internalInterfaces=["ve-+"];
+      #  externalInterface = "enp0s3";
+      #  forwardPorts = [
+      #    {
+      #      destination = "${nodes.nginx.config.networking.privateIPv4}:${toString webPort}";
+      #      sourcePort =  webPort;
+      #    }
+      #    {
+      #      destination = "${nodes.nginx.config.networking.privateIPv4}:${toString webSslPort}";
+      #      sourcePort =  webSslPort;
+      #    }
+      #    {
+      #      destination = "${nodes.mailserver.config.networking.privateIPv4}:${toString imapSslPort}";
+      #      sourcePort =  imapSslPort;
+      #    }
+      #    {
+      #      destination = "${nodes.mailserver.config.networking.privateIPv4}:${toString smtpSslPort}";
+      #      sourcePort =  smtpSslPort;
+      #    }
+      #    {
+      #      destination = "${nodes.radicale.config.networking.privateIPv4}:${toString radicalePort}";
+      #      sourcePort =  radicalePort;
+      #    }
+      #  ];
+      #};
+    };
+
+    # Admin tools
+    environment.systemPackages = with pkgs; [
+      dstat
+      wget
+      git # Needed for radicale backup
+      rsync # for backups
+    ];
+
+    system.stateVersion = "18.03";
   };
+
+
 }
