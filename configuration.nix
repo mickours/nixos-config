@@ -308,6 +308,14 @@ rec {
 
   fonts.fonts = [ pkgs.corefonts ];
 
+  # Get ctrl+arrows works in nix-shell bash
+  environment.etc."inputrc".text = builtins.readFile <nixpkgs/nixos/modules/programs/bash/inputrc> + ''
+    "\e[A": history-search-backward
+    "\e[B": history-search-forward
+    set completion-ignore-case on
+  '';
+
+
   programs = {
     # Enable system wide zsh and ssh agent
     zsh.enable = true;
