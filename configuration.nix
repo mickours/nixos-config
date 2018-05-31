@@ -155,13 +155,10 @@ rec {
     gnome3.gjs
     # Web
     firefox
-    chrome-gnome-shell
-    flashplayer
-    # Mail
-    gnome3.evolution
+    # Dictionnaries
     aspellDicts.fr
     aspellDicts.en
-    # Message
+    # Message and RSS
     qtox
     skype
     tdesktop
@@ -224,13 +221,13 @@ rec {
     wesnoth-dev
   ];
 
-  environment.gnome3.excludePackages = [
-    # gnome-software doesn't build and it wouldn't work with nixos anyway, at
-    # least before something like this is done:
-    # RFC: Generating AppStream Metadata #15932:
-    # https://github.com/NixOS/nixpkgs/issues/15932
-    pkgs.gnome3.gnome-software
-  ];
+  #environment.gnome3.excludePackages = [
+  #  # gnome-software doesn't build and it wouldn't work with nixos anyway, at
+  #  # least before something like this is done:
+  #  # RFC: Generating AppStream Metadata #15932:
+  #  # https://github.com/NixOS/nixpkgs/issues/15932
+  #  pkgs.gnome3.gnome-software
+  #];
 
   # use Vim by default
   environment.sessionVariables.EDITOR="v";
@@ -247,7 +244,7 @@ rec {
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
+  networking.firewall.enable = false;
 
   services = {
     # Install but disable open SSH
@@ -291,6 +288,9 @@ rec {
       displayManager.gdm.enable = true;
     };
 
+    gnome3.gnome-online-accounts.enable = true;
+    gnome3.chrome-gnome-shell.enable = true;
+
     syncthing = {
       enable = true;
       user = "mmercier";
@@ -299,6 +299,9 @@ rec {
       systemService = false;
     };
   };
+
+  # Auto unlock keyring with GDM
+  security.pam.services.gdm.enableGnomeKeyring = true;
 
   # Make fonts better...
   fonts.fontconfig = {
