@@ -12,6 +12,8 @@ let
   my_dotfiles = builtins.fetchTarball "https://github.com/mickours/dotfiles/archive/master.tar.gz";
 in
 rec {
+  system.nixos.stateVersion = 18.09;
+
   nix = {
     # make sure dependencies are well defined
     useSandbox = true;
@@ -264,10 +266,10 @@ rec {
     printing = {
       enable = true;
       browsing = true;
-      clientConf = ''
-        ServerName localhost:631
-        ServerName print.imag.fr:631
-      '';
+      #clientConf = ''
+      #  ServerName localhost:631
+      #  ServerName print.imag.fr:631
+      #'';
       drivers = [ pkgs.samsung-unified-linux-driver ];
     };
     # Needed for printer discovery
@@ -300,7 +302,7 @@ rec {
     };
   };
 
-  # Auto unlock keyring with GDM
+  # Auto unlock keyring with GDM (NOT WORKING)
   security.pam.services.gdm.enableGnomeKeyring = true;
 
   # Make fonts better...
