@@ -29,6 +29,7 @@
           tmux-navigator
           rainbow_parentheses
           vim-trailing-whitespace
+          vim-grammarous
         ];
       # manually loadable by calling `:packadd $plugin-name`
       opt = [  ];
