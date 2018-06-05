@@ -74,8 +74,11 @@ in
             root = "/data/public/mmercier/website";
           };
           # Static file serving
-          locations."/public/" = {
-            root = "/data/public/mmercier/files";
+          locations."/files/" = {
+            root = "/data/public/mmercier";
+            extraConfig = ''
+              autoindex on;
+            '';
           };
         };
 
