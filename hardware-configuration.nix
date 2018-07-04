@@ -11,10 +11,15 @@
   boot.initrd.availableKernelModules = [ "xhci_pci" "ehci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" "rtsx_pci_sdmmc" ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
-  boot.kernelParams = [
-    # Enable Multi queue IO scheduler
-    "scsi_mod.use_blk_mq=1"
-  ];
+  # boot.cleanTmpDir = true;
+  boot.tmpOnTmpfs = true;
+
+  # Not working on old kernel
+  #boot.kernelParams = [
+  #  # Enable Multi queue IO scheduler
+  #  "scsi_mod.use_blk_mq=1"
+  #];
+
   # Set the multiqueue scheduler depending on if it is an HDD or an SSD
   services.udev.extraRules = ''
     # set scheduler for non-rotating disks

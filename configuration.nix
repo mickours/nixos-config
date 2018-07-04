@@ -18,14 +18,20 @@ rec {
     # make sure dependencies are well defined
     useSandbox = true;
 
-    # build with 3 out of 4 cores
-    buildCores = 3;
+    buildCores = 4;
 
     # keep build dpendencies to enable offline rebuild
     extraOptions = ''
       gc-keep-outputs = true
       gc-keep-derivations = true
       '';
+
+    nixPath = [
+        "nixpkgs=/nix/var/nix/profiles/per-user/root/channels/nixos/nixpkgs"
+        "nixos-config=/etc/nixos/configuration.nix"
+        "/nix/var/nix/profiles/per-user/root/channels"
+        "datamovepkgs=${builtins.toPath /home/mmercier/Projects/datamove-nix}"
+      ];
   };
 
   imports =
@@ -139,7 +145,8 @@ rec {
     mediainfo # audio and video
     # Password
     gnupg
-    (mypkgs.pass.override { tombPluginSupport = true; })
+    (pass.withExtensions (ext: [ext.pass-tomb]))
+    rofi-pass
     # Misc
     cloc
     jq
@@ -152,6 +159,7 @@ rec {
     libgtop
     json_glib
     glib_networking
+    chrome-gnome-shell
 
     # Fix Gnome crash
     gnome3.gjs
@@ -166,6 +174,8 @@ rec {
     tdesktop
     gnome3.polari
     liferea
+    #rambox
+
     # Media
     vlc
     # Utils
@@ -185,11 +195,11 @@ rec {
     wget
     cmake
     gdb
+    direnv
     # Editors
     emacs
-    qtcreator
     neovim
-    (callPackage ./my_vim.nix { my_vim_config= builtins.readFile("${my_dotfiles}/vimrc"); })
+    (callPackage ./my_vim.nix { my_vim_config = builtins.readFile("${my_dotfiles}/vimrc"); })
     # Web Site
     hugo
     # Graphic tools
@@ -206,7 +216,7 @@ rec {
     ## Pro
     cntlm
     opensc
-    libreoffice
+    #libreoffice
     zotero
 
     ## Backups and sync
@@ -282,6 +292,7 @@ rec {
       layout = "fr";
       xkbOptions = "eurosign:e";
       libinput.enable = true;
+      enableCtrlAltBackspace = true;
 
       # Enable the Gnome Desktop Environment.
       desktopManager.gnome3.enable = true;
@@ -356,12 +367,13 @@ rec {
   services.pcscd.enable = true;
 
   nixpkgs.config.firefox.enableAdobeFlash = true;
+  nixpkgs.config.firefox.enableGnomeExtensions = true;
 
   # every machine should be running antivirus
   services.clamav.updater.enable = true;
 
   # Enable browserpass to access pass within Firefox
-  #programs.browserpass.enable = true;
+  programs.browserpass.enable = true;
   #programs.gnupg.agent.enableBrowserSocket = true;
   #programs.gnupg.agent.enable = true;
 
@@ -393,6 +405,8 @@ rec {
   services.xserver.desktopManager.gnome3.sessionPath = [
     pkgs.json_glib
     pkgs.glib_networking
-    pkgs.libgtop ];
+    pkgs.libgtop
+    pkgs.python3Packages.requests
+  ];
 }
 

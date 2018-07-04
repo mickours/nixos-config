@@ -44,6 +44,8 @@ in
 
     system.stateVersion = "18.03";
 
+    time.timeZone = "Europe/Paris";
+
     #*************#
     #    Nginx    #
     #*************#
@@ -183,6 +185,9 @@ in
           "me@michaelmercier.fr" = {
             hashedPassword = "$6$JyR6AQ1j5RbDVw$bwcOX32dt16XRGtFuU6K.JHa1ekWac4Y/AlMZexH7CWA24sP32u1mPdpdjBpdsHApblG4Zn5wzMKmyh8Ipzw5.";
             catchAll = [ "michaelmercier.fr" ];
+            aliases = [
+              "job@michaelmercier.fr"
+            ];
           };
         };
 
