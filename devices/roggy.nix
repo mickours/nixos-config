@@ -1,82 +1,37 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
-
 { config,
   pkgs ? import ../nixpkgs { },
   ...
 }:
 let
-  mypkgs = import /home/mmercier/Projects/nixpkgs { };
-
   my_dotfiles = builtins.fetchTarball "https://github.com/mickours/dotfiles/archive/master.tar.gz";
 in
 rec {
-  system.nixos.stateVersion = 18.09;
+  #system.nixos.stateVersion = "18.03";
 
   nix = {
     # make sure dependencies are well defined
     useSandbox = true;
-
-    buildCores = 4;
 
     # keep build dpendencies to enable offline rebuild
     extraOptions = ''
       gc-keep-outputs = true
       gc-keep-derivations = true
       '';
-
-    nixPath = [
-        "nixpkgs=/nix/var/nix/profiles/per-user/root/channels/nixos/nixpkgs"
-        "nixos-config=/etc/nixos/configuration.nix"
-        "/nix/var/nix/profiles/per-user/root/channels"
-        "datamovepkgs=${builtins.toPath /home/mmercier/Projects/datamove-nix}"
-      ];
   };
 
   imports =
     [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-      #./config/proxy.nix
+      ./roggy-hardware-configuration.nix
     ];
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  # manage encrypted ROOT partition
-  boot.initrd.luks.devices =
-  #let
-  #  luks_key_name = "aa-luks-key-encrypted";
-  #  luks_key = "/dev/mapper/${luks_key_name}";
-  #in
-  [
-    #{
-    #  name = luks_key_name;
-    #  device = "/luks-key.img";
-    #}
-    {
-      name = "root";
-      device = "/dev/disk/by-uuid/c3a6ae03-368b-4877-b8a3-9d02c0a64d47";
-      keyFile = "/dev/disk/by-id/usb-SanDisk_Cruzer_Switch_4C532000061005117093-0:0";
-      keyFileSize = 256;
-      preLVM = true;
-      allowDiscards = true;
-    }
-    {
-      name = "home";
-      device = "/dev/disk/by-uuid/edea857a-8e93-4eaf-b7cd-e94b753cd573";
-      keyFile = "/dev/disk/by-id/usb-SanDisk_Cruzer_Switch_4C532000061005117093-0:0";
-      keyFileSize = 256;
-      preLVM = true;
-      allowDiscards = true;
-    }
-  ];
-
-  # Use LTS kernel
-  boot.kernelPackages = pkgs.linuxPackages_4_9;
-
-  networking.hostName = "oursbook"; # Define your hostname.
+  networking.hostName = "roggy"; # Define your hostname.
 
   # Select internationalisation properties.
   i18n = {
@@ -145,7 +100,7 @@ rec {
     mediainfo # audio and video
     # Password
     gnupg
-    (pass.withExtensions (ext: [ext.pass-tomb]))
+    #(pass.withExtensions (ext: [ext.pass-tomb]))
     rofi-pass
     # Misc
     cloc
@@ -170,7 +125,7 @@ rec {
     aspellDicts.en
     # Message and RSS
     qtox
-    skype
+    #skype
     tdesktop
     gnome3.polari
     liferea
@@ -366,7 +321,7 @@ rec {
   # Smart card
   services.pcscd.enable = true;
 
-  nixpkgs.config.firefox.enableAdobeFlash = true;
+  #nixpkgs.config.firefox.enableAdobeFlash = true;
   nixpkgs.config.firefox.enableGnomeExtensions = true;
 
   # every machine should be running antivirus
