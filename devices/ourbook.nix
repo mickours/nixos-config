@@ -7,8 +7,6 @@
   ...
 }:
 let
-  mypkgs = import /home/mmercier/Projects/nixpkgs { };
-
   my_dotfiles = builtins.fetchTarball "https://github.com/mickours/dotfiles/archive/master.tar.gz";
 in
 rec {
@@ -37,7 +35,6 @@ rec {
   imports =
     [ # Include the results of the hardware scan.
       ./ourbook-hardware-configuration.nix
-      #./config/proxy.nix
     ];
 
   # Use the systemd-boot EFI boot loader.

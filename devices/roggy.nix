@@ -5,11 +5,8 @@
   pkgs ? import ../nixpkgs { },
   ...
 }:
-let
-  my_dotfiles = builtins.fetchTarball "https://github.com/mickours/dotfiles/archive/master.tar.gz";
-in
-rec {
-  #system.nixos.stateVersion = "18.03";
+{
+  # system.nixos.stateVersion = 18.03;
 
   nix = {
     # make sure dependencies are well defined
@@ -25,6 +22,7 @@ rec {
   imports =
     [ # Include the results of the hardware scan.
       ./roggy-hardware-configuration.nix
+      ../config/my_pkgs_list.nix
     ];
 
   # Use the systemd-boot EFI boot loader.
@@ -50,143 +48,6 @@ rec {
   };
 
   nixpkgs.config.allowUnfree = true;
-
-  # List packages installed in system profile. To search by name, run:
-  # $ nix-env -qaP | grep wget
-  environment.systemPackages = with pkgs; [
-    ## Nix related
-    nox
-    nix-repl
-    nix-prefetch-scripts
-    nix-zsh-completions
-
-    ## install nix-home
-    #((pkgs.callPackage ./pkgs/nix-home.nix) {})
-
-    ## Admin tools
-    # Storage
-    ntfs3g
-    exfat
-    parted
-    hdparm
-    sysstat
-    gsmartcontrol
-    linuxPackages.perf
-    # Monitoring
-    psmisc
-    pmutils
-    nmap
-    htop
-    usbutils
-    iotop
-    stress
-    tcpdump
-    # Files
-    file
-    tree
-    ncdu
-    unzip
-    unrar
-    # Shell
-    zsh
-    tmux
-    ranger
-    # ranger previews
-    libcaca   # video
-    highlight # code
-    atool     # archives
-    w3m       # web
-    poppler   # PDF
-    mediainfo # audio and video
-    # Password
-    gnupg
-    #(pass.withExtensions (ext: [ext.pass-tomb]))
-    rofi-pass
-    # Misc
-    cloc
-    jq
-    qemu
-
-    ## Graphical environment
-    # Gnome stuff
-    # For system Monitor plugin
-    gobjectIntrospection
-    libgtop
-    json_glib
-    glib_networking
-    chrome-gnome-shell
-
-    # Fix Gnome crash
-    gnome3.gjs
-    # Web
-    firefox
-    # Dictionnaries
-    aspellDicts.fr
-    aspellDicts.en
-    # Message and RSS
-    qtox
-    #skype
-    tdesktop
-    gnome3.polari
-    liferea
-    #rambox
-
-    # Media
-    vlc
-    # Utils
-    gnome3.gnome-disk-utility
-    xorg.xkill
-    wireshark-gtk
-
-    ## Development environment
-    gitAndTools.gitFull
-    git-cola
-    gitg
-    python3
-    python2
-    gcc
-    ctags
-    gnumake
-    wget
-    cmake
-    gdb
-    direnv
-    # Editors
-    emacs
-    neovim
-    (callPackage ./my_vim.nix { my_vim_config = builtins.readFile("${my_dotfiles}/vimrc"); })
-    # Web Site
-    hugo
-    # Graphic tools
-    gcolor3
-    graphviz
-    imagemagick
-    inkscape
-    # Text/Tex/PDF
-    entr
-    pandoc
-    rubber
-    texlive.combined.scheme-small
-
-    ## Pro
-    cntlm
-    opensc
-    #libreoffice
-    zotero
-
-    ## Backups and sync
-    python27Packages.syncthing-gtk
-    transmission_gtk
-
-    ## Printers
-    saneBackends
-    samsungUnifiedLinuxDriver
-
-    ## Fun
-    fortune
-    sl
-    wesnoth-dev
-  ];
 
   #environment.gnome3.excludePackages = [
   #  # gnome-software doesn't build and it wouldn't work with nixos anyway, at
