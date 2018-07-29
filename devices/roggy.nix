@@ -3,6 +3,7 @@
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 { config,
   pkgs ? import ../nixpkgs { },
+  lib,
   ...
 }:
 {
@@ -22,9 +23,9 @@
   imports =
     [ # Include the results of the hardware scan.
       ./roggy-hardware-configuration.nix
-      ../config/my_pkgs_list.nix
     ];
 
+  users.users.mmercier.packages = [ pkgs.steam ];
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -48,6 +49,8 @@
   };
 
   nixpkgs.config.allowUnfree = true;
+
+  environment.systemPackages = (import ../config/my_pkgs_list.nix {inherit pkgs;});
 
   #environment.gnome3.excludePackages = [
   #  # gnome-software doesn't build and it wouldn't work with nixos anyway, at

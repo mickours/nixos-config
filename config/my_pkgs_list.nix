@@ -1,137 +1,155 @@
-{ config, pkgs, ... }:
+{ pkgs }:
+
 let
   my_dotfiles = builtins.fetchTarball "https://github.com/mickours/dotfiles/archive/master.tar.gz";
 in
-{
-  environment.systemPackages = with pkgs; [
-    ## Nix related
-    nox
-    nix-repl
-    nix-prefetch-scripts
-    nix-zsh-completions
+with pkgs;
+#{
+#  pkgs_lists =
+#  {
+    # common.nix_utils = [
+[
+      nix-prefetch-scripts
+      nix-zsh-completions
+    # ];
 
-    ## Admin tools
-    # Storage
-    ntfs3g
-    exfat
-    parted
-    hdparm
-    sysstat
-    gsmartcontrol
-    linuxPackages.perf
-    # Monitoring
-    psmisc
-    pmutils
-    nmap
-    htop
-    usbutils
-    iotop
-    stress
-    tcpdump
-    # Files
-    file
-    tree
-    ncdu
-    unzip
-    unrar
-    # Shell
-    zsh
-    tmux
-    ranger
-    # ranger previews
-    libcaca   # video
-    highlight # code
-    atool     # archives
-    w3m       # web
-    poppler   # PDF
-    mediainfo # audio and video
-    # Password
-    gnupg
-    #(pass.withExtensions (ext: [ext.pass-tomb]))
-    rofi-pass
-    # Misc
-    cloc
-    jq
-    qemu
+    # common.monitoring = [
+      psmisc
+      pmutils
+      nmap
+      htop
+      usbutils
+      iotop
+      stress
+      tcpdump
+    # ];
+    # common.files = [
+      file
+      tree
+      ncdu
+      unzip
+      unrar
+    # ];
+    # common.shell_navigation = [
+      zsh
+      tmux
+      ranger
+      # ranger previews
+      libcaca   # video
+      highlight # code
+      atool     # archives
+      w3m       # web
+      poppler   # PDF
+      mediainfo # audio and video
+    # ];
 
-    ## Graphical environment
-    # Gnome stuff
-    # For system Monitor plugin
-    gobjectIntrospection
-    libgtop
-    json_glib
-    glib_networking
-    chrome-gnome-shell
+    # storage = [
+      ntfs3g
+      exfat
+      parted
+      hdparm
+      sysstat
+      gsmartcontrol
+      linuxPackages.perf
+    # ];
 
-    # Fix Gnome crash
-    gnome3.gjs
-    # Web
-    firefox
-    # Dictionnaries
-    aspellDicts.fr
-    aspellDicts.en
-    # Message and RSS
-    qtox
-    #skype
-    tdesktop
-    gnome3.polari
-    liferea
-    #rambox
 
-    # Media
-    vlc
-    # Utils
-    gnome3.gnome-disk-utility
-    xorg.xkill
-    wireshark-gtk
+    # passwords = [
+      # Password
+      gnupg
+      #(pass.withExtensions (ext: [ext.pass-tomb]))
+      rofi-pass
+    # ];
+    # extra = [
+      cloc
+      jq
+      qemu
+    # ];
 
-    ## Development environment
-    gitAndTools.gitFull
-    git-cola
-    gitg
-    python3
-    python2
-    gcc
-    ctags
-    gnumake
-    wget
-    cmake
-    gdb
-    direnv
-    # Editors
-    emacs
-    neovim
-    (callPackage ./my_vim.nix { my_vim_config = builtins.readFile("${my_dotfiles}/vimrc"); })
-    # Web Site
-    hugo
-    # Graphic tools
-    gcolor3
-    graphviz
-    imagemagick
-    inkscape
-    # Text/Tex/PDF
-    entr
-    pandoc
-    rubber
-    texlive.combined.scheme-small
+    # graphical.common = [
+      # Gnome stuff
+      # For system Monitor plugin
+      gobjectIntrospection
+      libgtop
+      json_glib
+      glib_networking
+      chrome-gnome-shell
 
-    ## Pro
-    cntlm
-    opensc
-    #libreoffice
-    zotero
+      # Web
+      firefox
+      # Dictionnaries
+      aspellDicts.fr
+      aspellDicts.en
+      # Message and RSS
+      #qtox
+      #skype
+      #tdesktop
+      gnome3.polari
+      liferea
+      rambox
 
-    ## Backups and sync
-    python27Packages.syncthing-gtk
-    transmission_gtk
+      # Media
+      vlc
+      # Utils
+      gnome3.gnome-disk-utility
+      xorg.xkill
+      wireshark-gtk
+      git-cola
+      gitg
+    # ];
 
-    ## Printers
-    saneBackends
-    samsungUnifiedLinuxDriver
+    # graphical.office = [
+      # Graphic tools
+      gcolor3
+      graphviz
+      imagemagick
+      inkscape
+      libreoffice
+      # Reasearch
+      zotero
+      # Text/Tex/PDF
+      rubber
+      texlive.combined.scheme-small
+    # ];
 
-    ## Fun
-    fortune
-    sl
-    wesnoth-dev
-  ];
-}
+
+    # development =
+    #[
+      gitAndTools.gitFull
+      python3
+      python2
+      gcc
+      ctags
+      gnumake
+      wget
+      cmake
+      gdb
+      direnv
+      entr
+      pandoc
+      # Editors
+      emacs
+      neovim
+      (callPackage ./my_vim.nix { my_vim_config = builtins.readFile("${my_dotfiles}/vimrc"); })
+      # Web Site
+      hugo
+    #];
+
+    #backups_and_sync = [
+      python27Packages.syncthing-gtk
+      transmission_gtk
+    #];
+
+    #printers = [
+      saneBackends
+      samsungUnifiedLinuxDriver
+    #];
+
+    #fun = [
+      fortune
+      sl
+      wesnoth-dev
+    #];
+  #};
+#}
+]
