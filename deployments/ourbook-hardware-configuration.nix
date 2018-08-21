@@ -14,6 +14,15 @@
   # boot.cleanTmpDir = true;
   boot.tmpOnTmpfs = true;
 
+  # Activate proprietary drivers for graphic card
+  #services.xserver.videoDrivers = [ "ati_unfree" ];
+
+  # Blacklist radeon and amdgpu
+  boot.extraModprobeConfig = ''
+    install radeon /run/current-system/sw/bin/false
+    install amdgpu /run/current-system/sw/bin/false
+  '';
+
   # Not working on old kernel
   #boot.kernelParams = [
   #  # Enable Multi queue IO scheduler
@@ -23,9 +32,9 @@
   # Set the multiqueue scheduler depending on if it is an HDD or an SSD
   services.udev.extraRules = ''
     # set scheduler for non-rotating disks
-    ACTION=="add|change", KERNEL=="sd[a-z]|mmcblk[0-9]*", ATTR{queue/rotational}=="0", ATTR{queue/scheduler}="mq-deadline"
+    ACTION=="add|change", KERNEL=="sd[a-z]|mmcblk[0-9]*", ATTR{queue/rotational}=="0", ATTR{queue/scheduler}="deadline"
     # set scheduler for rotating disks
-    ACTION=="add|change", KERNEL=="sd[a-z]", ATTR{queue/rotational}=="1", ATTR{queue/scheduler}="bfq"
+    ACTION=="add|change", KERNEL=="sd[a-z]", ATTR{queue/rotational}=="1", ATTR{queue/scheduler}="cfq"
   '';
 
   # Enable periodic SSD TRIM (default weekly)

@@ -9,7 +9,7 @@ in
 rec {
   networking.hostName = "oursbook";
 
-  system.nixos.stateVersion = 18.09;
+  system.stateVersion = 18.09;
 
   nix.nixPath = [
         "nixpkgs=/nix/var/nix/profiles/per-user/root/channels/nixos/nixpkgs"
