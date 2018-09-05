@@ -30,6 +30,7 @@
           rainbow_parentheses
           vim-trailing-whitespace
           vim-grammarous
+          csv
         ];
       # manually loadable by calling `:packadd $plugin-name`
       opt = [  ];
