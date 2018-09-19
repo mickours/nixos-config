@@ -51,6 +51,9 @@ in
 
         gnome3.gnome-online-accounts.enable = true;
         gnome3.chrome-gnome-shell.enable = true;
+        # Disable tracker to avoid it to suck my vitality
+        gnome3.tracker.enable = mkForce false;
+        gnome3.tracker-miners.enable = mkForce false;
 
         syncthing = {
           enable = true;
