@@ -1,5 +1,7 @@
 let
   nixpkgs-stable = (fetchTarball "https://github.com/NixOS/nixpkgs/archive/18.03.tar.gz");
+  pkgs = import <nixpkgs> {};
+  pkgs_lists = import ../config/my_pkgs_list.nix { inherit pkgs; };
   radicaleCollection = "/data/radicale";
   radicalePort = 5232;
   webPort = 80;
@@ -24,12 +26,12 @@ in
     [
       # Include the results of the hardware scan.
       ./vps-hardware-configuration.nix
-      # Include my config
-      ./my-config.nix
       # Mail server
       (builtins.fetchTarball "https://github.com/r-raymond/nixos-mailserver/archive/v2.1.4.tar.gz")
       # Blog with Ghost
-       ./blog/service.nix
+      # ../blog/service.nix
+      # Common config
+      ../modules/common.nix
     ];
 
     # Use the GRUB 2 boot loader.
@@ -45,6 +47,9 @@ in
     system.stateVersion = "18.03";
 
     time.timeZone = "Europe/Paris";
+
+    # Common config
+    lib.environments.mickours.common.enable = true;
 
     #*************#
     #    Nginx    #
@@ -71,6 +76,10 @@ in
             '';
           };
         };
+
+        "feeds.libr.fr".forceSSL = true;
+        "feeds.libr.fr".enableACME = true;
+
         "michaelmercier.fr" = {
           locations."/" = {
             root = "/data/public/mmercier/website";
@@ -214,6 +223,14 @@ in
     #  '';
     #};
 
+    #*****************#
+    #  Tiny Tiny RSS  #
+    #*****************#
+    services.tt-rss.enable = true;
+    services.tt-rss.selfUrlPath = "https://feeds.libr.fr/";
+    services.tt-rss.virtualHost = "feeds.libr.fr";
+
+
     #*************#
     #   Network   #
     #*************#
@@ -229,7 +246,7 @@ in
       wget
       git # Needed for radicale backup
       rsync # for backups
-    ];
+    ] ++ pkgs_lists.common;
   };
 
 
