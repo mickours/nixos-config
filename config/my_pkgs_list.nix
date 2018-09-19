@@ -18,6 +18,7 @@ in
     iotop
     stress
     tcpdump
+    lsof
     # files
     file
     tree
