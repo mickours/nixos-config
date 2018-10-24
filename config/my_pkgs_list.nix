@@ -43,14 +43,15 @@ in
   graphical = [
     # Gnome stuff
     # For system Monitor plugin
-    gobjectIntrospection
-    libgtop
-    json_glib
-    glib_networking
-    chrome-gnome-shell
+    gnomeExtensions.system-monitor
+    #gobjectIntrospection
+    #libgtop
+    #json_glib
+    #glib_networking
 
     # Web
     firefox
+    chrome-gnome-shell
     # Dictionnaries
     aspellDicts.fr
     aspellDicts.en

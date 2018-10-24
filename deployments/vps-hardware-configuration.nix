@@ -14,7 +14,9 @@
       fsType = "ext4";
     };
 
-  swapDevices = [ ];
+  swapDevices = 
+    [ { device = "/var/swapfile"; size = 1024; }
+    ];
 
   nix.maxJobs = lib.mkDefault 1;
 }

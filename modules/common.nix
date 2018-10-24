@@ -54,9 +54,9 @@ with lib;
     };
 
     # Make sudo funnier!
-    security.sudo.extraConfig = ''
-        Defaults   insults
-    '';
+    #security.sudo.extraConfig = ''
+    #    Defaults   insults
+    #'';
     nixpkgs.config.packageOverrides = pkgs:
     {
       sudo = pkgs.sudo.override { withInsults = true; };
@@ -76,7 +76,7 @@ with lib;
       isNormalUser = true;
       extraGroups = [ "wheel" ];
       shell = pkgs.zsh;
-      openssh.authorizedKeys.keys = cfg.ssh_authorized_keys;
+      openssh.authorizedKeys.keys = cfg.keys;
     };
   };
 }

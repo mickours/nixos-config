@@ -50,6 +50,7 @@ rec {
       keyFileSize = 256;
       preLVM = true;
       allowDiscards = true;
+      fallbackToPassword = true;
     }
     {
       name = "home";
@@ -58,6 +59,7 @@ rec {
       keyFileSize = 256;
       preLVM = true;
       allowDiscards = true;
+      fallbackToPassword = true;
     }
   ];
 

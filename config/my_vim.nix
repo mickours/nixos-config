@@ -16,6 +16,7 @@
           Syntastic
           gitgutter
           The_NERD_tree
+          The_NERD_Commenter
           vim-easytags
           vim-misc
           #LanguageClient-neovim
@@ -31,6 +32,7 @@
           vim-trailing-whitespace
           vim-grammarous
           csv
+          molokai
         ];
       # manually loadable by calling `:packadd $plugin-name`
       opt = [  ];
