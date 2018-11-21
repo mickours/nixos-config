@@ -27,9 +27,9 @@ rec {
 
   environments.mickours.common = {
     enable = true;
-    keys = [
-      (lib.readFile ../secrets/id_rsa_roggy.pub)
-      (lib.readFile ./keys/id_rsa_roggy.pub)
+    keyFiles = [
+      ./keys/id_rsa_oursbook.pub
+      ./keys/id_rsa_roggy.pub
     ];
   };
 
