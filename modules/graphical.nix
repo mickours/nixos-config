@@ -1,7 +1,6 @@
 { config, lib, pkgs, ... }:
 let
   pkgs_lists = import ../config/my_pkgs_list.nix { inherit pkgs; };
-  cfg = config.environment.mickours.graphical;
 in
   with lib;
   {
@@ -97,8 +96,10 @@ in
       # WARNING extensions need to be installed in the browser AND links have
       # to be created in .mozilla, see for full workaround:
       # https://github.com/NixOS/nixpkgs/issues/47340)
-      programs.browserpass.enable = true;
+      # Now done with home-manager (see below)
+      nixpkgs.config.firefox.enableBrowserpass = true;
       nixpkgs.config.firefox.enableGnomeExtensions = true;
+
       #services.gnome3.chrome-gnome-shell.enable = true;
 
       #nixpkgs.config.packageOverrides = pkgs: rec
@@ -113,6 +114,8 @@ in
 
 
       home-manager.users.mmercier = {
+        home.file.".mozilla/native-messaging-hosts/com.dannyvankooten.browserpass.json".source = "${pkgs.browserpass}/lib/mozilla/native-messaging-hosts/com.dannyvankooten.browserpass.json";
+        home.file.".mozilla/native-messaging-hosts/org.gnome.chrome_gnome_shell.json".source = "${pkgs.chrome-gnome-shell}/lib/mozilla/native-messaging-hosts/org.gnome.chrome_gnome_shell.json";
         # Make ssh-agent works: see https://github.com/NixOS/nixpkgs/issues/42291
         # Prevent clobbering SSH_AUTH_SOCK
         home.sessionVariables.GSM_SKIP_SSH_AGENT_WORKAROUND = "1";
