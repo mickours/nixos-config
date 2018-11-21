@@ -9,7 +9,10 @@ let
   smtpSslPort = 587;
   imapSslPort = 993;
   ghostPort = 8888;
-
+  myKeys = [
+      ./keys/id_rsa_oursbook.pub
+      ./keys/id_rsa_roggy.pub
+  ];
 in
 {
   network.description = "Michael Mercier Personal Network";
@@ -43,6 +46,13 @@ in
     # Enable the OpenSSH daemon.
     services.openssh.enable = true;
     services.openssh.permitRootLogin = "yes";
+    services.openssh.passwordAuthentication = false;
+    environments.mickours.common = {
+      enable = true;
+      keyFiles = myKeys;
+    };
+    # Add root access to mmercier
+    users.users.root.openssh.authorizedKeys.keyFiles = myKeys;
 
     system.stateVersion = "18.03";
 

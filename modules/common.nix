@@ -1,14 +1,14 @@
 { config, lib, pkgs, ... }:
 let
   pkgs_lists = import ../config/my_pkgs_list.nix { inherit pkgs; };
-  cfg = config.environment.mickours.common;
+  cfg = config.environments.mickours.common;
 in
 with lib;
 {
   options.environments.mickours.common = {
     enable = mkEnableOption "common";
-    keys = mkOption {
-      type = types.listOf types.string;
+    keyFiles = mkOption {
+      type = types.listOf types.path;
       default = [];
       example = [];
       description = ''
@@ -76,7 +76,7 @@ with lib;
       isNormalUser = true;
       extraGroups = [ "wheel" ];
       shell = pkgs.zsh;
-      openssh.authorizedKeys.keys = cfg.keys;
+      openssh.authorizedKeys.keyFiles = cfg.keyFiles;
     };
   };
 }
