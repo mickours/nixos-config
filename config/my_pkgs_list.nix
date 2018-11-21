@@ -24,7 +24,7 @@ in
     tree
     ncdu
     unzip
-    unrar
+    # unrar #NOT FREE need allowUnfree set to true
     # tools
     zsh
     tmux
