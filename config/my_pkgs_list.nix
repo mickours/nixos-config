@@ -37,7 +37,15 @@ in
     poppler   # PDF
     mediainfo # audio and video
     # my vim config
-    (pkgs.callPackage ./my_vim.nix { my_vim_config = builtins.readFile("${my_dotfiles}/vimrc"); })
+    (pkgs.callPackage ./my_vim.nix {
+      my_vim_config = builtins.readFile("${my_dotfiles}/vimrc");
+      vim_configurable = vim_configurable.override { python = python3; };
+    })
+    (python3.withPackages(ps: [
+      ps.python-language-server
+      # the following plugins are optional, they provide type checking, import sorting and code formatting
+      ps.pyls-mypy ps.pyls-isort ps.pyls-black
+    ]))
   ];
 
   graphical = [
