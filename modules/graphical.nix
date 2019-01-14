@@ -1,6 +1,7 @@
 { config, lib, pkgs, ... }:
 let
   pkgs_lists = import ../config/my_pkgs_list.nix { inherit pkgs; };
+  cfg = config.environment.mickours.graphical;
 in
   with lib;
   {
@@ -9,18 +10,20 @@ in
     ];
     options.environments.mickours.graphical = {
       enable = mkEnableOption "graphical";
-      keys = mkOption {
-        type = types.listOf types.string;
-        default = [];
-        example = [];
-        description = ''
-          The list of Ssh keys allowed to log.
-        '';
-      };
     };
 
     config = mkIf config.environments.mickours.graphical.enable {
       environment.systemPackages = pkgs_lists.graphical;
+
+      # Enable bluetooth
+      hardware.bluetooth.enable = true;
+      hardware.pulseaudio = {
+        enable = true;
+
+        # NixOS allows either a lightweight build (default) or full build of PulseAudio to be installed.
+        # Only the full build has Bluetooth support, so it must be selected here.
+        package = pkgs.pulseaudioFull;
+      };
 
       services = {
         # Install but disable open SSH

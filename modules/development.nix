@@ -7,14 +7,6 @@ in
   {
     options.environments.mickours.development = {
       enable = mkEnableOption "development";
-      keys = mkOption {
-        type = types.listOf types.string;
-        default = [];
-        example = [];
-        description = ''
-          The list of Ssh keys allowed to log.
-        '';
-      };
     };
 
     config = mkIf config.environments.mickours.development.enable {

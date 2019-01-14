@@ -21,9 +21,9 @@
 
   environments.mickours.common = {
     enable = true;
-    keys = [
-      (lib.readFile ./keys/id_rsa_roggy.pub)
-      (lib.readFile ./keys/id_rsa_oursbook.pub)
+    keyFiles = [
+      ./keys/id_rsa_roggy.pub
+      ./keys/id_rsa_oursbook.pub
     ];
   };
 
@@ -36,5 +36,7 @@
   hardware.pulseaudio.support32Bit = true;
 
   networking.firewall.enable = false;
+
+  environment.systemPackages = [ pkgs.libaacs ];
 }
 

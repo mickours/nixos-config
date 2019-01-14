@@ -56,8 +56,8 @@ in
     aspellDicts.fr
     aspellDicts.en
     # Message and RSS
-    #qtox
-    #skype
+    qtox
+    skype
     #tdesktop
     gnome3.polari
     liferea
@@ -88,7 +88,8 @@ in
     graphviz
     imagemagick
     inkscape
-    libreoffice
+    libreoffice-fresh
+    gimp
   ];
 
   development =
