@@ -70,7 +70,11 @@ in
 
       # Auto unlock keyring with GDM (does not work!!!)
       # TODO create an issue...
-      #security.pam.services.gdm.enableGnomeKeyring = true;
+      security.pam.services.gdm.enableGnomeKeyring = true;
+      # Add gdm to my user's groups
+      users.extraUsers.mmercier = {
+        extraGroups = [ "wheel" "gdm" ];
+      };
 
       # Make fonts better...
       fonts.fontconfig = {
@@ -119,15 +123,15 @@ in
       home-manager.users.mmercier = {
         home.file.".mozilla/native-messaging-hosts/com.dannyvankooten.browserpass.json".source = "${pkgs.browserpass}/lib/mozilla/native-messaging-hosts/com.dannyvankooten.browserpass.json";
         home.file.".mozilla/native-messaging-hosts/org.gnome.chrome_gnome_shell.json".source = "${pkgs.chrome-gnome-shell}/lib/mozilla/native-messaging-hosts/org.gnome.chrome_gnome_shell.json";
-        # Make ssh-agent works: see https://github.com/NixOS/nixpkgs/issues/42291
-        # Prevent clobbering SSH_AUTH_SOCK
-        home.sessionVariables.GSM_SKIP_SSH_AGENT_WORKAROUND = "1";
+        ## Make ssh-agent works: see https://github.com/NixOS/nixpkgs/issues/42291
+        ## Prevent clobbering SSH_AUTH_SOCK
+        #home.sessionVariables.GSM_SKIP_SSH_AGENT_WORKAROUND = "1";
 
-        # Disable gnome-keyring ssh-agent
-        xdg.configFile."autostart/gnome-keyring-ssh.desktop".text = ''
-          ${lib.fileContents "${pkgs.gnome3.gnome-keyring}/etc/xdg/autostart/gnome-keyring-ssh.desktop"}
-          Hidden=true
-        '';
+        ## Disable gnome-keyring ssh-agent
+        #xdg.configFile."autostart/gnome-keyring-ssh.desktop".text = ''
+        #  ${lib.fileContents "${pkgs.gnome3.gnome-keyring}/etc/xdg/autostart/gnome-keyring-ssh.desktop"}
+        #  Hidden=true
+        #'';
       };
     };
   }
