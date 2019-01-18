@@ -22,12 +22,12 @@ let
       let g:LanguageClient_serverCommands = {
         \ 'python': ['pyls']
         \ }
-       nnoremap <F5> :call LanguageClient_contextMenu()<CR>
+       nnoremap <leader> c :call LanguageClient_contextMenu()<CR>
        nnoremap <silent> gh :call LanguageClient_textDocument_hover()<CR>
        nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
        nnoremap <silent> gr :call LanguageClient_textDocument_references()<CR>
        nnoremap <silent> gs :call LanguageClient_textDocument_documentSymbol()<CR>
-       nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
+       nnoremap <leader> r :call LanguageClient_textDocument_rename()<CR>
        nnoremap <silent> gf :call LanguageClient_textDocument_formatting()<CR>
     '';
 
