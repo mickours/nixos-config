@@ -6,8 +6,6 @@
 {
   networking.hostName = "roggy"; # Define your hostname.
 
-  # system.nixos.stateVersion = 18.03;
-
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
