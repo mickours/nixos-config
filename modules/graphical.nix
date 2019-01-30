@@ -75,7 +75,6 @@ in
           systemService = false;
         };
       };
-      users.extraUsers.mmercier.extraGroups = [ "audio" "gdm" ];
 
       # Auto unlock keyring with GDM (does not work!!!)
       # TODO create an issue...
@@ -83,7 +82,7 @@ in
 
       # Add gdm to my user's groups
       users.extraUsers.mmercier = {
-        extraGroups = [ "wheel" "gdm" ];
+        extraGroups = [ "audio" "wheel" "gdm" ];
       };
 
       # Make fonts better...
