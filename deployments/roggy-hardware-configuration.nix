@@ -33,4 +33,7 @@
   powerManagement.cpuFreqGovernor = lib.mkDefault "performance";
 
   hardware.cpu.intel.updateMicrocode = true;
+
+  # Enable periodic SSD TRIM (default weekly)
+  services.fstrim.enable = true;
 }
