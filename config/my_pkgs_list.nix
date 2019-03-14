@@ -2,7 +2,13 @@
 
 with pkgs;
 let
-  my_dotfiles = builtins.fetchTarball "https://github.com/mickours/dotfiles/archive/master.tar.gz";
+  my_dotfiles = builtins.fetchGit {
+    url = https://github.com/mickours/dotfiles;
+    ref = "master";
+    rev = "4aea3caabab7960ed6827c1d5210f673942dacb8";
+  };
+  my_vim_config = builtins.readFile("${my_dotfiles}/vimrc");
+  my_vim_plugins = pkgs.callPackage ./my_vim_plugins.nix {};
 in
 {
   common = [
@@ -36,32 +42,34 @@ in
     w3m       # web
     poppler   # PDF
     mediainfo # audio and video
-    # my vim config
-    (pkgs.callPackage ./my_vim.nix {
-      my_vim_config = builtins.readFile("${my_dotfiles}/vimrc");
-      vim_configurable = vim_configurable.override { python = python3; };
+    (vim_configurable.customize {
+      name = "v";
+      # add my custom .vimrc
+      vimrcConfig.customRC = my_vim_config + ''
+      '';
+      vimrcConfig.packages.myVimPackage = {
+          # loaded on launch
+          start = my_vim_plugins.plugins;
+          # manually loadable by calling `:packadd $plugin-name`
+          opt = [  ];
+          # To automatically load a plugin when opening a filetype, add vimrc lines like:
+          # autocmd FileType php :packadd phpCompletion
+      };
     })
-    # Vim config dependencies
-    # FIXME this should be in the same place as vim plugins
-    fzf
-    rustup
-    go-langserver
-    llvmPackages.libclang
-    (python3.withPackages(ps: [
-      ps.python-language-server
-      # the following plugins are optional, they provide type checking, import sorting and code formatting
-      ps.pyls-mypy ps.pyls-isort ps.pyls-black
-    ]))
-  ];
+    (neovim.override {
+      configure = {
+        packages.myVimPackage = {
+          # see examples below how to use custom packages
+          start = my_vim_plugins.plugins;
+          opt = [ ];
+        };
+      };
+    })
+  ] ++ my_vim_plugins.dependencies;
 
   graphical = [
     # Gnome stuff
-    # For system Monitor plugin
     gnomeExtensions.system-monitor
-    #gobjectIntrospection
-    #libgtop
-    #json_glib
-    #glib_networking
 
     # Web
     firefox
@@ -70,9 +78,7 @@ in
     aspellDicts.fr
     aspellDicts.en
     # Message and RSS
-    qtox
     skype
-    #tdesktop
     gnome3.polari
     liferea
     rambox
@@ -84,7 +90,6 @@ in
     xorg.xkill
     wireshark-gtk
     git-cola
-    gitg
     # storage
     ntfs3g
     exfat
@@ -122,7 +127,6 @@ in
     pandoc
     # Editors
     emacs
-    neovim
     # Web Site
     hugo
     # Misc
