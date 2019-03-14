@@ -65,7 +65,6 @@
   environment.systemPackages = with pkgs; [
     # Web
     firefox
-    flashplayer
     # Media
     transmission_gtk
     ## Enable numock by default
