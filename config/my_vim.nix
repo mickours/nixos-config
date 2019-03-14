@@ -3,11 +3,11 @@
 let
   customPlugins = {
     completor = vimUtils.buildVimPlugin {
-      name = "completor-git-2018-11-06";
+      name = "completor-git-2019-03-14";
       buildPhase = "true"; # building requires npm (for js) so I disabled it
       src = fetchGit {
         url = "https://github.com/maralla/completor.vim.git";
-        rev = "9d1b13e8da098aeb561295ad6cf5c3c2f04e2183";
+        rev = "0b5b7992408ee6077ea923402d5eb3982b7af6ce";
         ref = "master";
       };
       meta.homepage = https://github.com/maralla/completor.vim;
@@ -17,19 +17,9 @@ let
   vim_configurable.customize {
     name = "v";
 
-    # add imy custom .vimrc
-    vimrcConfig.customRC = my_vim_config + ''
-      let g:LanguageClient_serverCommands = {
-        \ 'python': ['pyls']
-        \ }
-       nnoremap <leader> c :call LanguageClient_contextMenu()<CR>
-       nnoremap <silent> gh :call LanguageClient_textDocument_hover()<CR>
-       nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
-       nnoremap <silent> gr :call LanguageClient_textDocument_references()<CR>
-       nnoremap <silent> gs :call LanguageClient_textDocument_documentSymbol()<CR>
-       nnoremap <leader> r :call LanguageClient_textDocument_rename()<CR>
-       nnoremap <silent> gf :call LanguageClient_textDocument_formatting()<CR>
-    '';
+    ## add imy custom .vimrc
+    #vimrcConfig.customRC = my_vim_config + ''
+    #'';
 
     # store your plugins in Vim packages
     vimrcConfig.packages.myVimPackage = with vimPlugins; {
@@ -60,6 +50,7 @@ let
           csv
           molokai
           customPlugins.completor
+          fzf-vim
         ];
       # manually loadable by calling `:packadd $plugin-name`
       opt = [  ];

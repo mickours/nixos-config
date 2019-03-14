@@ -78,6 +78,7 @@ rec {
 
     #libreoffice
     zotero
+    gnome3.pomodoro
   ];
 
   networking.firewall.enable = false;

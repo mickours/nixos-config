@@ -41,6 +41,12 @@ in
       my_vim_config = builtins.readFile("${my_dotfiles}/vimrc");
       vim_configurable = vim_configurable.override { python = python3; };
     })
+    # Vim config dependencies
+    # FIXME this should be in the same place as vim plugins
+    fzf
+    rustup
+    go-langserver
+    llvmPackages.libclang
     (python3.withPackages(ps: [
       ps.python-language-server
       # the following plugins are optional, they provide type checking, import sorting and code formatting
