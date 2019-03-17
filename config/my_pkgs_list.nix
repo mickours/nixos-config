@@ -45,7 +45,7 @@ in
     (vim_configurable.customize {
       name = "v";
       # add my custom .vimrc
-      vimrcConfig.customRC = my_vim_config + ''
+      vimrcConfig.customRC = my_vim_config + my_vim_plugins.extraConfig + ''
       '';
       vimrcConfig.packages.myVimPackage = {
           # loaded on launch

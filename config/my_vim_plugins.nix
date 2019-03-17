@@ -6,8 +6,13 @@ let
       src = fetchTarball https://github.com/vim-scripts/AutoComplPop/archive/2.14.1.tar.gz;
     };
     vim-sublime-monokai = vimUtils.buildVimPlugin {
-      name = "vim-sublime-monokai-2.0";
+      name = "vim-sublime-monokai-master";
       src = fetchTarball https://github.com/ErichDonGubler/vim-sublime-monokai/archive/master.tar.gz;
+    };
+    fzf = vimUtils.buildVimPlugin {
+      name = "fzf-master";
+      src = pkgs.fzf;
+      buildInputs = pkgs.fzf.buildInputs;
     };
   };
 in
@@ -26,7 +31,6 @@ in
     Tagbar
     vim-orgmode
     multiple-cursors
-    gundo
     vim-nix
     vim-autoformat
     vim-go
@@ -35,19 +39,32 @@ in
     vim-trailing-whitespace
     vim-grammarous
     csv
-    molokai
-    fzf-vim
+    (fzf-vim.overrideAttrs (_: {
+      src = fetchTarball https://github.com/junegunn/fzf.vim/archive/master.tar.gz;
+    }))
     # custom plugins
     customPlugins.vim-sublime-monokai
     customPlugins.autocomplpop
+    customPlugins.fzf
   ];
+
+  extraConfig = ''
+    " Add fzf in the path
+    set rtp+=${pkgs.fzf}
+  '';
+
   dependencies = with pkgs; [
     # Vim config dependencies
-    fzf
+    (fzf.overrideAttrs (_: {
+      src = fetchTarball https://github.com/junegunn/fzf/archive/master.tar.gz;
+    }))
     rustup
     go-langserver
     llvmPackages.libclang
-    # nur.repos.mic92.nix-lsp # NOT WORKING DUE TO sha256 mismatch
+    # NOT WORKING DUE TO sha256 mismatch
+    #(nur.repos.mic92.nix-lsp.overrideAttrs (attr: {
+    #  cargoSha256 = "13fhaspvrgymbbr230j41ppbz3a5qm12xl667cs7x888h0jvsp5g";
+    #}))
     (python3.withPackages(ps: [
       ps.python-language-server
       # the following plugins are optional, they provide type checking, import sorting and code formatting
