@@ -92,6 +92,6 @@
   users.extraUsers.marine = {
     isNormalUser = true;
     uid = 1000;
-    extraGroups = [ "wheel" "lp" "gdm" ];
+    extraGroups = [ "wheel" "lp" "networkmanager" ];
   };
 }
