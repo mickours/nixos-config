@@ -30,7 +30,7 @@ with lib;
     # Keyboard and locale support
     i18n = {
       consoleKeyMap = "fr";
-      defaultLocale = "en_US.UTF-8";
+      #defaultLocale = "en_US.UTF-8";
     };
 
     programs = {
@@ -72,7 +72,6 @@ with lib;
     # Add my user
     users.extraUsers.mmercier = {
       description = "Michael Mercier";
-      uid = 1000;
       isNormalUser = true;
       extraGroups = [ "wheel" ];
       shell = pkgs.zsh;
