@@ -12,6 +12,7 @@
 
   environments.mickours.common.enable = true;
   environments.mickours.graphical.enable = true;
+  environments.mickours.graphical.myuser = "marine";
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;

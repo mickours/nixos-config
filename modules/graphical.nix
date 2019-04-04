@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 let
   pkgs_lists = import ../config/my_pkgs_list.nix { inherit pkgs; };
-  cfg = config.environment.mickours.graphical;
+  cfg = config.environments.mickours.graphical;
 in
   with lib;
   {
@@ -10,6 +10,9 @@ in
     ];
     options.environments.mickours.graphical = {
       enable = mkEnableOption "graphical";
+      myuser = mkOption {
+        type = types.string;
+      };
     };
 
     config = mkIf config.environments.mickours.graphical.enable {
@@ -69,9 +72,9 @@ in
 
         syncthing = {
           enable = true;
-          user = "mmercier";
-          group = "mmercier";
-          dataDir = /home/mmercier/.config/syncthing;
+          user = cfg.myuser;
+          group = cfg.myuser;
+          dataDir = /home + cfg.myuser + /.config/syncthing;
           systemService = false;
         };
       };
@@ -81,7 +84,7 @@ in
       #security.pam.services.gdm.enableGnomeKeyring = true;
 
       # Add gdm to my user's groups
-      users.extraUsers.mmercier = {
+      users.extraUsers."${cfg.myuser}" = {
         extraGroups = [ "audio" "wheel" "lp" "networkmanager"];
       };
 
@@ -129,7 +132,7 @@ in
 
 
 
-      home-manager.users.mmercier = {
+      home-manager.users."${cfg.myuser}" = {
         home.file.".mozilla/native-messaging-hosts/com.dannyvankooten.browserpass.json".source = "${pkgs.browserpass}/lib/mozilla/native-messaging-hosts/com.dannyvankooten.browserpass.json";
         home.file.".mozilla/native-messaging-hosts/org.gnome.chrome_gnome_shell.json".source = "${pkgs.chrome-gnome-shell}/lib/mozilla/native-messaging-hosts/org.gnome.chrome_gnome_shell.json";
         # Make ssh-agent works: see https://github.com/NixOS/nixpkgs/issues/42291
