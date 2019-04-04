@@ -82,7 +82,7 @@ in
 
       # Add gdm to my user's groups
       users.extraUsers.mmercier = {
-        extraGroups = [ "audio" "wheel" "gdm" ];
+        extraGroups = [ "audio" "wheel" "lp" "networkmanager"];
       };
 
       # Make fonts better...

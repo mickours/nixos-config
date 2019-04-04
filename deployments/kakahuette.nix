@@ -63,7 +63,6 @@
   environment.systemPackages = with pkgs; [
     # Web
     firefox
-    flashplayer
     # Media
     transmission_gtk
     ## Enable numock by default
@@ -89,6 +88,6 @@
   users.extraUsers.marine = {
     isNormalUser = true;
     uid = 1000;
-    extraGroups = [ "wheel" "lp" "gdm" ];
+    extraGroups = [ "wheel" "lp" "networkmanager" ];
   };
 }

@@ -78,10 +78,11 @@ rec {
 
     #libreoffice
     zotero
+    gnome3.pomodoro
   ];
 
   networking.firewall.enable = false;
 
-  nixpkgs.config.firefox.enableAdobeFlash = true;
+  # nixpkgs.config.firefox.enableAdobeFlash = true;
 }
 

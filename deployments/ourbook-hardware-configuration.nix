@@ -12,7 +12,7 @@
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
   # boot.cleanTmpDir = true;
-  boot.tmpOnTmpfs = true;
+  # boot.tmpOnTmpfs = true;
 
   # Activate proprietary drivers for graphic card
   #services.xserver.videoDrivers = [ "ati_unfree" ];
