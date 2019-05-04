@@ -6,7 +6,7 @@ in
   with lib;
   {
     imports = [
-      "${builtins.fetchTarball https://github.com/rycee/home-manager/archive/master.tar.gz}/nixos"
+      "${builtins.fetchTarball https://github.com/rycee/home-manager/archive/release-19.03.tar.gz}/nixos"
     ];
     options.environments.mickours.graphical = {
       enable = mkEnableOption "graphical";
@@ -22,9 +22,11 @@ in
         # NixOS allows either a lightweight build (default) or full build of PulseAudio to be installed.
         # Only the full build has Bluetooth support, so it must be selected here.
         package = pkgs.pulseaudioFull;
-        # Add echo-cancelation virtual interface
+        extraModules = [ pkgs.pulseaudio-modules-bt ];
+        # For echo-cancelation virtual interface add the following line to the conf
+        # load-module module-echo-cancel
         extraConfig = ''
-          load-module module-echo-cancel
+          load-module module-switch-on-connect
         '';
       };
       hardware.bluetooth.enable = true;
@@ -80,7 +82,7 @@ in
       # TODO create an issue...
       #security.pam.services.gdm.enableGnomeKeyring = true;
 
-      # Add gdm to my user's groups
+      # Add extra groups for graphical network and printer management to my user's groups
       users.extraUsers.mmercier = {
         extraGroups = [ "audio" "wheel" "lp" "networkmanager"];
       };
@@ -129,18 +131,18 @@ in
 
 
 
-      home-manager.users.mmercier = {
-        home.file.".mozilla/native-messaging-hosts/com.dannyvankooten.browserpass.json".source = "${pkgs.browserpass}/lib/mozilla/native-messaging-hosts/com.dannyvankooten.browserpass.json";
-        home.file.".mozilla/native-messaging-hosts/org.gnome.chrome_gnome_shell.json".source = "${pkgs.chrome-gnome-shell}/lib/mozilla/native-messaging-hosts/org.gnome.chrome_gnome_shell.json";
-        # Make ssh-agent works: see https://github.com/NixOS/nixpkgs/issues/42291
-        # Prevent clobbering SSH_AUTH_SOCK
-        #home.sessionVariables.GSM_SKIP_SSH_AGENT_WORKAROUND = "1";
+      # home-manager.users.mmercier = {
+      #   # home.file.".mozilla/native-messaging-hosts/com.dannyvankooten.browserpass.json".source = "${pkgs.browserpass}/lib/mozilla/native-messaging-hosts/com.dannyvankooten.browserpass.json";
+      #   # home.file.".mozilla/native-messaging-hosts/org.gnome.chrome_gnome_shell.json".source = "${pkgs.chrome-gnome-shell}/lib/mozilla/native-messaging-hosts/org.gnome.chrome_gnome_shell.json";
+      #   # Make ssh-agent works: see https://github.com/NixOS/nixpkgs/issues/42291
+      #   # Prevent clobbering SSH_AUTH_SOCK
+      #   #home.sessionVariables.GSM_SKIP_SSH_AGENT_WORKAROUND = "1";
 
-        # Disable gnome-keyring ssh-agent
-        #xdg.configFile."autostart/gnome-keyring-ssh.desktop".text = ''
-        #  ${lib.fileContents "${pkgs.gnome3.gnome-keyring}/etc/xdg/autostart/gnome-keyring-ssh.desktop"}
-        #  Hidden=true
-        #'';
-      };
+      #   # Disable gnome-keyring ssh-agent
+      #   #xdg.configFile."autostart/gnome-keyring-ssh.desktop".text = ''
+      #   #  ${lib.fileContents "${pkgs.gnome3.gnome-keyring}/etc/xdg/autostart/gnome-keyring-ssh.desktop"}
+      #   #  Hidden=true
+      #   #'';
+      # };
     };
   }

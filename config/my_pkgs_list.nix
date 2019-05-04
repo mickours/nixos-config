@@ -5,7 +5,7 @@ let
   my_dotfiles = builtins.fetchGit {
     url = https://github.com/mickours/dotfiles;
     ref = "master";
-    rev = "414e1192da17f873fa5554deef56b9153b9ca15e";
+    rev = "780e928e6cefc6639a80fffd9217c98d6d442fa3";
   };
   my_vim_config = builtins.readFile("${my_dotfiles}/vimrc");
   my_vim_plugins = pkgs.callPackage ./my_vim_plugins.nix {};
@@ -42,7 +42,7 @@ in
     w3m       # web
     poppler   # PDF
     mediainfo # audio and video
-    (vim_configurable.customize {
+    ((vim_configurable.override { python = python3; }).customize {
       name = "v";
       # add my custom .vimrc
       vimrcConfig.customRC = my_vim_config + my_vim_plugins.extraConfig + ''

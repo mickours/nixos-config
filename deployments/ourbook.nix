@@ -9,7 +9,7 @@ in
 rec {
   networking.hostName = "oursbook";
 
-  system.stateVersion = 18.09;
+  system.stateVersion = 19.03;
 
   nix.nixPath = [
         "nixpkgs=/nix/var/nix/profiles/per-user/root/channels/nixos/nixpkgs"
@@ -70,11 +70,14 @@ rec {
   virtualisation = {
     virtualbox.host.enable = true;
     docker.enable = true;
+    docker.extraOptions = "--insecure-registry registry.myryax.minikube:80";
+    libvirtd.enable = true;
   };
 
   environment.systemPackages = with pkgs; [
     (pass.withExtensions (ext: [ext.pass-tomb]))
     skype
+    gnomeExtensions.gsconnect
 
     #libreoffice
     zotero
@@ -82,6 +85,15 @@ rec {
   ];
 
   networking.firewall.enable = false;
+  networking.extraHosts =
+  ''
+    192.168.39.138 myryax.minikube
+    192.168.39.138 api.myryax.minikube
+    192.168.39.138 registry.myryax.minikube
+  '';
+
+  # Add docker and libvirt
+  users.extraUsers.mmercier.extraGroups = [ "docker" "libvirtd" ];
 
   # nixpkgs.config.firefox.enableAdobeFlash = true;
 }
