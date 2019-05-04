@@ -12,15 +12,14 @@
 
   environments.mickours.common.enable = true;
   environments.mickours.graphical.enable = true;
+  environments.mickours.graphical.myuser = "marine";
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  i18n = {
-    consoleKeyMap = "fr";
-    defaultLocale = "fr_FR.UTF-8";
-  };
+  #i18n.consoleKeyMap = "fr";
+  i18n.defaultLocale = "fr_FR.UTF-8";
 
   # Set your time zone.
   time.timeZone = "Europe/Paris";
@@ -84,8 +83,6 @@
   # Enable sound.
   sound.enable = true;
   hardware.pulseaudio.enable = true;
-
-  services.xserver.layout = "fr";
 
   nixpkgs.config.firefox.enableAdobeFlash = true;
 

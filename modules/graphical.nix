@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 let
   pkgs_lists = import ../config/my_pkgs_list.nix { inherit pkgs; };
-  cfg = config.environment.mickours.graphical;
+  cfg = config.environments.mickours.graphical;
 in
   with lib;
   {
@@ -10,6 +10,9 @@ in
     ];
     options.environments.mickours.graphical = {
       enable = mkEnableOption "graphical";
+      myuser = mkOption {
+        type = types.string;
+      };
     };
 
     config = mkIf config.environments.mickours.graphical.enable {
@@ -71,9 +74,9 @@ in
 
         syncthing = {
           enable = true;
-          user = "mmercier";
-          group = "mmercier";
-          dataDir = /home/mmercier/.config/syncthing;
+          user = cfg.myuser;
+          group = cfg.myuser;
+          dataDir = /home + cfg.myuser + /.config/syncthing;
           systemService = false;
         };
       };
@@ -82,8 +85,8 @@ in
       # TODO create an issue...
       #security.pam.services.gdm.enableGnomeKeyring = true;
 
-      # Add extra groups for graphical network and printer management to my user's groups
-      users.extraUsers.mmercier = {
+      # Add gdm to my user's groups
+      users.extraUsers."${cfg.myuser}" = {
         extraGroups = [ "audio" "wheel" "lp" "networkmanager"];
       };
 
@@ -138,11 +141,11 @@ in
       #   # Prevent clobbering SSH_AUTH_SOCK
       #   #home.sessionVariables.GSM_SKIP_SSH_AGENT_WORKAROUND = "1";
 
-      #   # Disable gnome-keyring ssh-agent
-      #   #xdg.configFile."autostart/gnome-keyring-ssh.desktop".text = ''
-      #   #  ${lib.fileContents "${pkgs.gnome3.gnome-keyring}/etc/xdg/autostart/gnome-keyring-ssh.desktop"}
-      #   #  Hidden=true
-      #   #'';
-      # };
+        # Disable gnome-keyring ssh-agent
+        #xdg.configFile."autostart/gnome-keyring-ssh.desktop".text = ''
+        #  ${lib.fileContents "${pkgs.gnome3.gnome-keyring}/etc/xdg/autostart/gnome-keyring-ssh.desktop"}
+        #  Hidden=true
+        #'';
+      };
     };
   }

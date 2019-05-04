@@ -30,21 +30,12 @@
   swapDevices = [ ];
 
   nix.maxJobs = lib.mkDefault 4;
-  
-  #powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
+
+  # Enable periodic SSD TRIM (default weekly)
+  services.fstrim.enable = true;
+
+  boot.kernel.sysctl = { "vm.swappiness" = 10; };
+
+  powerManagement.cpuFreqGovernor = lib.mkDefault "performance";
   hardware.cpu.intel.updateMicrocode = true;
-
-   hardware.pulseaudio = {
-    enable = true;
-
-    # NixOS allows either a lightweight build (default) or full build of PulseAudio to be installed.
-    # Only the full build has Bluetooth support, so it must be selected here.
-    package = pkgs.pulseaudioFull;
-  };
-  hardware.bluetooth.extraConfig = "
-    [general]
-    Enable=Source,Sink,Media,Socket
-  ";
-
-  hardware.bluetooth.enable = true;
 }
