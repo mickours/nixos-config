@@ -1,5 +1,4 @@
 let
-  nixpkgs-stable = (fetchTarball "https://github.com/NixOS/nixpkgs/archive/18.03.tar.gz");
   pkgs = import <nixpkgs> {};
   pkgs_lists = import ../config/my_pkgs_list.nix { inherit pkgs; };
   radicaleCollection = "/data/radicale";
@@ -13,24 +12,40 @@ let
       ./keys/id_rsa_oursbook.pub
       ./keys/id_rsa_roggy.pub
   ];
+
 in
 {
   network.description = "Michael Mercier Personal Network";
 
+  # VPS configuration
   vps =
   { config, pkgs, nodes, lib, ... }:
 
   {
     deployment.targetHost = "176.10.125.101";
+    # manage secrets
+    # FIXME recreate the key each year with:
+    # cd secrets
+    # openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -keyout privateKey.key -out vsftpd.pem
+    #deployment.keys.vsftpdRsaCertFile = {
+    #  text = builtins.readFile ../secrets/vsftpd.pem;
+    #  user = "vsftpd";
+    #  group = "ftp";
+    #  permissions = "0640";
+    #};
 
-    environment.extraInit = "export NIX_PATH=nixpkgs=${nixpkgs-stable}:nixos-config=/etc/nixos/configuration.nix:/nix/var/nix/profiles/per-user/root/channels";
+
+    # environment.extraInit = "export NIX_PATH=nixpkgs=${nixpkgs-stable}:nixos-config=/etc/nixos/configuration.nix:/nix/var/nix/profiles/per-user/root/channels";
 
     imports =
     [
       # Include the results of the hardware scan.
       ./vps-hardware-configuration.nix
       # Mail server
-      (builtins.fetchTarball "https://gitlab.com/simple-nixos-mailserver/nixos-mailserver/-/archive/v2.2.0/nixos-mailserver-v2.2.0.tar.gz")
+      (builtins.fetchTarball {
+        url = "https://gitlab.com/simple-nixos-mailserver/nixos-mailserver/-/archive/v2.2.1/nixos-mailserver-v2.2.1.tar.gz";
+        sha256 = "03d49v8qnid9g9rha0wg2z6vic06mhp0b049s3whccn1axvs2zzx";
+      })
 
       # Blog with Ghost
       # ../blog/service.nix
@@ -55,12 +70,20 @@ in
     # Add root access to mmercier
     users.users.root.openssh.authorizedKeys.keyFiles = myKeys;
 
-    system.stateVersion = "18.03";
+    system.stateVersion = "19.03";
 
     time.timeZone = "Europe/Paris";
 
     # Common config
     lib.environments.mickours.common.enable = true;
+
+    # Add other users
+    users.extraUsers.beatrice = {
+      description = "Béatrice Mayaux";
+      isNormalUser = true;
+      # extraGroups = [ "wheel" ];
+      openssh.authorizedKeys.keyFiles = [ ./keys/id_rsa_beatrice.pub ];
+    };
 
     #*************#
     #    Nginx    #
@@ -98,6 +121,17 @@ in
           # Static file serving
           locations."/files/" = {
             root = "/data/public/mmercier";
+            extraConfig = ''
+              autoindex on;
+            '';
+          };
+        };
+        "jeme.libr.fr" = {
+          locations."/" = {
+            root = "/data/public/beatrice/website";
+          };          # Static file serving
+          locations."/files/" = {
+            root = "/data/public/beatrice";
             extraConfig = ''
               autoindex on;
             '';
@@ -241,6 +275,16 @@ in
     services.tt-rss.selfUrlPath = "https://feeds.libr.fr/";
     services.tt-rss.virtualHost = "feeds.libr.fr";
 
+    #services.vsftpd = {
+    #  enable = true;
+    #  #forceLocalLoginsSSL = true;
+    #  #forceLocalDataSSL = true;
+    #  #userlistDeny = false;
+    #  #localUsers = true;
+    #  anonymousUser = true;
+    #  #userlist = ["beatrice"];
+    #  #rsaCertFile = "/run/keys/vsftpdRsaCertFile";
+    #};
 
     #*************#
     #   Network   #
