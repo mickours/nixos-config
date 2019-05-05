@@ -26,6 +26,7 @@
   };
 
   environments.mickours.graphical.enable = true;
+  environments.mickours.graphical.myuser = "mmercier";
   environments.mickours.development.enable = true;
 
   # Make Steam works

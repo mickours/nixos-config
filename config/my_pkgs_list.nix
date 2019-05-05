@@ -88,7 +88,7 @@ in
     # Utils
     gnome3.gnome-disk-utility
     xorg.xkill
-    wireshark-gtk
+    wireshark-qt
     git-cola
     # storage
     ntfs3g
