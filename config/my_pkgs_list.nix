@@ -7,7 +7,7 @@ let
     ref = "master";
     rev = "780e928e6cefc6639a80fffd9217c98d6d442fa3";
   };
-  my_vim_config = builtins.readFile("${my_dotfiles}/vimrc");
+  my_vim_config = builtins.readFile(builtins.toPath "${my_dotfiles}/vimrc");
   my_vim_plugins = pkgs.callPackage ./my_vim_plugins.nix {};
 in
 {

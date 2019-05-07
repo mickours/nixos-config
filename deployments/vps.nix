@@ -102,7 +102,7 @@ in
 
           # Add reverse proxy for radicale
           locations."/" = {
-            proxyPass = "http://localhost:${toString radicalePort}/";
+            proxyPass = "http://127.0.0.1:${toString radicalePort}/";
             extraConfig = ''
               proxy_set_header  X-Script-Name /;
               proxy_set_header  X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -143,7 +143,7 @@ in
           enableACME = true;
           # Add reverse proxy for radicale
           locations."/" = {
-            proxyPass = "http://localhost:${toString ghostPort}/";
+            proxyPass = "http://127.0.0.1:${toString ghostPort}/";
             extraConfig = ''
               proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
               proxy_set_header Host $http_host;
@@ -171,7 +171,7 @@ in
           );
         in ''
           [server]
-          hosts = localhost:${builtins.toString radicalePort}
+          hosts = 127.0.0.1:${builtins.toString radicalePort}
 
           [auth]
           type = htpasswd
@@ -290,7 +290,7 @@ in
     #   Network   #
     #*************#
     networking = {
-      firewall.allowedTCPPorts = [ radicalePort webPort webSslPort ];
+      firewall.allowedTCPPorts = [ webPort webSslPort ];
     };
 
     #*************#

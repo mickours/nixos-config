@@ -34,6 +34,7 @@ rec {
   };
 
   environments.mickours.graphical.enable = true;
+  environments.mickours.graphical.myuser = "mmercier";
   environments.mickours.development.enable = true;
 
   # Use the systemd-boot EFI boot loader.
@@ -64,7 +65,7 @@ rec {
   ];
 
   # Use LTS kernel
-  boot.kernelPackages = pkgs.linuxPackages_4_9;
+  # boot.kernelPackages = pkgs.linuxPackages_4_9;
 
   # Add virtualbox and docker
   virtualisation = {
@@ -87,9 +88,9 @@ rec {
   networking.firewall.enable = false;
   networking.extraHosts =
   ''
-    192.168.39.138 myryax.minikube
-    192.168.39.138 api.myryax.minikube
-    192.168.39.138 registry.myryax.minikube
+    192.168.39.206 myryax.minikube
+    192.168.39.206 api.myryax.minikube
+    192.168.39.206 registry.myryax.minikube
   '';
 
   # Add docker and libvirt

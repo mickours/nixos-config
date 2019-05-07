@@ -69,6 +69,11 @@ with lib;
       set completion-ignore-case on
     '';
 
+    # Avoid journald to store GigaBytes of logs
+    services.journald.extraConfig = ''
+      SystemMaxUse=1G
+    '';
+
     # Add my user
     users.extraUsers.mmercier = {
       description = "Michael Mercier";
