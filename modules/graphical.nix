@@ -55,7 +55,7 @@ in
         avahi.enable = true;
         avahi.nssmdns = true;
 
-        # Enable the X11 windowing system.
+        # Enable the windowing system.
         xserver = {
           enable = true;
           layout = "fr";
@@ -76,7 +76,7 @@ in
           enable = true;
           user = cfg.myuser;
           group = cfg.myuser;
-          dataDir = /home + cfg.myuser + /.config/syncthing;
+          dataDir = /home + ("/" + cfg.myuser);
           systemService = false;
         };
       };
@@ -104,48 +104,13 @@ in
       # enable cron table
       services.cron.enable = true;
 
-      # for system monitor gnome extension (maybe it not necessary anymore)
-      services.xserver.desktopManager.gnome3.sessionPath = [
-        pkgs.json_glib
-        pkgs.glib_networking
-        pkgs.libgtop
-      ];
       # Add Workaround for USB 3 Scanner for SANE
       # See http://sane-project.org/ Note 3
       environment.variables.SANE_USB_WORKAROUND = "1";
 
-      # WARNING extensions need to be installed in the browser AND links have
-      # to be created in .mozilla, see for full workaround:
-      # https://github.com/NixOS/nixpkgs/issues/47340)
-      # Now done with home-manager (see below)
+      programs.browserpass.enable = true;
       nixpkgs.config.firefox.enableBrowserpass = true;
       nixpkgs.config.firefox.enableGnomeExtensions = true;
 
-      #services.gnome3.chrome-gnome-shell.enable = true;
-
-      #nixpkgs.config.packageOverrides = pkgs: rec
-      #{
-      #  gnome3 = pkgs.gnome3.overrideDerivation (gnomepkgs: rec {
-      #    gnome-keyring = pkgs.gnome3.gnome-keyring.overrideAttrs (attrs: {
-      #      configureFlags = attrs.configureFlags ++ ["--disable-ssh-agent"];
-      #    });
-      #  });
-      #};
-
-
-
-      # home-manager.users.mmercier = {
-      #   # home.file.".mozilla/native-messaging-hosts/com.dannyvankooten.browserpass.json".source = "${pkgs.browserpass}/lib/mozilla/native-messaging-hosts/com.dannyvankooten.browserpass.json";
-      #   # home.file.".mozilla/native-messaging-hosts/org.gnome.chrome_gnome_shell.json".source = "${pkgs.chrome-gnome-shell}/lib/mozilla/native-messaging-hosts/org.gnome.chrome_gnome_shell.json";
-      #   # Make ssh-agent works: see https://github.com/NixOS/nixpkgs/issues/42291
-      #   # Prevent clobbering SSH_AUTH_SOCK
-      #   #home.sessionVariables.GSM_SKIP_SSH_AGENT_WORKAROUND = "1";
-
-        # Disable gnome-keyring ssh-agent
-        #xdg.configFile."autostart/gnome-keyring-ssh.desktop".text = ''
-        #  ${lib.fileContents "${pkgs.gnome3.gnome-keyring}/etc/xdg/autostart/gnome-keyring-ssh.desktop"}
-        #  Hidden=true
-        #'';
-      #};
     };
   }

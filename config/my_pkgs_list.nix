@@ -107,7 +107,7 @@ in
     graphviz
     imagemagick
     inkscape
-    libreoffice-fresh
+    #libreoffice-fresh
     gimp
   ];
 
