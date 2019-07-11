@@ -76,7 +76,7 @@ in
           enable = true;
           user = cfg.myuser;
           group = cfg.myuser;
-          dataDir = /home + ("/" + cfg.myuser);
+          dataDir = /home + cfg.myuser + /.config/syncthing;
           systemService = false;
         };
       };
@@ -96,7 +96,7 @@ in
         ultimate.enable = true;
       };
       # Add micro$oft fonts
-      fonts.fonts = [ pkgs.corefonts ];
+      fonts.fonts = with pkgs; [ corefonts helvetica-neue-lt-std twemoji-color-font ];
 
       # every machine should be running antivirus
       services.clamav.updater.enable = true;

@@ -106,33 +106,40 @@ rec {
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  # Use LTS kernel
-  boot.kernelPackages = pkgs.linuxPackages_4_9;
-
   # Add virtualbox and docker
   virtualisation = {
     virtualbox.host.enable = true;
     docker.enable = true;
-    docker.extraOptions = "--insecure-registry registry.myryax.minikube:80";
+    docker.extraOptions = "--insecure-registry registry.ryax.local:80";
+    docker.enableNvidia = true;
     libvirtd.enable = true;
   };
+
+  # Add docker and libvirt users
+  users.extraUsers.mmercier.extraGroups = [ "docker" "libvirtd" ];
 
   environment.systemPackages = with pkgs; [
     lm_sensors
     pass
     gnomeExtensions.gsconnect
+    linuxPackages_latest.acpi_call
 
     #libreoffice
     zotero
     gnome3.pomodoro
   ];
 
+  # Ryax related
+  services.zerotierone = {
+      enable = true;
+      joinNetworks = ["8267aa80ea375ab2"]; # One of these has a managed route
+    };
+
   networking.firewall.enable = false;
   networking.extraHosts =
   ''
-    192.168.39.206 myryax.minikube
-    192.168.39.206 api.myryax.minikube
-    192.168.39.206 registry.myryax.minikube
+    127.0.0.1 ryax.local api.ryax.local registry.ryax.local monitor.ryax.local
   '';
+  #security.pki.certificateFiles = [ /home/mmercier/certs/domain.crt ];
 }
 
