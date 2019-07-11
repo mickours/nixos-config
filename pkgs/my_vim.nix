@@ -20,10 +20,9 @@ let
     gitgutter
     The_NERD_tree
     The_NERD_Commenter
-    vim-easytags
-    vim-misc
     LanguageClient-neovim
     Tagbar
+    vim-gutentags
     vim-orgmode
     multiple-cursors
     vim-nix
@@ -34,6 +33,7 @@ let
     vim-trailing-whitespace
     vim-grammarous
     csv
+    gruvbox
     # custom plugins
     customPlugins.vim-sublime-monokai
     customPlugins.autocomplpop
@@ -42,7 +42,7 @@ let
   my_dotfiles = builtins.fetchGit {
     url = https://github.com/mickours/dotfiles;
     ref = "master";
-    rev = "414e1192da17f873fa5554deef56b9153b9ca15e";
+    rev = "9493e5dc8162c596ac21a3fdd3a73a955a9cb825";
   };
 
   my_vim_config = builtins.readFile("${my_dotfiles}/vimrc");

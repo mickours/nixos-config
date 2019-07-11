@@ -5,7 +5,7 @@ let
   my_dotfiles = builtins.fetchGit {
     url = https://github.com/mickours/dotfiles;
     ref = "master";
-    rev = "780e928e6cefc6639a80fffd9217c98d6d442fa3";
+    rev = "9493e5dc8162c596ac21a3fdd3a73a955a9cb825";
   };
   my_vim_config = builtins.readFile(builtins.toPath "${my_dotfiles}/vimrc");
   my_vim_plugins = pkgs.callPackage ./my_vim_plugins.nix {};

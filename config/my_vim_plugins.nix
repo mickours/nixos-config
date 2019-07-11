@@ -14,6 +14,16 @@ let
       src = pkgs.fzf;
       buildInputs = pkgs.fzf.buildInputs;
     };
+    #coc = vimUtils.buildVimPlugin rec {
+    #  pname = "coc.nvim";
+    #  version = "v0.0.72";
+    #  name = "${pname}-${version}";
+    #  src = fetchTarball "https://github.com/neoclide/coc.nvim/archive/${version}.tar.gz";
+    #  buildInputs = [ pkgs.yarn pkgs.nodejs ];
+    #  buildPhase = ''
+    #    yarn install --frozen-lockfile --offline
+    #  '';
+    #};
   };
 in
 {
@@ -25,10 +35,11 @@ in
     gitgutter
     The_NERD_tree
     The_NERD_Commenter
-    vim-easytags
-    vim-misc
     LanguageClient-neovim
+    #vim-easytags
+    #vim-misc
     Tagbar
+    vim-gutentags
     vim-orgmode
     multiple-cursors
     vim-nix
@@ -39,13 +50,15 @@ in
     vim-trailing-whitespace
     vim-grammarous
     csv
-    (fzf-vim.overrideAttrs (_: {
-      src = fetchTarball https://github.com/junegunn/fzf.vim/archive/master.tar.gz;
-    }))
+    #(fzf-vim.overrideAttrs (_: {
+    #  src = fetchTarball https://github.com/junegunn/fzf.vim/archive/master.tar.gz;
+    #}))
+    gruvbox
     # custom plugins
     customPlugins.vim-sublime-monokai
     customPlugins.autocomplpop
-    customPlugins.fzf
+    #customPlugins.coc
+    #customPlugins.fzf
   ];
 
   extraConfig = ''
@@ -61,6 +74,7 @@ in
     rustup
     go-langserver
     llvmPackages.libclang
+    cquery
     # NOT WORKING DUE TO sha256 mismatch
     #(nur.repos.mic92.nix-lsp.overrideAttrs (attr: {
     #  cargoSha256 = "13fhaspvrgymbbr230j41ppbz3a5qm12xl667cs7x888h0jvsp5g";
