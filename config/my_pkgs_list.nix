@@ -5,7 +5,7 @@ let
   my_dotfiles = builtins.fetchGit {
     url = https://github.com/mickours/dotfiles;
     ref = "master";
-    rev = "9493e5dc8162c596ac21a3fdd3a73a955a9cb825";
+    rev = "dfce2b15b8ccb4a91f4d459cb0dfa9cd5888c4ee";
   };
   my_vim_config = builtins.readFile(builtins.toPath "${my_dotfiles}/vimrc");
   my_vim_plugins = pkgs.callPackage ./my_vim_plugins.nix {};
@@ -45,7 +45,7 @@ in
     ((vim_configurable.override { python = python3; }).customize {
       name = "v";
       # add my custom .vimrc
-      vimrcConfig.customRC = my_vim_config + my_vim_plugins.extraConfig + ''
+      vimrcConfig.customRC = my_vim_config + ''
       '';
       vimrcConfig.packages.myVimPackage = {
           # loaded on launch
@@ -70,6 +70,8 @@ in
   graphical = [
     # Gnome stuff
     gnomeExtensions.system-monitor
+    gnome3.evolution
+    evolution-data-server
 
     # Web
     firefox
@@ -81,7 +83,6 @@ in
     skype
     gnome3.polari
     liferea
-    rambox
 
     # Media
     vlc

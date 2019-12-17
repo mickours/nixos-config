@@ -6,7 +6,7 @@
 rec {
   networking.hostName = "oursbook2";
 
-  system.stateVersion = 19.03;
+  system.stateVersion = "19.09";
 
   nix.nixPath = [
         "nixpkgs=/nix/var/nix/profiles/per-user/root/channels/nixos/nixpkgs"
