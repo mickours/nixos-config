@@ -122,7 +122,7 @@ rec {
     lm_sensors
     pass
     gnomeExtensions.gsconnect
-    linuxPackages_latest.acpi_call
+    linuxPackages.acpi_call
 
     #libreoffice
     zotero
@@ -141,5 +141,15 @@ rec {
     127.0.0.1 ryax.local api.ryax.local registry.ryax.local monitor.ryax.local
   '';
   #security.pki.certificateFiles = [ /home/mmercier/certs/domain.crt ];
+
+  systemd.services.vpc-backups = rec {
+    description = "Backup my vpc (${startAt})";
+    startAt = "daily";
+
+    serviceConfig = {
+      User = "mmercier";
+      ExecStart = "/run/current-system/sw/bin/rsync -avz vpc:/data /home/mmercier/Backups/vpc";
+    };
+  };
 }
 

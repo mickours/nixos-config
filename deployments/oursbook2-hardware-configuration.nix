@@ -60,7 +60,7 @@
   #boot.kernelPackages = pkgs.linuxPackages_4_9;
 
   # Use latest kernel
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  #boot.kernelPackages = pkgs.linuxPackages_latest;
 
   # Keep me updated
   services.fwupd.enable = true;
