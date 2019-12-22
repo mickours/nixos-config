@@ -126,32 +126,32 @@ in
             '';
           };
         };
-        "jeme.libr.fr" = {
-          locations."/" = {
-            root = "/data/public/beatrice/website";
-          };          # Static file serving
-          locations."/files/" = {
-            root = "/data/public/beatrice";
-            extraConfig = ''
-              autoindex on;
-            '';
-          };
-        };
+        #"jeme.libr.fr" = {
+        #  locations."/" = {
+        #    root = "/data/public/beatrice/website";
+        #  };          # Static file serving
+        #  locations."/files/" = {
+        #    root = "/data/public/beatrice";
+        #    extraConfig = ''
+        #      autoindex on;
+        #    '';
+        #  };
+        #};
 
-        "ca.libr.fr" = {
-          forceSSL = true;
-          enableACME = true;
-          # Add reverse proxy for radicale
-          locations."/" = {
-            proxyPass = "http://127.0.0.1:${toString ghostPort}/";
-            extraConfig = ''
-              proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-              proxy_set_header Host $http_host;
-              proxy_set_header X-Forwarded-Proto $scheme;
-              proxy_buffering off;
-            '';
-          };
-        };
+        #"ca.libr.fr" = {
+        #  forceSSL = true;
+        #  enableACME = true;
+        #  # Add reverse proxy for radicale
+        #  locations."/" = {
+        #    proxyPass = "http://127.0.0.1:${toString ghostPort}/";
+        #    extraConfig = ''
+        #      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        #      proxy_set_header Host $Host;
+        #      proxy_set_header X-Forwarded-Proto $scheme;
+        #      proxy_buffering off;
+        #    '';
+        #  };
+        #};
       };
     };
 
