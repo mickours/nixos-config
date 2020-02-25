@@ -28,8 +28,8 @@ with lib;
     };
 
     # Keyboard and locale support
+    console.keyMap = "fr";
     i18n = {
-      consoleKeyMap = "fr";
       #defaultLocale = "en_US.UTF-8";
       extraLocaleSettings = { LC_MESSAGES = "en_US.UTF-8"; LC_TIME = "fr_FR.UTF-8"; };
       inputMethod.ibus.engines = with pkgs.ibus-engines; [ typing-booster ];

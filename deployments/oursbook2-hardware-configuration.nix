@@ -37,16 +37,15 @@
     };
 
   boot.initrd.luks.devices =
-  [
     {
-      name = "root";
-      device = "/dev/disk/by-uuid/c3894b66-f79c-465f-b11e-32b78035fa46";
-      keyFile = "/dev/disk/by-id/usb-SanDisk_Cruzer_Switch_4C532000061005117093-0:0";
-      keyFileSize = 256;
-      allowDiscards = true;
-      fallbackToPassword = true;
-    }
-  ];
+      "root" = {
+        device = "/dev/disk/by-uuid/c3894b66-f79c-465f-b11e-32b78035fa46";
+        keyFile = "/dev/disk/by-id/usb-SanDisk_Cruzer_Switch_4C532000061005117093-0:0";
+        keyFileSize = 256;
+        allowDiscards = true;
+        fallbackToPassword = true;
+      };
+    };
   fileSystems."/boot" =
     { device = "/dev/disk/by-uuid/9D78-C770";
       fsType = "vfat";

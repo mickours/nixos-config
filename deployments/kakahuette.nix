@@ -26,12 +26,6 @@
 
   nixpkgs.config.allowUnfree = true;
 
-  # Make fonts better...
-  fonts.fontconfig = {
-    enable = true;
-    ultimate.enable = true;
-  };
-
   fonts.fonts = [
     pkgs.corefonts
     pkgs.dejavu_fonts

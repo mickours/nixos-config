@@ -11,7 +11,7 @@ in
     options.environments.mickours.graphical = {
       enable = mkEnableOption "graphical";
       myuser = mkOption {
-        type = types.string;
+        type = types.str;
       };
     };
 
@@ -33,10 +33,11 @@ in
         '';
       };
       hardware.bluetooth.enable = true;
-      hardware.bluetooth.extraConfig = ''
-        [General]
-        Enable=Source,Sink,Media,Socket
-      '';
+      hardware.bluetooth.config = {
+        General = {
+          Enable = "Source,Sink,Media,Socket";
+        };
+      };
 
       services = {
         # Install but disable open SSH
@@ -93,7 +94,6 @@ in
       # Make fonts better...
       fonts.fontconfig = {
         enable = true;
-        ultimate.enable = true;
       };
       # Add micro$oft fonts
       fonts.fonts = with pkgs; [ corefonts helvetica-neue-lt-std twemoji-color-font ];
