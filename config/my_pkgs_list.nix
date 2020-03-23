@@ -5,7 +5,7 @@ let
   my_dotfiles = builtins.fetchGit {
     url = https://github.com/mickours/dotfiles;
     ref = "master";
-    rev = "dfce2b15b8ccb4a91f4d459cb0dfa9cd5888c4ee";
+    rev = "f7ee7368682e4b8b319344be009034443602e228";
   };
   my_vim_config = builtins.readFile(builtins.toPath "${my_dotfiles}/vimrc");
   my_vim_plugins = pkgs.callPackage ./my_vim_plugins.nix {};
@@ -91,6 +91,7 @@ in
     xorg.xkill
     wireshark-qt
     git-cola
+    gitg
     # storage
     ntfs3g
     exfat
@@ -116,7 +117,7 @@ in
   [
     gitAndTools.gitFull
     python3
-    python2
+    python37Packages.glances
     gcc
     ctags
     gnumake
@@ -126,6 +127,13 @@ in
     direnv
     entr
     pandoc
+    socat
+    # Day to day use in Ryax
+    cachix
+    kubernetes-helm
+    kubectl
+    k9s
+    pssh
     # Editors
     emacs
     # Web Site

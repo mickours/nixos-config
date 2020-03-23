@@ -29,30 +29,42 @@ let
     coc-json
     coc-html
     coc-css
+    fzf-vim
+    # TODO this should be easier: like fzf-vim should be enough
+    fzfWrapper
   ];
 
   my_dotfiles = builtins.fetchGit {
     url = https://github.com/mickours/dotfiles;
     ref = "master";
-    rev = "dfce2b15b8ccb4a91f4d459cb0dfa9cd5888c4ee";
+    rev = "f7ee7368682e4b8b319344be009034443602e228";
   };
 
   my_vim_config = builtins.readFile("${my_dotfiles}/vimrc");
 in
-(vim_configurable.customize {
-    name = "v";
-    # add my custom .vimrc
-    vimrcConfig.customRC = my_vim_config + ''
-    '';
-    vimrcConfig.plug.plugins = plugins;
-    #vimrcConfig.packages.myVimPackage = {
-    #    # loaded on launch
-    #    start = plugins;
-    #    # manually loadable by calling `:packadd $plugin-name`
-    #    opt = [  ];
-    #    # To automatically load a plugin when opening a filetype, add vimrc lines like:
-    #    # autocmd FileType php :packadd phpCompletion
-    #};
-  }
-)
+(neovim.override {
+  configure = {
+    packages.myVimPackage = {
+      # see examples below how to use custom packages
+      start = plugins;
+      opt = [ ];
+    };
+  };
+})
+#(vim_configurable.customize {
+#    name = "v";
+#    # add my custom .vimrc
+#    vimrcConfig.customRC = my_vim_config + ''
+#    '';
+#    vimrcConfig.plug.plugins = plugins;
+#    #vimrcConfig.packages.myVimPackage = {
+#    #    # loaded on launch
+#    #    start = plugins;
+#    #    # manually loadable by calling `:packadd $plugin-name`
+#    #    opt = [  ];
+#    #    # To automatically load a plugin when opening a filetype, add vimrc lines like:
+#    #    # autocmd FileType php :packadd phpCompletion
+#    #};
+#  }
+#)
 

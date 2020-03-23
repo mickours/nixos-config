@@ -22,6 +22,7 @@
     vim-grammarous
     csv
     gruvbox
+    coc-nvim
   ];
 
   dependencies = with pkgs; [
@@ -30,6 +31,8 @@
     go-langserver
     llvmPackages.libclang
     cquery
+    # For coc
+    nodejs
     # NOT WORKING DUE TO sha256 mismatch
     #(nur.repos.mic92.nix-lsp.overrideAttrs (attr: {
     #  cargoSha256 = "13fhaspvrgymbbr230j41ppbz3a5qm12xl667cs7x888h0jvsp5g";
