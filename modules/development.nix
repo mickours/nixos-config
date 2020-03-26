@@ -41,6 +41,5 @@ in
         };
 
         nix.buildCores = 0;
-        programs.gnupg.agent.enable = true;
     };
   }

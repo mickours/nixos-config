@@ -23,6 +23,14 @@
     csv
     gruvbox
     coc-nvim
+    coc-python
+    coc-yaml
+    coc-json
+    coc-html
+    coc-css
+    fzf-vim
+    # TODO this should be easier: like fzf-vim should be enough
+    fzfWrapper
   ];
 
   dependencies = with pkgs; [

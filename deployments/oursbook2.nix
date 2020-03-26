@@ -6,7 +6,7 @@
 rec {
   networking.hostName = "oursbook2";
 
-  system.stateVersion = "19.09";
+  system.stateVersion = "20.03";
 
   nix.nixPath = [
         "nixpkgs=/nix/var/nix/profiles/per-user/root/channels/nixos/nixpkgs"
@@ -46,6 +46,8 @@ rec {
     docker.enableNvidia = true;
     libvirtd.enable = true;
   };
+
+  programs.singularity.enable = true;
 
   # Add docker and libvirt users
   users.extraUsers.mmercier.extraGroups = [ "docker" "libvirtd" ];
