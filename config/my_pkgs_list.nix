@@ -78,10 +78,8 @@ in
     aspellDicts.fr
     aspellDicts.en
     # Message and RSS
-    skype
     gnome3.polari
     liferea
-    rambox
 
     # Media
     vlc

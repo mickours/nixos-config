@@ -64,6 +64,8 @@
   environment.systemPackages = with pkgs; [
     # Web
     firefox
+    # work
+    libreoffice
     # Media
     transmission_gtk
     ## Enable numock by default
@@ -83,8 +85,6 @@
   # Enable sound.
   sound.enable = true;
   hardware.pulseaudio.enable = true;
-
-  nixpkgs.config.firefox.enableAdobeFlash = true;
 
   users.extraUsers.marine = {
     isNormalUser = true;

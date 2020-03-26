@@ -31,7 +31,7 @@ with lib;
     i18n = {
       consoleKeyMap = "fr";
       #defaultLocale = "en_US.UTF-8";
-      extraLocaleSettings = { LC_MESSAGES = "en_US.UTF-8"; LC_TIME = "fr_FR.UTF-8"; };
+      # extraLocaleSettings = { LC_MESSAGES = "en_US.UTF-8"; LC_TIME = "fr_FR.UTF-8"; };
     };
 
     programs = {
