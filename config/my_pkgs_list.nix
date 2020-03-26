@@ -5,7 +5,7 @@ let
   my_dotfiles = builtins.fetchGit {
     url = https://github.com/mickours/dotfiles;
     ref = "master";
-    rev = "9493e5dc8162c596ac21a3fdd3a73a955a9cb825";
+    rev = "f7ee7368682e4b8b319344be009034443602e228";
   };
   my_vim_config = builtins.readFile(builtins.toPath "${my_dotfiles}/vimrc");
   my_vim_plugins = pkgs.callPackage ./my_vim_plugins.nix {};
@@ -45,7 +45,7 @@ in
     ((vim_configurable.override { python = python3; }).customize {
       name = "v";
       # add my custom .vimrc
-      vimrcConfig.customRC = my_vim_config + my_vim_plugins.extraConfig + ''
+      vimrcConfig.customRC = my_vim_config + ''
       '';
       vimrcConfig.packages.myVimPackage = {
           # loaded on launch
@@ -70,6 +70,8 @@ in
   graphical = [
     # Gnome stuff
     gnomeExtensions.system-monitor
+    gnome3.evolution
+    evolution-data-server
 
     # Web
     firefox
@@ -88,6 +90,7 @@ in
     xorg.xkill
     wireshark-qt
     git-cola
+    gitg
     # storage
     ntfs3g
     exfat
@@ -113,7 +116,7 @@ in
   [
     gitAndTools.gitFull
     python3
-    python2
+    python37Packages.glances
     gcc
     ctags
     gnumake
@@ -123,6 +126,13 @@ in
     direnv
     entr
     pandoc
+    socat
+    # Day to day use in Ryax
+    cachix
+    kubernetes-helm
+    kubectl
+    k9s
+    pssh
     # Editors
     emacs
     # Web Site

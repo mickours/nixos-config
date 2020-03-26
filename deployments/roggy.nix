@@ -25,9 +25,13 @@
     ];
   };
 
+  i18n.defaultLocale = "fr_FR.UTF-8";
+
   environments.mickours.graphical.enable = true;
   environments.mickours.graphical.myuser = "mmercier";
   environments.mickours.development.enable = true;
+
+  nixpkgs.config.allowUnfree = true;
 
   # Make Steam works
   users.users.mmercier.packages = [ pkgs.steam ];
@@ -37,5 +41,10 @@
   networking.firewall.enable = false;
 
   environment.systemPackages = [ pkgs.libaacs ];
+
+  users.extraUsers.marine = {
+    isNormalUser = true;
+    extraGroups = [ "wheel" "lp" "networkmanager" ];
+  };
 }
 
