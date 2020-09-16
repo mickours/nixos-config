@@ -70,7 +70,7 @@ in
     # Add root access to mmercier
     users.users.root.openssh.authorizedKeys.keyFiles = myKeys;
 
-    system.stateVersion = "19.03";
+    system.stateVersion = "20.03";
 
     time.timeZone = "Europe/Paris";
 
@@ -82,8 +82,12 @@ in
       description = "Béatrice Mayaux";
       isNormalUser = true;
       # extraGroups = [ "wheel" ];
-      openssh.authorizedKeys.keyFiles = [ ./keys/id_rsa_beatrice.pub ];
+      openssh.authorizedKeys.keyFiles = [ ./keys/id_rsa_beatrice.pub ./keys/id_rsa_oursbook.pub ];
     };
+
+    # Let's encrypt security settings of ACME
+    security.acme.email = "admin@libr.fr";
+    security.acme.acceptTerms = true;
 
     #*************#
     #    Nginx    #
@@ -126,17 +130,19 @@ in
             '';
           };
         };
-        #"jeme.libr.fr" = {
-        #  locations."/" = {
-        #    root = "/data/public/beatrice/website";
-        #  };          # Static file serving
-        #  locations."/files/" = {
-        #    root = "/data/public/beatrice";
-        #    extraConfig = ''
-        #      autoindex on;
-        #    '';
-        #  };
-        #};
+        "jeme.libr.fr" = {
+          forceSSL = true;
+          enableACME = true;
+          locations."/" = {
+            root = "/data/public/beatrice/website";
+          };          # Static file serving
+          locations."/files/" = {
+            root = "/data/public/beatrice";
+            extraConfig = ''
+              autoindex on;
+            '';
+          };
+        };
 
         #"ca.libr.fr" = {
         #  forceSSL = true;
@@ -221,6 +227,7 @@ in
               "info@libr.fr"
               "postmaster@libr.fr"
               "abuse@libr.fr"
+              "admin@libr.fr"
               "michael.mercier@libr.fr"
             ];
           };
@@ -301,6 +308,7 @@ in
       wget
       git # Needed for radicale backup
       rsync # for backups
+      goaccess # For web site traffic analytics
     ] ++ pkgs_lists.common;
   };
 

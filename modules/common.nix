@@ -39,6 +39,7 @@ with lib;
     # Enable system wide zsh and ssh agent
       zsh.enable = true;
       ssh.startAgent = true;
+      gnupg.agent.enable = true;
 
       bash = {
         enableCompletion = true;
