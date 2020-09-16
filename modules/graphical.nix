@@ -50,7 +50,7 @@ in
         printing = {
           enable = true;
           browsing = true;
-          drivers = [ pkgs.samsung-unified-linux-driver ];
+          drivers = [ pkgs.samsung-unified-linux-driver pkgs.hplipWithPlugin ];
         };
         # Needed for printer discovery
         avahi.enable = true;

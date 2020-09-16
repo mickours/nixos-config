@@ -56,7 +56,7 @@
     ];
 
   # Use LTS kernel
-  #boot.kernelPackages = pkgs.linuxPackages_4_9;
+  #boot.kernelPackages = pkgs.linuxPackages_4_19;
 
   # Use latest kernel
   #boot.kernelPackages = pkgs.linuxPackages_latest;

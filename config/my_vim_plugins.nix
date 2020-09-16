@@ -10,7 +10,6 @@
     The_NERD_Commenter
     LanguageClient-neovim
     Tagbar
-    vim-gutentags
     vim-orgmode
     multiple-cursors
     vim-nix
@@ -23,14 +22,10 @@
     csv
     gruvbox
     coc-nvim
-    coc-python
     coc-yaml
     coc-json
     coc-html
     coc-css
-    fzf-vim
-    # TODO this should be easier: like fzf-vim should be enough
-    fzfWrapper
   ];
 
   dependencies = with pkgs; [
@@ -38,7 +33,7 @@
     rustup
     go-langserver
     llvmPackages.libclang
-    cquery
+    ccls
     # For coc
     nodejs
     # NOT WORKING DUE TO sha256 mismatch
@@ -48,7 +43,7 @@
     (python3.withPackages(ps: with ps; [
       python-language-server
       # the following plugins are optional, they provide type checking, import sorting and code formatting
-      pyls-mypy pyls-isort pyls-black jedi pylama
+      black jedi pylama
     ]))
   ];
 }

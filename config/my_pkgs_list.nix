@@ -72,6 +72,7 @@ in
     gnomeExtensions.system-monitor
     gnome3.evolution
     evolution-data-server
+    gnome-firmware-updater
 
     # Web
     firefox
@@ -86,6 +87,9 @@ in
 
     # Media
     vlc
+    gthumb
+    obs-studio
+    obs-wlrobs
     # Utils
     gnome3.gnome-disk-utility
     xorg.xkill
@@ -117,7 +121,7 @@ in
   [
     gitAndTools.gitFull
     python3
-    python37Packages.glances
+    gotop
     gcc
     ctags
     gnumake
@@ -145,6 +149,7 @@ in
     # printers
     saneBackends
     samsungUnifiedLinuxDriver
+    hplipWithPlugin
     # fun
     fortune
     sl

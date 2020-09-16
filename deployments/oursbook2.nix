@@ -1,12 +1,12 @@
 { config,
-  pkgs ? import ../nixpkgs { },
+  pkgs,
   lib,
   ...
 }:
 rec {
   networking.hostName = "oursbook2";
 
-  system.stateVersion = "20.03";
+  system.stateVersion = "20.09";
 
   nix.nixPath = [
         "nixpkgs=/nix/var/nix/profiles/per-user/root/channels/nixos/nixpkgs"
@@ -59,6 +59,7 @@ rec {
     linuxPackages.acpi_call
     zoom-us
     pulseeffects
+    citrix_workspace
 
     #libreoffice
     zotero
