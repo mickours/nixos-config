@@ -19,7 +19,7 @@ in
 
   # VPS configuration
   vps =
-  { config, pkgs, nodes, lib, inputs, ... }:
+  { config, pkgs, nodes, lib, simple-nixos-mailserver, ... }:
 
   {
     deployment.targetHost = "176.10.125.101";
@@ -42,7 +42,7 @@ in
       # Include the results of the hardware scan.
       ./vps-hardware-configuration.nix
       # Mail server
-      "${inputs.simple-nixos-mailserver}"
+      "${simple-nixos-mailserver}"
 
       # Blog with Ghost
       # ../blog/service.nix

@@ -1,71 +1,6 @@
 {
   "nodes": {
-    "NUR": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1601957635,
-        "narHash": "sha256-JonqnfjQ+z57RShXaKKdIujID7FkeU5hbPdxQBZvJVc=",
-        "owner": "nix-community",
-        "repo": "NUR",
-        "rev": "08839c9ad3bbbb478bf8839dfd7d2eeba000ea9a",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nix-community",
-        "repo": "NUR",
-        "type": "github"
-      }
-    },
-    "home-manager": {
-      "inputs": {
-        "nixpkgs": "nixpkgs"
-      },
-      "locked": {
-        "lastModified": 1600463964,
-        "narHash": "sha256-sMOleAVVaEzD2oc0TNnODFTv8rCKau7c1N1jWRGiLio=",
-        "owner": "rycee",
-        "repo": "home-manager",
-        "rev": "c5fbe2c4c2369c7fa565e806556444c1346eb015",
-        "type": "github"
-      },
-      "original": {
-        "owner": "rycee",
-        "ref": "bqv-flakes",
-        "repo": "home-manager",
-        "type": "github"
-      }
-    },
-    "my_dotfiles": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1584799373,
-        "narHash": "sha256-yjYh1QCvo2vtLOK7nYI72ANfM4cEPM46YoHDvuTcvcg=",
-        "owner": "mickours",
-        "repo": "dotfiles",
-        "rev": "f7ee7368682e4b8b319344be009034443602e228",
-        "type": "github"
-      },
-      "original": {
-        "owner": "mickours",
-        "repo": "dotfiles",
-        "type": "github"
-      }
-    },
     "nixpkgs": {
-      "locked": {
-        "lastModified": 1591748508,
-        "narHash": "sha256-GdYYaYsSBgYUhbDT1JJQ7vEgo8FWeW/AW7/qqJuCvRA=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "1d8c4410687390f9b8f92dbe6ff39fd8fc2b17c6",
-        "type": "github"
-      },
-      "original": {
-        "id": "nixpkgs",
-        "type": "indirect"
-      }
-    },
-    "nixpkgs_2": {
       "locked": {
         "lastModified": 1601867610,
         "narHash": "sha256-WXnfYu9JiA7m2/nbYls99ZsUj6aQZemaRPF13Qd3ZhM=",
@@ -83,28 +18,7 @@
     },
     "root": {
       "inputs": {
-        "NUR": "NUR",
-        "home-manager": "home-manager",
-        "my_dotfiles": "my_dotfiles",
-        "nixpkgs": "nixpkgs_2",
-        "simple-nixos-mailserver": "simple-nixos-mailserver"
-      }
-    },
-    "simple-nixos-mailserver": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1602014023,
-        "narHash": "sha256-gryn8Kl3wB8TrfbCbbjiTRDdGaCaQD06FT89SVYxxR8=",
-        "ref": "nixos-20.09",
-        "rev": "98dc40046eb28a03da3e88d3a14b35cad911cb12",
-        "revCount": 449,
-        "type": "git",
-        "url": "https://gitlab.com/simple-nixos-mailserver/nixos-mailserver"
-      },
-      "original": {
-        "ref": "nixos-20.09",
-        "type": "git",
-        "url": "https://gitlab.com/simple-nixos-mailserver/nixos-mailserver"
+        "nixpkgs": "nixpkgs"
       }
     }
   },

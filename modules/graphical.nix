@@ -1,4 +1,4 @@
-{ config, lib, pkgs, inputs, ... }:
+{ config, lib, pkgs, home-manager, ... }:
 let
   pkgs_lists = import ../config/my_pkgs_list.nix { inherit pkgs; };
   cfg = config.environments.mickours.graphical;
@@ -6,7 +6,7 @@ in
   with lib;
   {
     imports = [
-      "${inputs.home-manager}/nixos"
+      "${home-manager}/nixos"
     ];
     options.environments.mickours.graphical = {
       enable = mkEnableOption "graphical";

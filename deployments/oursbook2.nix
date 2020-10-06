@@ -1,6 +1,6 @@
 { config,
-  pkgs,
   lib,
+  pkgs,
   ...
 }:
 rec {
@@ -15,22 +15,22 @@ rec {
 
   imports = [
     ./oursbook2-hardware-configuration.nix
-    ../modules/common.nix
-    ../modules/development.nix
-    ../modules/graphical.nix
+    #../modules/common.nix
+    #../modules/development.nix
+    #../modules/graphical.nix
   ];
 
-  environments.mickours.common = {
-    enable = true;
-    keyFiles = [
-      ./keys/id_rsa_oursbook.pub
-      ./keys/id_rsa_roggy.pub
-    ];
-  };
+  # environments.mickours.common = {
+  #  enable = true;
+  #  keyFiles = [
+  #    ./keys/id_rsa_oursbook.pub
+  #    ./keys/id_rsa_roggy.pub
+  #  ];
+  #};
 
-  environments.mickours.graphical.enable = true;
-  environments.mickours.graphical.myuser = "mmercier";
-  environments.mickours.development.enable = true;
+  # environments.mickours.graphical.enable = true;
+  # environments.mickours.graphical.myuser = "mmercier";
+  # environments.mickours.development.enable = true;
 
  # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
