@@ -10,5 +10,6 @@
       modules = [
         ./deployments/oursbook2.nix
       ];
+    };
   };
 }

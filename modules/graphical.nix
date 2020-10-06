@@ -5,8 +5,13 @@ let
 in
   with lib;
   {
-    imports = [
-      "${builtins.fetchTarball https://github.com/rycee/home-manager/archive/release-19.03.tar.gz}/nixos"
+    imports = let
+      home-manager = builtins.fetchTarball {
+        url = https://github.com/rycee/home-manager/archive/release-20.09.tar.gz;
+        sha256 = "05kmx79ms7akx5a7cay57ng8rj3ysgprfbnidb4srr46fbiyf0p2";
+      };
+    in [
+      "${home-manager}/nixos"
     ];
     options.environments.mickours.graphical = {
       enable = mkEnableOption "graphical";
