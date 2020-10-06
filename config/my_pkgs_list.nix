@@ -58,6 +58,7 @@ in
     })
     (neovim.override {
       configure = {
+        customRC = my_vim_config;
         packages.myVimPackage = {
           # see examples below how to use custom packages
           start = my_vim_plugins.plugins;
@@ -131,6 +132,8 @@ in
     entr
     pandoc
     socat
+    bat
+    zsh-powerlevel10k
     # Day to day use in Ryax
     cachix
     kubernetes-helm

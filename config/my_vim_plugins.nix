@@ -11,7 +11,7 @@
     LanguageClient-neovim
     Tagbar
     vim-orgmode
-    multiple-cursors
+    vim-visual-multi
     vim-nix
     vim-autoformat
     vim-go
@@ -26,6 +26,7 @@
     coc-json
     coc-html
     coc-css
+    vim-toml
   ];
 
   dependencies = with pkgs; [
