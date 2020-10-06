@@ -19,7 +19,7 @@ in
 
   # VPS configuration
   vps =
-  { config, pkgs, nodes, lib, ... }:
+  { config, pkgs, nodes, lib, inputs, ... }:
 
   {
     deployment.targetHost = "176.10.125.101";
@@ -42,10 +42,7 @@ in
       # Include the results of the hardware scan.
       ./vps-hardware-configuration.nix
       # Mail server
-      (builtins.fetchTarball {
-        url = "https://gitlab.com/simple-nixos-mailserver/nixos-mailserver/-/archive/v2.2.1/nixos-mailserver-v2.2.1.tar.gz";
-        sha256 = "03d49v8qnid9g9rha0wg2z6vic06mhp0b049s3whccn1axvs2zzx";
-      })
+      "${inputs.simple-nixos-mailserver}"
 
       # Blog with Ghost
       # ../blog/service.nix
