@@ -8,12 +8,10 @@ rec {
 
   system.stateVersion = "20.09";
 
-  nix.nixPath = [
-        "nixpkgs=/nix/var/nix/profiles/per-user/root/channels/nixos/nixpkgs"
-        "nixos-config=/etc/nixos/configuration.nix"
-        "/nix/var/nix/profiles/per-user/root/channels"
-        "kapack=${builtins.toPath /home/mmercier/Projects/kapack}"
-  ];
+  nix.package = pkgs.nixUnstable;
+  nix.extraOptions = ''
+    experimental-features = nix-command flakes
+  '';
 
   imports = [
     ./oursbook2-hardware-configuration.nix
