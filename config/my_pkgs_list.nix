@@ -30,6 +30,7 @@ in
     tree
     ncdu
     unzip
+    dosfstools
     # unrar #NOT FREE need allowUnfree set to true
     # tools
     zsh
