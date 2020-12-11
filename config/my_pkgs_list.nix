@@ -116,6 +116,8 @@ in
     inkscape
     #libreoffice-fresh
     gimp
+
+    teams
   ];
 
   development =
