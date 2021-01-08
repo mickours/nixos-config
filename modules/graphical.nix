@@ -1,6 +1,7 @@
 { config, lib, pkgs, home-manager, ... }:
 let
   pkgs_lists = import ../config/my_pkgs_list.nix { inherit pkgs; };
+  hp-driver = pkgs.callPackage ../pkgs/hp-driver/hp-driver-MFP-178-nw.nix { };
   cfg = config.environments.mickours.graphical;
 in
   with lib;
@@ -50,7 +51,7 @@ in
         printing = {
           enable = true;
           browsing = true;
-          drivers = [ pkgs.samsung-unified-linux-driver pkgs.hplipWithPlugin ];
+          drivers = [ pkgs.samsung-unified-linux-driver pkgs.hplipWithPlugin hp-driver];
         };
         # Needed for printer discovery
         avahi.enable = true;

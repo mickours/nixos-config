@@ -30,6 +30,7 @@ in
     tree
     ncdu
     unzip
+    dosfstools
     # unrar #NOT FREE need allowUnfree set to true
     # tools
     zsh
@@ -115,6 +116,8 @@ in
     inkscape
     #libreoffice-fresh
     gimp
+
+    teams
   ];
 
   development =

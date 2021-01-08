@@ -11,8 +11,9 @@ let
   myKeys = [
       ./keys/id_rsa_oursbook.pub
       ./keys/id_rsa_roggy.pub
-  ];
-
+      ./keys/id_rsa_vps_passless.pub
+    ];
+  release = "nixos-20.09";
 in
 {
   network.description = "Michael Mercier Personal Network";
@@ -34,6 +35,8 @@ in
     #  permissions = "0640";
     #};
 
+    # Needed for rsync backups
+    programs.zsh.enable = true;
 
     # environment.extraInit = "export NIX_PATH=nixpkgs=${nixpkgs-stable}:nixos-config=/etc/nixos/configuration.nix:/nix/var/nix/profiles/per-user/root/channels";
 
@@ -67,7 +70,7 @@ in
     # Add root access to mmercier
     users.users.root.openssh.authorizedKeys.keyFiles = myKeys;
 
-    system.stateVersion = "20.03";
+    system.stateVersion = "20.09";
 
     time.timeZone = "Europe/Paris";
 
@@ -179,7 +182,7 @@ in
           [auth]
           type = htpasswd
           htpasswd_filename = ${htpasswd}
-          htpasswd_encryption = crypt
+          htpasswd_encryption = bcrypt
 
           [storage]
           hook = ${pkgs.git}/bin/git add -A && (${pkgs.git}/bin/git diff --cached --quiet || ${pkgs.git}/bin/git commit -m "Changes by %(user)s" )
@@ -219,7 +222,7 @@ in
       # Use `mkpasswd -m sha-512` to create the salted password
       loginAccounts = {
           "mickours@libr.fr" = {
-            hashedPassword = "$6$JyR6AQ1j5RbDVw$bwcOX32dt16XRGtFuU6K.JHa1ekWac4Y/AlMZexH7CWA24sP32u1mPdpdjBpdsHApblG4Zn5wzMKmyh8Ipzw5.";
+            hashedPassword = "$2y$05$y5JY.6WAld/Q6qP/0g6Ya.zr0BWlUaNffjoF9uhWx1TTkkrEXe8M.";
             aliases = [
               "info@libr.fr"
               "postmaster@libr.fr"
@@ -228,20 +231,14 @@ in
               "michael.mercier@libr.fr"
             ];
           };
-          "ca@libr.fr" = {
-            hashedPassword = "$6$shmgOepxJsk$zTuq0fL9v26wuY1nqin54tIO7CvMxJUpoKSvsWtLjQIOJpUo/i5muq6OdtrW2/s49Wzv399Rpm45bQtrvrilI/";
-            aliases = [
-              "beatrice.mayaux@libr.fr"
-            ];
-          };
           "marine.mercier@libr.fr" = {
-            hashedPassword = "$6$G.SkAtt3$FPdKoimZOY3e3JC0ByI0bb452W7z5q.rA95xUeeM0i6UekM7DDZfh89YfQReOIFDo3auUCn2FS/5oZ.RdWtbo1";
+            hashedPassword = "$2y$05$391UR0l6jzkBD1MrBhKK2.utA/VQUWZbXKQhvDRSdb9BVARQ/TUAe";
             aliases = [
               "marine@libr.fr"
             ];
           };
           "me@michaelmercier.fr" = {
-            hashedPassword = "$6$JyR6AQ1j5RbDVw$bwcOX32dt16XRGtFuU6K.JHa1ekWac4Y/AlMZexH7CWA24sP32u1mPdpdjBpdsHApblG4Zn5wzMKmyh8Ipzw5.";
+            hashedPassword = "$2y$05$xOVdvGnsNjWxX9t.0M8kvOgLzNOqadHKgZvnM/KdnfCPx2CNtmwFu";
             catchAll = [ "michaelmercier.fr" ];
             aliases = [
               "job@michaelmercier.fr"

@@ -60,6 +60,7 @@
     firefox
     # work
     libreoffice
+    zoom-us
     # Media
     transmission_gtk
     ## Enable numock by default

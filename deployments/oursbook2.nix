@@ -13,6 +13,12 @@ rec {
     experimental-features = nix-command flakes
   '';
 
+  # Activate Flakes
+  # nix.package = pkgs.nixUnstable;
+  # nix.extraOptions = ''
+  #   experimental-features = nix-command flakes
+  # '';
+
   imports = [
     ./oursbook2-hardware-configuration.nix
     #../modules/common.nix
@@ -80,10 +86,12 @@ rec {
   systemd.services.vpc-backups = rec {
     description = "Backup my vpc (${startAt})";
     startAt = "daily";
+    path = [ pkgs.openssh pkgs.rsync ];
 
     serviceConfig = {
       User = "mmercier";
-      ExecStart = "/run/current-system/sw/bin/rsync -avz vpc:/data /home/mmercier/Backups/vpc";
+      Group = "users";
+      ExecStart = "${pkgs.rsync}/bin/rsync --rsync-path=/run/current-system/sw/bin/rsync -e\"ssh -v -o StrictHostKeyChecking=no\" -avz root@vps:/data /home/mmercier/Backups/vpc";
     };
   };
 }

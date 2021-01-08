@@ -38,6 +38,12 @@ with lib;
     programs = {
     # Enable system wide zsh and ssh agent
       zsh.enable = true;
+      zsh.interactiveShellInit = ''
+        source ${pkgs.grml-zsh-config}/etc/zsh/zshrc
+        source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
+      '';
+      zsh.promptInit = ""; # otherwise it'll override the grml prompt
+
       ssh.startAgent = true;
       gnupg.agent.enable = true;
 
