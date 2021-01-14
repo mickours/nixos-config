@@ -4,11 +4,10 @@
 { config, lib, pkgs, modulesPath, ... }:
 
 {
-  imports =
-    [ (modulesPath + "/installer/scan/not-detected.nix")
-    ];
+  imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
-  boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usbhid" "rtsx_pci_sdmmc" ];
+  boot.initrd.availableKernelModules =
+    [ "xhci_pci" "ahci" "nvme" "usbhid" "rtsx_pci_sdmmc" ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
@@ -16,7 +15,7 @@
   # Fix acpi warning and disable descete GPU using acpi_call
   # https://wiki.archlinux.org/index.php/Dell_XPS_15_9560#Disable_discrete_GPU
   # https://wiki.archlinux.org/index.php/Hybrid_graphics#Using_acpi_call
-  boot.kernelParams = [ "acpi_rev_override=1" "pcie_aspm=off"];
+  boot.kernelParams = [ "acpi_rev_override=1" "pcie_aspm=off" ];
   #boot.extraModulePackages = with config.boot.kernelPackages; [ acpi_call ];
   #systemd.tmpfiles.rules = [ "w /proc/acpi/call - - - - \\\\_SB.PCI0.PEG0.PEGP._OFF" ];
   #boot.extraModprobeConfig = ''
@@ -32,30 +31,28 @@
   # Needed by Nvidia docker driver
   hardware.opengl.driSupport32Bit = true;
 
+  fileSystems."/" = {
+    device = "/dev/disk/by-uuid/8f32a568-5c9a-46c9-bd85-3869d60f6d4b";
+    fsType = "ext4";
+  };
 
-  fileSystems."/" =
-    { device = "/dev/disk/by-uuid/8f32a568-5c9a-46c9-bd85-3869d60f6d4b";
-      fsType = "ext4";
+  boot.initrd.luks.devices = {
+    "root" = {
+      device = "/dev/disk/by-uuid/c3894b66-f79c-465f-b11e-32b78035fa46";
+      keyFile =
+        "/dev/disk/by-id/usb-SanDisk_Cruzer_Switch_4C532000061005117093-0:0";
+      keyFileSize = 256;
+      allowDiscards = true;
+      fallbackToPassword = true;
     };
-
-  boot.initrd.luks.devices =
-    {
-      "root" = {
-        device = "/dev/disk/by-uuid/c3894b66-f79c-465f-b11e-32b78035fa46";
-        keyFile = "/dev/disk/by-id/usb-SanDisk_Cruzer_Switch_4C532000061005117093-0:0";
-        keyFileSize = 256;
-        allowDiscards = true;
-        fallbackToPassword = true;
-      };
-    };
-  fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/9D78-C770";
-      fsType = "vfat";
-    };
+  };
+  fileSystems."/boot" = {
+    device = "/dev/disk/by-uuid/9D78-C770";
+    fsType = "vfat";
+  };
 
   swapDevices =
-    [ { device = "/dev/disk/by-uuid/6eb307fd-9aff-4e63-9853-01dd700120d8"; }
-    ];
+    [{ device = "/dev/disk/by-uuid/6eb307fd-9aff-4e63-9853-01dd700120d8"; }];
 
   # Use LTS kernel
   #boot.kernelPackages = pkgs.linuxPackages_4_19;

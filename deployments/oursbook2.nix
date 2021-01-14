@@ -1,9 +1,4 @@
-{ config,
-  lib,
-  pkgs,
-  ...
-}:
-{
+{ config, lib, pkgs, ... }: {
   networking.hostName = "oursbook2";
 
   system.stateVersion = "20.09";
@@ -28,10 +23,7 @@
 
   environments.mickours.common = {
     enable = true;
-    keyFiles = [
-      ./keys/id_rsa_oursbook.pub
-      ./keys/id_rsa_roggy.pub
-    ];
+    keyFiles = [ ./keys/id_rsa_oursbook.pub ./keys/id_rsa_roggy.pub ];
   };
 
   environments.mickours.graphical.enable = true;
@@ -72,13 +64,12 @@
 
   # Ryax related
   services.zerotierone = {
-      enable = true;
-      joinNetworks = ["8267aa80ea375ab2"]; # One of these has a managed route
-    };
+    enable = true;
+    joinNetworks = [ "8267aa80ea375ab2" ]; # One of these has a managed route
+  };
 
   networking.firewall.enable = false;
-  networking.extraHosts =
-  ''
+  networking.extraHosts = ''
     127.0.0.1 ryax.local api.ryax.local registry.ryax.local monitor.ryax.local
   '';
   #security.pki.certificateFiles = [ /home/mmercier/certs/domain.crt ];
@@ -91,7 +82,8 @@
     serviceConfig = {
       User = "mmercier";
       Group = "users";
-      ExecStart = "${pkgs.rsync}/bin/rsync --rsync-path=/run/current-system/sw/bin/rsync -e\"ssh -v -o StrictHostKeyChecking=no\" -avz root@vps:/data /home/mmercier/Backups/vpc";
+      ExecStart = ''
+        ${pkgs.rsync}/bin/rsync --rsync-path=/run/current-system/sw/bin/rsync -e"ssh -v -o StrictHostKeyChecking=no" -avz root@vps:/data /home/mmercier/Backups/vpc'';
     };
   };
 }

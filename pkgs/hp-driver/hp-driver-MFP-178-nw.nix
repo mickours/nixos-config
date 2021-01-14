@@ -1,13 +1,17 @@
 { stdenv, glibc, libusb, cups }:
 let
-  installationPath = if stdenv.hostPlatform.system == "x86_64-linux" then "x86_64" else "i386";
-  appendPath = if stdenv.hostPlatform.system == "x86_64-linux" then "64" else "";
-  libPath = stdenv.lib.makeLibraryPath [ cups libusb ] + ":$out/lib:${stdenv.cc.cc.lib}/lib${appendPath}";
+  installationPath =
+    if stdenv.hostPlatform.system == "x86_64-linux" then "x86_64" else "i386";
+  appendPath =
+    if stdenv.hostPlatform.system == "x86_64-linux" then "64" else "";
+  libPath = stdenv.lib.makeLibraryPath [ cups libusb ]
+    + ":$out/lib:${stdenv.cc.cc.lib}/lib${appendPath}";
 in stdenv.mkDerivation rec {
   name = "HP-MFP-178-nw-driver-${version}";
   version = "1.00.39.12_00.15";
   src = fetchTarball {
-    url = "https://ftp.hp.com/pub/softlib/software13/printers/MFP170/uld-hp_V${version}.tar.gz";
+    url =
+      "https://ftp.hp.com/pub/softlib/software13/printers/MFP170/uld-hp_V${version}.tar.gz";
     sha256 = "02h4if0zx7x9fnfa0na4kpz1y1g3838wa9shjmrcqzs5wmpilrcf";
   };
 
@@ -53,7 +57,7 @@ in stdenv.mkDerivation rec {
 
   meta = with stdenv.lib; {
     description = "HP driver for MFP178-nw";
-    homepage = http://hp.com;
+    homepage = "http://hp.com";
     license = licenses.unfree;
     platforms = platforms.linux;
     # broken = true;   # Not tested

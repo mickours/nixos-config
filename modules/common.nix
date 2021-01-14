@@ -2,15 +2,13 @@
 let
   pkgs_lists = import ../config/my_pkgs_list.nix { inherit pkgs; };
   cfg = config.environments.mickours.common;
-in
-with lib;
-{
+in with lib; {
   options.environments.mickours.common = {
     enable = mkEnableOption "common";
     keyFiles = mkOption {
       type = types.listOf types.path;
-      default = [];
-      example = [];
+      default = [ ];
+      example = [ ];
       description = ''
         The list of Ssh keys allowed to log.
       '';
@@ -21,11 +19,11 @@ with lib;
     environment.systemPackages = pkgs_lists.common;
 
     # use NeoVim by default
-    environment.sessionVariables.EDITOR="nvim";
-    environment.sessionVariables.VISUAL="nvim";
+    environment.sessionVariables.EDITOR = "nvim";
+    environment.sessionVariables.VISUAL = "nvim";
     environment.shellAliases = {
-      "vim"="nvim";
-      "v"="vim";
+      "vim" = "nvim";
+      "v" = "vim";
     };
 
     # Keyboard and locale support
@@ -37,7 +35,7 @@ with lib;
     };
 
     programs = {
-    # Enable system wide zsh and ssh agent
+      # Enable system wide zsh and ssh agent
       zsh.enable = true;
       zsh.interactiveShellInit = ''
         source ${pkgs.grml-zsh-config}/etc/zsh/zshrc
@@ -67,18 +65,17 @@ with lib;
     #security.sudo.extraConfig = ''
     #    Defaults   insults
     #'';
-    nixpkgs.config.packageOverrides = pkgs:
-    {
+    nixpkgs.config.packageOverrides = pkgs: {
       sudo = pkgs.sudo.override { withInsults = true; };
     };
 
     # Get ctrl+arrows works in nix-shell bash
-    environment.etc."inputrc".text = builtins.readFile (modulesPath + "/programs/bash/inputrc") +
-    ''
-      "\e[A": history-search-backward
-      "\e[B": history-search-forward
-      set completion-ignore-case on
-    '';
+    environment.etc."inputrc".text =
+      builtins.readFile (modulesPath + "/programs/bash/inputrc") + ''
+        "\e[A": history-search-backward
+        "\e[B": history-search-forward
+        set completion-ignore-case on
+      '';
 
     # Avoid journald to store GigaBytes of logs
     services.journald.extraConfig = ''

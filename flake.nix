@@ -2,7 +2,7 @@
   description = "My personal NixOS machines configuration";
 
   inputs = {
-    nixpkgs.url = github:NixOS/nixpkgs/nixos-20.09;
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-20.09";
     #home-manager = {
     #  url = "github:rycee/home-manager/master";
     #  inputs.nixpkgs.follows = "nixpkgs";
@@ -23,18 +23,17 @@
     #};
   };
 
-
-  outputs = { self, nixpkgs, ... }:
-  {
+  outputs = { self, nixpkgs, ... }: {
     nixosConfigurations = {
       oursbook2 = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
 
         modules = [
           ({
-          nixpkgs = {
-            config.allowUnfree = true; # this is the only allowUnfree that's actually doing anything
-          };
+            nixpkgs = {
+              config.allowUnfree =
+                true; # this is the only allowUnfree that's actually doing anything
+            };
           })
           ./deployments/oursbook2.nix
         ];

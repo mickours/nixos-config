@@ -1,4 +1,4 @@
-{ pkgs ? import <nixpkgs-unstable> {} }:
+{ pkgs ? import <nixpkgs-unstable> { } }:
 with pkgs;
 let
   plugins = with vimPlugins; [
@@ -35,14 +35,13 @@ let
   ];
 
   my_dotfiles = builtins.fetchGit {
-    url = https://github.com/mickours/dotfiles;
+    url = "https://github.com/mickours/dotfiles";
     ref = "master";
     rev = "f7ee7368682e4b8b319344be009034443602e228";
   };
 
-  my_vim_config = builtins.readFile("${my_dotfiles}/vimrc");
-in
-(neovim.override {
+  my_vim_config = builtins.readFile ("${my_dotfiles}/vimrc");
+in (neovim.override {
   configure = {
     packages.myVimPackage = {
       # see examples below how to use custom packages

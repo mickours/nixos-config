@@ -4,11 +4,17 @@
 { config, lib, pkgs, ... }:
 
 {
-  imports =
-    [ <nixpkgs/nixos/modules/installer/scan/not-detected.nix>
-    ];
+  imports = [ <nixpkgs/nixos/modules/installer/scan/not-detected.nix> ];
 
-  boot.initrd.availableKernelModules = [ "xhci_pci" "ehci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" "rtsx_pci_sdmmc" ];
+  boot.initrd.availableKernelModules = [
+    "xhci_pci"
+    "ehci_pci"
+    "ahci"
+    "usbhid"
+    "usb_storage"
+    "sd_mod"
+    "rtsx_pci_sdmmc"
+  ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
   # boot.cleanTmpDir = true;
@@ -40,26 +46,25 @@
   # Enable periodic SSD TRIM (default weekly)
   services.fstrim.enable = true;
 
-  fileSystems."/" =
-    { device = "/dev/disk/by-uuid/f7860309-bc61-4906-814f-790c76f62eac";
-      fsType = "ext4";
-      options = ["noatime" "barrier=0"];
-    };
+  fileSystems."/" = {
+    device = "/dev/disk/by-uuid/f7860309-bc61-4906-814f-790c76f62eac";
+    fsType = "ext4";
+    options = [ "noatime" "barrier=0" ];
+  };
 
-  fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/BE57-9003";
-      fsType = "vfat";
-    };
+  fileSystems."/boot" = {
+    device = "/dev/disk/by-uuid/BE57-9003";
+    fsType = "vfat";
+  };
 
-  fileSystems."/home" =
-    { device = "/dev/disk/by-uuid/fd02b73b-9bbd-4387-9998-cafed922169a";
-      fsType = "ext4";
-      options = ["noatime" "barrier=0"];
-    };
+  fileSystems."/home" = {
+    device = "/dev/disk/by-uuid/fd02b73b-9bbd-4387-9998-cafed922169a";
+    fsType = "ext4";
+    options = [ "noatime" "barrier=0" ];
+  };
 
   swapDevices =
-    [ { device = "/dev/disk/by-uuid/2253a85e-99ee-44a8-bf9b-569f028e2d76"; }
-    ];
+    [{ device = "/dev/disk/by-uuid/2253a85e-99ee-44a8-bf9b-569f028e2d76"; }];
 
   nix.maxJobs = lib.mkDefault 4;
   powerManagement.cpuFreqGovernor = "powersave";

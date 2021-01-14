@@ -1,9 +1,4 @@
-{ config,
-  pkgs ? import ../nixpkgs { },
-  lib,
-  ...
-}:
-{
+{ config, pkgs ? import ../nixpkgs { }, lib, ... }: {
   networking.hostName = "roggy"; # Define your hostname.
 
   # Use the systemd-boot EFI boot loader.
@@ -19,10 +14,7 @@
 
   environments.mickours.common = {
     enable = true;
-    keyFiles = [
-      ./keys/id_rsa_roggy.pub
-      ./keys/id_rsa_oursbook.pub
-    ];
+    keyFiles = [ ./keys/id_rsa_roggy.pub ./keys/id_rsa_oursbook.pub ];
   };
 
   i18n.defaultLocale = "fr_FR.UTF-8";
