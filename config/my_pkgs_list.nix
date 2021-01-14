@@ -43,20 +43,6 @@ in
     w3m       # web
     poppler   # PDF
     mediainfo # audio and video
-    ((vim_configurable.override { python = python3; }).customize {
-      name = "v";
-      # add my custom .vimrc
-      vimrcConfig.customRC = my_vim_config + ''
-      '';
-      vimrcConfig.packages.myVimPackage = {
-          # loaded on launch
-          start = my_vim_plugins.plugins;
-          # manually loadable by calling `:packadd $plugin-name`
-          opt = [  ];
-          # To automatically load a plugin when opening a filetype, add vimrc lines like:
-          # autocmd FileType php :packadd phpCompletion
-      };
-    })
     (neovim.override {
       configure = {
         customRC = my_vim_config;

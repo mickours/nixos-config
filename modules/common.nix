@@ -20,11 +20,12 @@ with lib;
   config = mkIf config.environments.mickours.common.enable {
     environment.systemPackages = pkgs_lists.common;
 
-    # use Vim by default
-    environment.sessionVariables.EDITOR="v";
-    environment.sessionVariables.VISUAL="v";
+    # use NeoVim by default
+    environment.sessionVariables.EDITOR="nvim";
+    environment.sessionVariables.VISUAL="nvim";
     environment.shellAliases = {
-      "vim"="v";
+      "vim"="nvim";
+      "v"="vim";
     };
 
     # Keyboard and locale support
