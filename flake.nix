@@ -3,7 +3,10 @@
 
   inputs = {
     nixpkgs.url = github:NixOS/nixpkgs/nixos-20.09;
-    #home-manager.url = github:rycee/home-manager/bqv-flakes;
+    #home-manager = {
+    #  url = "github:rycee/home-manager/master";
+    #  inputs.nixpkgs.follows = "nixpkgs";
+    #};
     #simple-nixos-mailserver = {
     #  type = "git";
     #  url = "https://gitlab.com/simple-nixos-mailserver/nixos-mailserver";
@@ -22,14 +25,6 @@
 
 
   outputs = { self, nixpkgs, ... }:
-  let
-    unfreeOverlay = final: prev: {
-        unfree = import nixpkgs {
-        system = "x86_64-linux";
-        config.allowUnfree = true;
-      };
-    };
-  in
   {
     nixosConfigurations = {
       oursbook2 = nixpkgs.lib.nixosSystem {
@@ -38,7 +33,6 @@
         modules = [
           ({
           nixpkgs = {
-            overlays = [ unfreeOverlay ];
             config.allowUnfree = true; # this is the only allowUnfree that's actually doing anything
           };
           })

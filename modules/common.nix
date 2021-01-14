@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, modulesPath, ... }:
 let
   pkgs_lists = import ../config/my_pkgs_list.nix { inherit pkgs; };
   cfg = config.environments.mickours.common;
@@ -72,7 +72,8 @@ with lib;
     };
 
     # Get ctrl+arrows works in nix-shell bash
-    environment.etc."inputrc".text = builtins.readFile <nixpkgs/nixos/modules/programs/bash/inputrc> + ''
+    environment.etc."inputrc".text = builtins.readFile (modulesPath + "/programs/bash/inputrc") +
+    ''
       "\e[A": history-search-backward
       "\e[B": history-search-forward
       set completion-ignore-case on

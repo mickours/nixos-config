@@ -1,4 +1,4 @@
-{ config, lib, pkgs, home-manager, ... }:
+{ config, lib, pkgs, ... }:
 let
   pkgs_lists = import ../config/my_pkgs_list.nix { inherit pkgs; };
   hp-driver = pkgs.callPackage ../pkgs/hp-driver/hp-driver-MFP-178-nw.nix { };
@@ -6,9 +6,6 @@ let
 in
   with lib;
   {
-    imports = [
-      "${home-manager}/nixos"
-    ];
     options.environments.mickours.graphical = {
       enable = mkEnableOption "graphical";
       myuser = mkOption {
