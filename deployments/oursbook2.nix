@@ -3,7 +3,7 @@
   pkgs,
   ...
 }:
-rec {
+{
   networking.hostName = "oursbook2";
 
   system.stateVersion = "20.09";

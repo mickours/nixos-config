@@ -24,7 +24,7 @@
   outputs = { self, nixpkgs, ... }:
   let
     unfreeOverlay = final: prev: {
-       unfree = import nixpkgs {
+        unfree = import nixpkgs {
         system = "x86_64-linux";
         config.allowUnfree = true;
       };
@@ -32,7 +32,7 @@
   in
   {
     nixosConfigurations = {
-      oursbook2 = nixpkgs.lib.nixosSystem rec {
+      oursbook2 = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
 
         modules = [
