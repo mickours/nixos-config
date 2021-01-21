@@ -3,10 +3,10 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-20.09";
-    #home-manager = {
-    #  url = "github:rycee/home-manager/master";
-    #  inputs.nixpkgs.follows = "nixpkgs";
-    #};
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     #simple-nixos-mailserver = {
     #  type = "git";
     #  url = "https://gitlab.com/simple-nixos-mailserver/nixos-mailserver";
@@ -23,7 +23,7 @@
     #};
   };
 
-  outputs = { self, nixpkgs, ... }: {
+  outputs = { self, nixpkgs, home-manager, ... }: {
     nixosConfigurations = {
       oursbook2 = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
@@ -36,6 +36,12 @@
             };
           })
           ./deployments/oursbook2.nix
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.mmercier = import ./config/home.nix;
+          }
         ];
       };
       #vps = nixpkgs.lib.nixosSystem {

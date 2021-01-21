@@ -19,7 +19,7 @@ in with lib; {
       # NixOS allows either a lightweight build (default) or full build of PulseAudio to be installed.
       # Only the full build has Bluetooth support, so it must be selected here.
       package = pkgs.pulseaudioFull;
-      # extraModules = [ pkgs.pulseaudio-modules-bt ];
+      extraModules = [ pkgs.pulseaudio-modules-bt ];
       # For echo-cancelation virtual interface add the following line to the conf
       # load-module module-echo-cancel
       extraConfig = ''
@@ -27,8 +27,12 @@ in with lib; {
       '';
     };
     hardware.bluetooth.enable = true;
-    hardware.bluetooth.config = {
-      General = { Enable = "Source,Sink,Media,Socket"; };
+    # Bluetooth command for headsets
+    systemd.user.services.mpris-proxy = {
+      Unit.Description = "Mpris proxy";
+      Unit.After = [ "network.target" "sound.target" ];
+      Service.ExecStart = "${pkgs.bluez}/bin/mpris-proxy";
+      Install.WantedBy = [ "default.target" ];
     };
 
     services = {
