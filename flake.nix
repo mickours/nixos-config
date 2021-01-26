@@ -4,7 +4,7 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-20.09";
     home-manager = {
-      url = "github:nix-community/home-manager";
+      url = "github:nix-community/home-manager/release-20.09";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     #simple-nixos-mailserver = {
@@ -18,7 +18,7 @@
     #  flake = false;
     #};
     #my_dotfiles = {
-    #  url = github:mickours/dotfiles;
+    #  url = "github:mickours/dotfiles";
     #  flake = false;
     #};
   };
@@ -28,13 +28,16 @@
       oursbook2 = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
 
-        modules = [
-          ({
+        modules = let
+          nixpkgsUnfree = ({
             nixpkgs = {
               config.allowUnfree =
                 true; # this is the only allowUnfree that's actually doing anything
+              #overlays = [ (import ./overlays/fixes.nix) ];
             };
-          })
+          });
+        in [
+          nixpkgsUnfree
           ./deployments/oursbook2.nix
           home-manager.nixosModules.home-manager
           {

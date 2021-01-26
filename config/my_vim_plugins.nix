@@ -47,6 +47,8 @@
         black
         jedi
         pylama
+        flake8
+        isort
       ]))
   ];
 }

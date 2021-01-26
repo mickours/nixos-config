@@ -27,13 +27,6 @@ in with lib; {
       '';
     };
     hardware.bluetooth.enable = true;
-    # Bluetooth command for headsets
-    systemd.user.services.mpris-proxy = {
-      Unit.Description = "Mpris proxy";
-      Unit.After = [ "network.target" "sound.target" ];
-      Service.ExecStart = "${pkgs.bluez}/bin/mpris-proxy";
-      Install.WantedBy = [ "default.target" ];
-    };
 
     services = {
       # Install but disable open SSH

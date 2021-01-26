@@ -42,16 +42,16 @@ in {
     w3m # web
     poppler # PDF
     mediainfo # audio and video
-    (neovim.override {
-      configure = {
-        customRC = my_vim_config;
-        packages.myVimPackage = {
-          # see examples below how to use custom packages
-          start = my_vim_plugins.plugins;
-          opt = [ ];
-        };
-      };
-    })
+    #(neovim.override {
+    #  configure = {
+    #    customRC = my_vim_config;
+    #    packages.myVimPackage = {
+    #      # see examples below how to use custom packages
+    #      start = my_vim_plugins.plugins;
+    #      opt = [ ];
+    #    };
+    #  };
+    #})
   ] ++ my_vim_plugins.dependencies;
 
   graphical = [
