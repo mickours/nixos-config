@@ -21,8 +21,8 @@ in with lib; {
       package = pkgs.pulseaudioFull;
       extraModules = [ pkgs.pulseaudio-modules-bt ];
       # For echo-cancelation virtual interface add the following line to the conf
-      # load-module module-echo-cancel
       extraConfig = ''
+        load-module module-echo-cancel
         load-module module-switch-on-connect
       '';
     };

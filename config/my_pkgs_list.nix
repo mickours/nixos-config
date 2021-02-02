@@ -79,7 +79,7 @@ in {
     # Utils
     gnome3.gnome-disk-utility
     xorg.xkill
-    wireshark-qt
+    # wireshark-qt
     git-cola
     gitg
     # storage

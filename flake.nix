@@ -33,7 +33,7 @@
             nixpkgs = {
               config.allowUnfree =
                 true; # this is the only allowUnfree that's actually doing anything
-              #overlays = [ (import ./overlays/fixes.nix) ];
+              overlays = [ (import ./overlays/fixes.nix) ];
             };
           });
         in [
