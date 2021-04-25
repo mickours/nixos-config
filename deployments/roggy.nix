@@ -31,6 +31,10 @@
   environments.mickours.graphical.myuser = "mmercier";
   environments.mickours.development.enable = true;
 
+  # Remote access
+  services.openssh.enable = true;
+  services.gnome3.gnome-remote-desktop.enable = true;
+
   nixpkgs.config.allowUnfree = true;
 
   # Make Steam works
@@ -45,6 +49,7 @@
   users.extraUsers.marine = {
     isNormalUser = true;
     extraGroups = [ "wheel" "lp" "networkmanager" ];
+    openssh.authorizedKeys = [ ./keys/id_rsa_oursbook.pub ];
   };
 }
 
