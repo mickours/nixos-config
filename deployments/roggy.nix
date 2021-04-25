@@ -34,6 +34,7 @@
   # Remote access
   services.openssh.enable = true;
   services.gnome3.gnome-remote-desktop.enable = true;
+  services.gnome3.gnome-user-share.enable = true;
 
   nixpkgs.config.allowUnfree = true;
 
