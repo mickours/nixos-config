@@ -25,7 +25,7 @@
 
   outputs = { self, nixpkgs, home-manager, ... }: {
     nixosConfigurations = {
-      oursbook2 = nixpkgs.lib.nixosSystem {
+      oursbook2 = nixpkgs.lib.nixosSystem rec {
         system = "x86_64-linux";
 
         modules = let
@@ -34,6 +34,7 @@
               config.allowUnfree =
                 true; # this is the only allowUnfree that's actually doing anything
               # overlays = [ (import ./overlays/fixes.nix) ];
+              inherit system;
             };
           });
         in [

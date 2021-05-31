@@ -81,6 +81,8 @@
     zoom-us
     pulseeffects
     citrix_workspace
+    jetbrains.pycharm-community
+    jetbrains.webstorm
 
     #libreoffice
     zotero
