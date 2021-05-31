@@ -293,8 +293,14 @@ in
     #*************#
     #   Network   #
     #*************#
-    networking = {
-      firewall.allowedTCPPorts = [ webPort webSslPort ];
+    networking.firewall.allowedTCPPorts = [ webPort webSslPort ];
+    networking.interfaces.ens3.ipv6.addresses = [ {
+      address = "2a0b:ee80:0:2:176:10:125:101";
+      prefixLength = 64;
+    } ];
+    networking.defaultGateway6 = {
+      address = "2a0b:ee80:0:2::1";
+      interface = "ens3";
     };
 
     #*************#
