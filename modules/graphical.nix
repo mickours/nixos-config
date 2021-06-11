@@ -54,14 +54,14 @@ in with lib; {
         enableCtrlAltBackspace = true;
 
         # Enable the Gnome Desktop Environment.
-        desktopManager.gnome3.enable = true;
+        desktopManager.gnome.enable = true;
         displayManager.gdm.enable = true;
       };
 
-      gnome3.gnome-online-accounts.enable = true;
+      gnome.gnome-online-accounts.enable = true;
       # Disable tracker to avoid it to suck my vitality
-      gnome3.tracker.enable = mkForce false;
-      gnome3.tracker-miners.enable = mkForce false;
+      gnome.tracker.enable = mkForce false;
+      gnome.tracker-miners.enable = mkForce false;
 
       syncthing = {
         enable = true;

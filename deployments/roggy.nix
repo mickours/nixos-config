@@ -28,7 +28,7 @@
   # Make Steam works
   users.users.mmercier.packages = [ pkgs.steam ];
   hardware.opengl.driSupport32Bit = true;
-  hardware.pulseaudio.support32Bit = true;
+  # hardware.pulseaudio.support32Bit = true;
 
   networking.firewall.enable = false;
 

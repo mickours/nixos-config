@@ -1,18 +1,13 @@
 { config, lib, pkgs, ... }: {
   networking.hostName = "oursbook2";
 
-  system.stateVersion = "20.09";
+  system.stateVersion = "21.05";
 
+  # Activate Flakes
   nix.package = pkgs.nixUnstable;
   nix.extraOptions = ''
     experimental-features = nix-command flakes
   '';
-
-  # Activate Flakes
-  # nix.package = pkgs.nixUnstable;
-  # nix.extraOptions = ''
-  #   experimental-features = nix-command flakes
-  # '';
 
   imports = [
     ./oursbook2-hardware-configuration.nix
@@ -53,7 +48,7 @@
   users.extraUsers.mmercier.extraGroups = [ "docker" "libvirtd" ];
 
   # Enable Nvidia Prime
-  services.xserver.videoDrivers = [ "modesetting" "nvidia" ];
+  services.xserver.videoDrivers = [ "nvidia" ];
   hardware.nvidia.prime = {
     offload.enable = true;
 
@@ -79,10 +74,10 @@
     gnomeExtensions.gsconnect
     linuxPackages.acpi_call
     zoom-us
-    pulseeffects
     citrix_workspace
     jetbrains.pycharm-community
     jetbrains.webstorm
+    pciutils
 
     #libreoffice
     zotero

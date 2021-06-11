@@ -57,7 +57,7 @@ in {
   graphical = [
     # Gnome stuff
     gnomeExtensions.system-monitor
-    gnome3.evolution
+    evolution
     evolution-data-server
     gnome-firmware-updater
 
