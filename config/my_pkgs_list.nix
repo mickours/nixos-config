@@ -108,6 +108,7 @@ in {
   development = [
     gitAndTools.gitFull
     python3
+    poetry
     gotop
     gcc
     ctags
@@ -127,6 +128,9 @@ in {
     kubectl
     k9s
     pssh
+    awscli2
+    google-cloud-sdk
+    docker-compose
     # Editors
     emacs
     # Web Site

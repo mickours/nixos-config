@@ -15,7 +15,7 @@
   # Fix acpi warning and disable descete GPU using acpi_call
   # https://wiki.archlinux.org/index.php/Dell_XPS_15_9560#Disable_discrete_GPU
   # https://wiki.archlinux.org/index.php/Hybrid_graphics#Using_acpi_call
-  boot.kernelParams = [ "acpi_rev_override=1" "pcie_aspm=off" ];
+  # boot.kernelParams = [ "acpi_rev_override=1" "pcie_aspm=off" ];
   #boot.extraModulePackages = with config.boot.kernelPackages; [ acpi_call ];
   #systemd.tmpfiles.rules = [ "w /proc/acpi/call - - - - \\\\_SB.PCI0.PEG0.PEGP._OFF" ];
   #boot.extraModprobeConfig = ''
