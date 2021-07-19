@@ -1,10 +1,10 @@
-{ stdenv, glibc, libusb, cups }:
+{ stdenv, lib, glibc, libusb, cups }:
 let
   installationPath =
     if stdenv.hostPlatform.system == "x86_64-linux" then "x86_64" else "i386";
   appendPath =
     if stdenv.hostPlatform.system == "x86_64-linux" then "64" else "";
-  libPath = stdenv.lib.makeLibraryPath [ cups libusb ]
+  libPath = lib.makeLibraryPath [ cups libusb ]
     + ":$out/lib:${stdenv.cc.cc.lib}/lib${appendPath}";
 in stdenv.mkDerivation rec {
   name = "HP-MFP-178-nw-driver-${version}";
@@ -55,7 +55,7 @@ in stdenv.mkDerivation rec {
     cp -r ./* $out/share/cups/model/hp
   '';
 
-  meta = with stdenv.lib; {
+  meta = with lib; {
     description = "HP driver for MFP178-nw";
     homepage = "http://hp.com";
     license = licenses.unfree;

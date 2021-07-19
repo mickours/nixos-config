@@ -99,7 +99,7 @@ in {
     graphviz
     imagemagick
     inkscape
-    #libreoffice-fresh
+    libreoffice-fresh
     gimp
 
     teams
@@ -120,8 +120,10 @@ in {
     entr
     pandoc
     socat
+    bind
     bat
     zsh-powerlevel10k
+    meld
     # Day to day use in Ryax
     cachix
     kubernetes-helm
