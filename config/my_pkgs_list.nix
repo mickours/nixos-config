@@ -125,6 +125,9 @@ in {
     zsh-powerlevel10k
     meld
     # Day to day use in Ryax
+    bitwarden
+    ts
+    kind
     cachix
     kubernetes-helm
     kubectl
@@ -133,6 +136,7 @@ in {
     awscli2
     google-cloud-sdk
     docker-compose
+    eksctl
     # Editors
     emacs
     # Web Site
@@ -149,5 +153,6 @@ in {
     fortune
     sl
     wesnoth-dev
+    zeroad
   ];
 }
