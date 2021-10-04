@@ -33,7 +33,7 @@
   virtualisation = {
     virtualbox.host.enable = true;
     docker.enable = true;
-    docker.extraOptions = "--insecure-registry registry.ryax.local:80";
+    docker.extraOptions = "--insecure-registry ryax-registry.ryaxns:5000";
     docker.enableNvidia = true;
     libvirtd.enable = true;
   };
