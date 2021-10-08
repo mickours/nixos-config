@@ -31,11 +31,11 @@
 
   # Add virtualbox and docker
   virtualisation = {
-    virtualbox.host.enable = true;
+    # virtualbox.host.enable = true;
+    # libvirtd.enable = true;
     docker.enable = true;
     docker.extraOptions = "--insecure-registry ryax-registry.ryaxns:5000";
-    docker.enableNvidia = true;
-    libvirtd.enable = true;
+    # docker.enableNvidia = true;
   };
 
   programs.singularity.enable = true;
@@ -84,18 +84,6 @@
     zotero
     gnome3.pomodoro
   ];
-
-  # Ryax related
-  services.zerotierone = {
-    enable = true;
-    joinNetworks = [ "8267aa80ea375ab2" ]; # One of these has a managed route
-  };
-
-  networking.firewall.enable = false;
-  networking.extraHosts = ''
-    127.0.0.1 ryax.local api.ryax.local registry.ryax.local monitor.ryax.local
-  '';
-  #security.pki.certificateFiles = [ /home/mmercier/certs/domain.crt ];
 
   systemd.services.vpc-backups = rec {
     description = "Backup my vpc (${startAt})";
