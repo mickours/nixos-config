@@ -29,6 +29,9 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  # Use swap only if needed
+  boot.kernel.sysctl = { "vm.swappiness" = 10; };
+
   # Add virtualbox and docker
   virtualisation = {
     # virtualbox.host.enable = true;
