@@ -70,6 +70,7 @@ in {
     # Message and RSS
     gnome3.polari
     liferea
+    signal-desktop
 
     # Media
     vlc
@@ -124,6 +125,7 @@ in {
     bat
     zsh-powerlevel10k
     meld
+    smem
     # Day to day use in Ryax
     bitwarden
     ts
