@@ -86,7 +86,7 @@ in with lib; {
     # Add micro$oft fonts
     fonts.fonts = with pkgs; [
       corefonts
-      helvetica-neue-lt-std
+      # helvetica-neue-lt-std
       twemoji-color-font
     ];
 

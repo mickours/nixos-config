@@ -25,7 +25,28 @@
 
   outputs = { self, nixpkgs, home-manager, ... }: {
     nixosConfigurations = {
-      oursbook2 = nixpkgs.lib.nixosSystem rec {
+      oursbook3 = nixpkgs.lib.nixosSystem rec {
+        system = "x86_64-linux";
+
+        modules = let
+          nixpkgsUnfree = ({
+            nixpkgs = {
+              config.allowUnfree = true;
+              # overlays = [ (import ./overlays/fixes.nix) ];
+              inherit system;
+            };
+          });
+        in [
+          nixpkgsUnfree
+          ./deployments/oursbook3.nix
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.mmercier = import ./config/home.nix;
+          }
+        ];
+      };oursbook2 = nixpkgs.lib.nixosSystem rec {
         system = "x86_64-linux";
 
         modules = let
