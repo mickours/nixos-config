@@ -23,7 +23,7 @@
     #};
   };
 
-  outputs = { self, nixpkgs, home-manager, ... }: {
+  outputs = { self, nixpkgs, home-manager, nixos-hardware, ... }: {
     nixosConfigurations = {
       oursbook3 = nixpkgs.lib.nixosSystem rec {
         system = "x86_64-linux";
@@ -45,6 +45,7 @@
             home-manager.useUserPackages = true;
             home-manager.users.mmercier = import ./config/home.nix;
           }
+          "${builtins.fetchGit { url = "https://github.com/NixOS/nixos-hardware.git"; rev="4c9f07277bd4bc29a051ff2a0ca58c6403e3881a"; }}/lenovo/thinkpad/x1-extreme"
         ];
       };oursbook2 = nixpkgs.lib.nixosSystem rec {
         system = "x86_64-linux";
