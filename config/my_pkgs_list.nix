@@ -126,6 +126,8 @@ in {
     zsh-powerlevel10k
     meld
     smem
+    exa
+    ripgrep
     # Day to day use in Ryax
     bitwarden
     ts

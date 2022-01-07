@@ -75,6 +75,7 @@
     # nvidia-offload
     lm_sensors
     pass
+    wl-clipboard
     gnomeExtensions.gsconnect
     linuxPackages.acpi_call
     zoom-us
