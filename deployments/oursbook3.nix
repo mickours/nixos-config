@@ -98,5 +98,12 @@
         ${pkgs.rsync}/bin/rsync --rsync-path=/run/current-system/sw/bin/rsync -e"ssh -v -o StrictHostKeyChecking=no" -avz root@vps:/data /home/mmercier/Backups/vpc'';
     };
   };
+
+  # Add personal account
+  #users.users.mickours.isSystemUser = true;
+  users.extraUsers.mickours = {
+    isNormalUser = true;
+    extraGroups = [ "wheel" "lp" "networkmanager" ];
+  };
 }
 

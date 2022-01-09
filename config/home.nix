@@ -1,6 +1,17 @@
 { pkgs, ... }:
+let
+    my_dotfiles = builtins.fetchGit {
+      url = "https://github.com/mickours/dotfiles";
+      ref = "master";
+      rev = "f7ee7368682e4b8b319344be009034443602e228";
+    };
+    my_vim_config = builtins.readFile (builtins.toPath "${my_dotfiles}/vimrc");
+    my_tmux_config = builtins.readFile (builtins.toPath "${my_dotfiles}/tmux.conf");
+    my_zsh_config = builtins.readFile (builtins.toPath "${my_dotfiles}/zshrc.local");
+    my_vim_plugins = pkgs.callPackage ./my_vim_plugins.nix { };
+in {
+  home.packages = with pkgs; [ zsh-powerlevel10k meslo-lgs-nf ];
 
-{
   # Bluetooth command for headsets
   systemd.user.services.mpris-proxy = {
     Unit.Description = "Mpris proxy";
@@ -8,15 +19,7 @@
     Service.ExecStart = "${pkgs.bluez}/bin/mpris-proxy";
     Install.WantedBy = [ "default.target" ];
   };
-  programs = let
-    my_dotfiles = builtins.fetchGit {
-      url = "https://github.com/mickours/dotfiles";
-      ref = "master";
-      rev = "f7ee7368682e4b8b319344be009034443602e228";
-    };
-    my_vim_config = builtins.readFile (builtins.toPath "${my_dotfiles}/vimrc");
-    my_vim_plugins = pkgs.callPackage ./my_vim_plugins.nix { };
-  in {
+  programs = {
     neovim = {
       enable = true;
       withPython3 = true;
@@ -28,7 +31,21 @@
       ] ++ my_vim_plugins.dependencies;
       extraPython3Packages = (ps: with ps; [ jedi ]);
     };
+    tmux.enable = true;
+    tmux.extraConfig = my_tmux_config;
+    zsh.enable = true;
+    zsh.dotDir = ".config/zsh";
+    zsh.initExtra = builtins.readFile ./zshrc;
+    git = {
+      enable = true;
+      userName  = "Michael Mercier";
+    };
   };
+  # Zsh extra config
+  xdg.configFile."zsh/.zshrc.local".text = my_zsh_config;
+  home.file.".p10k.zsh".text = builtins.readFile ./p10k.zsh;
+
+  # Vim extra config
   xdg.configFile."nvim/coc-settings.json".text =
     builtins.readFile ./coc-settings.json;
 }

@@ -34,6 +34,7 @@
     go-langserver
     llvmPackages.libclang
     ccls
+    rnix-lsp
     # For coc
     nodejs
     # NOT WORKING DUE TO sha256 mismatch

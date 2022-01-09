@@ -43,30 +43,10 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.mmercier = import ./config/home.nix;
+            # home-manager.users.mmercier = import ./config/home.nix;
+            home-manager.users.mickours = import ./config/home.nix;
           }
           "${builtins.fetchGit { url = "https://github.com/NixOS/nixos-hardware.git"; rev="4c9f07277bd4bc29a051ff2a0ca58c6403e3881a"; }}/lenovo/thinkpad/x1-extreme"
-        ];
-      };oursbook2 = nixpkgs.lib.nixosSystem rec {
-        system = "x86_64-linux";
-
-        modules = let
-          nixpkgsUnfree = ({
-            nixpkgs = {
-              config.allowUnfree = true;
-              # overlays = [ (import ./overlays/fixes.nix) ];
-              inherit system;
-            };
-          });
-        in [
-          nixpkgsUnfree
-          ./deployments/oursbook2.nix
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.mmercier = import ./config/home.nix;
-          }
         ];
       };
       #vps = nixpkgs.lib.nixosSystem {
