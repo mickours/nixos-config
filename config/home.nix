@@ -35,14 +35,14 @@ in {
     tmux.extraConfig = my_tmux_config;
     zsh.enable = true;
     zsh.dotDir = ".config/zsh";
-    zsh.initExtra = builtins.readFile ./zshrc;
+    zsh.initExtraBeforeCompInit = builtins.readFile ./zshrc;
+    zsh.initExtra = my_zsh_config;
     git = {
       enable = true;
       userName  = "Michael Mercier";
     };
   };
   # Zsh extra config
-  xdg.configFile."zsh/.zshrc.local".text = my_zsh_config;
   home.file.".p10k.zsh".text = builtins.readFile ./p10k.zsh;
 
   # Vim extra config
