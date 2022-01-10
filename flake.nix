@@ -43,7 +43,7 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            # home-manager.users.mmercier = import ./config/home.nix;
+            home-manager.users.mmercier = import ./config/home.nix;
             home-manager.users.mickours = import ./config/home.nix;
           }
           "${builtins.fetchGit { url = "https://github.com/NixOS/nixos-hardware.git"; rev="4c9f07277bd4bc29a051ff2a0ca58c6403e3881a"; }}/lenovo/thinkpad/x1-extreme"
