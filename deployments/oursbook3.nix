@@ -79,6 +79,7 @@
     gnomeExtensions.gsconnect
     linuxPackages.acpi_call
     zoom-us
+    skype
     jetbrains.pycharm-community
     jetbrains.webstorm
     pciutils

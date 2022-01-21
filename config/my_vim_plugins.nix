@@ -43,7 +43,7 @@
     #}))
     (python3.withPackages (ps:
       with ps; [
-        python-language-server
+        python-lsp-server
         # the following plugins are optional, they provide type checking, import sorting and code formatting
         black
         jedi
