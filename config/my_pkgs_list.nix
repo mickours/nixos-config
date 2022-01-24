@@ -76,7 +76,6 @@ in {
     vlc
     gthumb
     obs-studio
-    obs-wlrobs
     # Utils
     gnome3.gnome-disk-utility
     xorg.xkill
