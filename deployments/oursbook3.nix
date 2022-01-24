@@ -82,6 +82,8 @@
     skype
     jetbrains.pycharm-community
     jetbrains.webstorm
+    vscode-fhs
+    go
     pciutils
 
     libreoffice
