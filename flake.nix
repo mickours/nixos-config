@@ -1,29 +1,23 @@
 {
   description = "My personal NixOS machines configuration";
 
-  inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-21.11";
-    home-manager = {
+  inputs.deploy-rs.url = "github:serokell/deploy-rs";
+  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-21.11";
+  inputs.home-manager = {
       url = "github:nix-community/home-manager/release-21.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    #simple-nixos-mailserver = {
-    #  type = "git";
-    #  url = "https://gitlab.com/simple-nixos-mailserver/nixos-mailserver";
-    #  ref = "nixos-20.09";
-    #  flake = false;
-    #};
-    #NUR = {
-    #  url = github:nix-community/NUR;
-    #  flake = false;
-    #};
-    #my_dotfiles = {
-    #  url = "github:mickours/dotfiles";
-    #  flake = false;
-    #};
-  };
+  inputs.simple-nixos-mailserver = {
+      type = "git";
+      url = "https://gitlab.com/simple-nixos-mailserver/nixos-mailserver";
+      ref = "nixos-21.11";
+    };
+  #inputs.my_dotfiles = {
+  #  url = "github:mickours/dotfiles";
+  #  flake = false;
+  #};
 
-  outputs = { self, nixpkgs, home-manager, nixos-hardware, ... }: {
+  outputs = { self, nixpkgs, home-manager, nixos-hardware, simple-nixos-mailserver, deploy-rs, ... }: {
     nixosConfigurations = {
       oursbook3 = nixpkgs.lib.nixosSystem rec {
         system = "x86_64-linux";
@@ -49,13 +43,23 @@
           "${builtins.fetchGit { url = "https://github.com/NixOS/nixos-hardware.git"; rev="4c9f07277bd4bc29a051ff2a0ca58c6403e3881a"; }}/lenovo/thinkpad/x1-extreme"
         ];
       };
-      #vps = nixpkgs.lib.nixosSystem {
-      #  system = "x86_64-linux";
+      vps = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
 
-      #  modules = [
-      #    ./deployments/vps.nix
-      #  ];
-      #};
+        modules = [
+          simple-nixos-mailserver
+          ./deployments/vps.nix
+        ];
+      };
     };
+
+    deploy.nodes.vps.hostname = "176.10.125.101";
+    deploy.nodes.vps.profiles.system = {
+        user = "root";
+        path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.vps;
+    };
+
+    # This is highly advised, and will prevent many possible mistakes
+    checks = builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy) deploy-rs.lib;
   };
 }
