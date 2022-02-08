@@ -3,12 +3,11 @@
 {
   networking.hostName = "kakahuette";
 
-  imports =
-    [
-      ./kakahuette-hardware-configuration.nix
-      ../modules/common.nix
-      ../modules/graphical.nix
-    ];
+  imports = [
+    ./kakahuette-hardware-configuration.nix
+    ../modules/common.nix
+    ../modules/graphical.nix
+  ];
 
   environments.mickours.common.enable = true;
   environments.mickours.graphical.enable = true;
@@ -70,12 +69,12 @@
   ];
 
   services.syncthing = {
-      enable = true;
-      user = "marine";
-      group = "marine";
-      dataDir = /home/marine/.config/syncthing;
-      systemService = false;
-    };
+    enable = true;
+    user = "marine";
+    group = "marine";
+    dataDir = /home/marine/.config/syncthing;
+    systemService = false;
+  };
 
   # Enable sound.
   sound.enable = true;

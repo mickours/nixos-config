@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }: {
-  networking.hostName = "oursbook2";
+  networking.hostName = "oursbook3";
 
-  system.stateVersion = "21.05";
+  system.stateVersion = "21.11";
 
   # Activate Flakes
   nix.package = pkgs.nixUnstable;
@@ -10,7 +10,7 @@
   '';
 
   imports = [
-    ./oursbook2-hardware-configuration.nix
+    ./oursbook3-hardware-configuration.nix
     ../modules/common.nix
     ../modules/development.nix
     ../modules/graphical.nix
@@ -18,7 +18,7 @@
 
   environments.mickours.common = {
     enable = true;
-    keyFiles = [ ./keys/id_rsa_oursbook.pub ./keys/id_rsa_roggy.pub ];
+    keyFiles = [ ];
   };
 
   environments.mickours.graphical.enable = true;
@@ -75,17 +75,18 @@
     # nvidia-offload
     lm_sensors
     pass
+    wl-clipboard
     gnomeExtensions.gsconnect
     linuxPackages.acpi_call
     zoom-us
-    citrix_workspace
+    skype
     jetbrains.pycharm-community
     jetbrains.webstorm
+    vscode-fhs
+    go
     pciutils
 
-    #libreoffice
-    zotero
-    gnome3.pomodoro
+    libreoffice
   ];
 
   systemd.services.vpc-backups = rec {
@@ -99,6 +100,13 @@
       ExecStart = ''
         ${pkgs.rsync}/bin/rsync --rsync-path=/run/current-system/sw/bin/rsync -e"ssh -v -o StrictHostKeyChecking=no" -avz root@vps:/data /home/mmercier/Backups/vpc'';
     };
+  };
+
+  # Add personal account
+  #users.users.mickours.isSystemUser = true;
+  users.extraUsers.mickours = {
+    isNormalUser = true;
+    extraGroups = [ "wheel" "lp" "networkmanager" ];
   };
 }
 

@@ -1,5 +1,4 @@
-{pkgs, vimPlugins, vimUtils}:
-{
+{ pkgs, vimPlugins, vimUtils }: {
   plugins = with vimPlugins; [
     fugitive
     ctrlp
@@ -35,16 +34,22 @@
     go-langserver
     llvmPackages.libclang
     ccls
+    rnix-lsp
     # For coc
     nodejs
     # NOT WORKING DUE TO sha256 mismatch
     #(nur.repos.mic92.nix-lsp.overrideAttrs (attr: {
     #  cargoSha256 = "13fhaspvrgymbbr230j41ppbz3a5qm12xl667cs7x888h0jvsp5g";
     #}))
-    (python3.withPackages(ps: with ps; [
-      python-language-server
-      # the following plugins are optional, they provide type checking, import sorting and code formatting
-      black jedi pylama
-    ]))
+    (python3.withPackages (ps:
+      with ps; [
+        python-lsp-server
+        # the following plugins are optional, they provide type checking, import sorting and code formatting
+        black
+        jedi
+        pylama
+        flake8
+        isort
+      ]))
   ];
 }
