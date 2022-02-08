@@ -235,6 +235,7 @@ in
     certificateScheme = 3;
 
     mailDirectory = "/data/vmail";
+    dkimKeyDirectory = "/data/dkim";
   };
 
   ##***********#
