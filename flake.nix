@@ -11,6 +11,7 @@
       type = "git";
       url = "https://gitlab.com/simple-nixos-mailserver/nixos-mailserver";
       ref = "nixos-21.11";
+      flake = false;
     };
   #inputs.my_dotfiles = {
   #  url = "github:mickours/dotfiles";
@@ -47,15 +48,16 @@
         system = "x86_64-linux";
 
         modules = [
-          simple-nixos-mailserver
+          "${simple-nixos-mailserver}"
           ./deployments/vps.nix
         ];
       };
     };
 
-    deploy.nodes.vps.hostname = "176.10.125.101";
+    deploy.nodes.vps.hostname = "vps";
     deploy.nodes.vps.profiles.system = {
         user = "root";
+        sshUser = "root";
         path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.vps;
     };
 

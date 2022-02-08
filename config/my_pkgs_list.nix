@@ -79,6 +79,7 @@ in {
     # Utils
     gnome3.gnome-disk-utility
     xorg.xkill
+    deja-dup
     # wireshark-qt
     git-cola
     gitg
