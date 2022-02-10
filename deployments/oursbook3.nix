@@ -35,7 +35,7 @@
   # Add virtualbox and docker
   virtualisation = {
     # virtualbox.host.enable = true;
-    # libvirtd.enable = true;
+    libvirtd.enable = true;
     docker.enable = true;
     docker.extraOptions = "--insecure-registry ryax-registry.ryaxns:5000";
     # docker.enableNvidia = true;
@@ -87,6 +87,7 @@
     pciutils
 
     libreoffice
+    gnome.gnome-boxes
   ];
 
   systemd.services.vpc-backups = rec {
