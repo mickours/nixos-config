@@ -9,6 +9,7 @@
     experimental-features = nix-command flakes
   '';
 
+
   imports = [
     ./oursbook3-hardware-configuration.nix
     ../modules/common.nix
@@ -32,6 +33,9 @@
   # Use swap only if needed
   boot.kernel.sysctl = { "vm.swappiness" = 10; };
 
+  # Use a specific kernel that does not fail with nouveau
+  boot.kernelPackages = pkgs.linuxPackages_5_10;
+
   # Add virtualbox and docker
   virtualisation = {
     # virtualbox.host.enable = true;
@@ -52,6 +56,9 @@
 
   # Enable Nvidia Prime
   #services.xserver.videoDrivers = [ "nvidia" ];
+  #hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.beta;
+  #nixpkgs.config.allowUnfreePredicate = pkg:
+  #    builtins.elem (lib.getName pkg) [ "nvidia-x11" "nvidia-settings" ];
   #hardware.nvidia.prime = {
   #  offload.enable = true;
 
