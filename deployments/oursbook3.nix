@@ -33,7 +33,17 @@
   boot.kernel.sysctl = { "vm.swappiness" = 10; };
 
   # Use a specific kernel that does not fail with nouveau
-  boot.kernelPackages = pkgs.linuxPackages_5_4;
+  boot.kernelPackages = pkgs.linuxPackagesFor (pkgs.linux_5_10.override {
+    argsOverride = rec {
+      version = "5.10.94";
+      src = pkgs.fetchurl {
+            url = "mirror://kernel/linux/kernel/v5.x/linux-${version}.tar.xz";
+            sha256 = "sha256-KP9Eqkqaih6lKudORI2mF0yk/wQt3CAuNrFXyVHNdQg=";
+      };
+      modDirVersion = version;
+      };
+  });
+
   # Enable firmware updates
   services.fwupd.enable = true;
 
@@ -112,7 +122,7 @@
   };
 
   services.logind.extraConfig = ''
-    HandlePowerKey="suspend-then-hibernate"
+    HandlePowerKey="suspend"
     '';
 
   # Add personal account
