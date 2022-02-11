@@ -9,7 +9,6 @@
     experimental-features = nix-command flakes
   '';
 
-
   imports = [
     ./oursbook3-hardware-configuration.nix
     ../modules/common.nix
@@ -34,7 +33,9 @@
   boot.kernel.sysctl = { "vm.swappiness" = 10; };
 
   # Use a specific kernel that does not fail with nouveau
-  boot.kernelPackages = pkgs.linuxPackages_5_10;
+  boot.kernelPackages = pkgs.linuxPackages_5_4;
+  # Enable firmware updates
+  services.fwupd.enable = true;
 
   # Add virtualbox and docker
   virtualisation = {
@@ -109,6 +110,10 @@
         ${pkgs.rsync}/bin/rsync --rsync-path=/run/current-system/sw/bin/rsync -e"ssh -v -o StrictHostKeyChecking=no" -avz root@vps:/data /home/mmercier/Backups/vpc'';
     };
   };
+
+  services.logind.extraConfig = ''
+    HandlePowerKey="suspend-then-hibernate"
+    '';
 
   # Add personal account
   #users.users.mickours.isSystemUser = true;
