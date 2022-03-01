@@ -67,28 +67,17 @@
   users.extraUsers.mmercier.extraGroups = [ "docker" "libvirtd" ];
 
   # Enable Nvidia proprietary driver
-  # boot.kernelPackages = pkgs.linuxPackages.nvidia_x11_beta;
   hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.beta;
   hardware.nvidia.modesetting.enable = true;
   hardware.nvidia.powerManagement.enable = true;
   hardware.opengl.driSupport32Bit = true;
   services.xserver.displayManager.gdm.nvidiaWayland = lib.mkForce true;
   services.xserver.videoDrivers = [ "nvidia" ];
-  #hardware.nvidia.prime = {
-  #  sync.enable = true;
-
-  #  # Bus ID of the NVIDIA GPU. You can find it using lspci, either under 3D or VGA
-  #  nvidiaBusId = "PCI:1:0:0";
-
-  #  # Bus ID of the Intel GPU. You can find it using lspci, either under 3D or VGA
-  #  intelBusId = "PCI:0:2:0";
-  #};
 
   services.xserver.libinput.enable = true;
 
   environment.systemPackages = let
   in with pkgs; [
-    # nvidia-offload
     lm_sensors
     pass
     wl-clipboard
