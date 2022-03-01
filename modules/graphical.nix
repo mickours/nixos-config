@@ -3,7 +3,8 @@ let
   pkgs_lists = import ../config/my_pkgs_list.nix { inherit pkgs; };
   hp-driver = pkgs.callPackage ../pkgs/hp-driver/hp-driver-MFP-178-nw.nix { };
   cfg = config.environments.mickours.graphical;
-in with lib; {
+in
+with lib; {
   options.environments.mickours.graphical = {
     enable = mkEnableOption "graphical";
     myuser = mkOption { type = types.str; };

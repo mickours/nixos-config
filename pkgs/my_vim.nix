@@ -41,7 +41,8 @@ let
   };
 
   my_vim_config = builtins.readFile ("${my_dotfiles}/vimrc");
-in (neovim.override {
+in
+(neovim.override {
   configure = {
     packages.myVimPackage = {
       # see examples below how to use custom packages

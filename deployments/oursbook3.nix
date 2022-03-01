@@ -61,7 +61,7 @@
 
   # Adroid management (adb, fastboot..)
   programs.adb.enable = true;
-  users.users.mmercier.extraGroups = ["adbusers"];
+  users.users.mmercier.extraGroups = [ "adbusers" ];
 
   # Add docker and libvirt users
   users.extraUsers.mmercier.extraGroups = [ "docker" "libvirtd" ];
@@ -76,24 +76,26 @@
 
   services.xserver.libinput.enable = true;
 
-  environment.systemPackages = let
-  in with pkgs; [
-    lm_sensors
-    pass
-    wl-clipboard
-    gnomeExtensions.gsconnect
-    linuxPackages.acpi_call
-    zoom-us
-    skype
-    jetbrains.pycharm-community
-    jetbrains.webstorm
-    vscode-fhs
-    go
-    pciutils
+  environment.systemPackages =
+    let
+    in
+    with pkgs; [
+      lm_sensors
+      pass
+      wl-clipboard
+      gnomeExtensions.gsconnect
+      linuxPackages.acpi_call
+      zoom-us
+      skype
+      jetbrains.pycharm-community
+      jetbrains.webstorm
+      vscode-fhs
+      go
+      pciutils
 
-    libreoffice
-    gnome.gnome-boxes
-  ];
+      libreoffice
+      gnome.gnome-boxes
+    ];
 
   systemd.services.vpc-backups = rec {
     description = "Backup my vpc (${startAt})";
@@ -110,7 +112,7 @@
 
   services.logind.extraConfig = ''
     HandlePowerKey=suspend
-    '';
+  '';
 
   # Add personal account
   #users.users.mickours.isSystemUser = true;

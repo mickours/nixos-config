@@ -9,7 +9,8 @@ let
   };
   my_vim_config = builtins.readFile (builtins.toPath "${my_dotfiles}/vimrc");
   my_vim_plugins = pkgs.callPackage ./my_vim_plugins.nix { };
-in {
+in
+{
   common = [
     # nix_utils
     nix-prefetch-scripts

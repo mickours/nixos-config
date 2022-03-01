@@ -151,45 +151,49 @@ in
 
   services.radicale = {
     enable = true;
-    settings = let
-      inherit (lib) concatStrings flip mapAttrsToList;
-      mailAccounts = config.mailserver.loginAccounts;
-      htpasswd = pkgs.writeText "radicale.users" (concatStrings
-        (flip mapAttrsToList mailAccounts
-          (mail: user: mail + ":" + user.hashedPassword + "\n")));
-    in {
-      server = {
-        hosts = "127.0.0.1:${builtins.toString radicalePort}";
+    settings =
+      let
+        inherit (lib) concatStrings flip mapAttrsToList;
+        mailAccounts = config.mailserver.loginAccounts;
+        htpasswd = pkgs.writeText "radicale.users" (concatStrings
+          (flip mapAttrsToList mailAccounts
+            (mail: user: mail + ":" + user.hashedPassword + "\n")));
+      in
+      {
+        server = {
+          hosts = "127.0.0.1:${builtins.toString radicalePort}";
+        };
+        auth = {
+          type = "htpasswd";
+          htpasswd_filename = "${htpasswd}";
+          htpasswd_encryption = "bcrypt";
+        };
+        storage = {
+          hook = "${pkgs.git}/bin/git add -A && (${pkgs.git}/bin/git diff --cached --quiet || ${pkgs.git}/bin/git commit -m 'Changes by %(user)s' )";
+          filesystem_folder = "${radicaleCollection}";
+        };
       };
-      auth = {
-        type = "htpasswd";
-        htpasswd_filename = "${htpasswd}";
-        htpasswd_encryption = "bcrypt";
-      };
-      storage= {
-        hook = "${pkgs.git}/bin/git add -A && (${pkgs.git}/bin/git diff --cached --quiet || ${pkgs.git}/bin/git commit -m 'Changes by %(user)s' )";
-        filesystem_folder = "${radicaleCollection}";
-      };
-    };
   };
 
-  services.cron.cronFiles = let
-    # Contact and Calendar backups
-    radicaleBackups = "/data/backups/radicale";
+  services.cron.cronFiles =
+    let
+      # Contact and Calendar backups
+      radicaleBackups = "/data/backups/radicale";
 
-    backupScript = pkgs.writeText "backup.sh" ''
-      #!${pkgs.bash}/bin/bash
+      backupScript = pkgs.writeText "backup.sh" ''
+        #!${pkgs.bash}/bin/bash
 
-      COLLECTIONS="${radicaleCollection}"
-      # adapt to where you want to back up information
-      BACKUP="${radicaleBackups}"
+        COLLECTIONS="${radicaleCollection}"
+        # adapt to where you want to back up information
+        BACKUP="${radicaleBackups}"
 
-      mkdir -p "$BACKUP"
-      tar zcf "$BACKUP/dump-`date +%V`.tgz" "$COLLECTIONS"
-    '';
-    backupCron =
-      pkgs.writeText "backupRadicalCron.sh" "@weekly ${backupScript}";
-  in [ backupCron ];
+        mkdir -p "$BACKUP"
+        tar zcf "$BACKUP/dump-`date +%V`.tgz" "$COLLECTIONS"
+      '';
+      backupCron =
+        pkgs.writeText "backupRadicalCron.sh" "@weekly ${backupScript}";
+    in
+    [ backupCron ];
 
   #****************#
   #   MailServer   #

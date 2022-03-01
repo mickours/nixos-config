@@ -2,7 +2,8 @@
 let
   pkgs_lists = import ../config/my_pkgs_list.nix { inherit pkgs; };
   cfg = config.environments.mickours.common;
-in with lib; {
+in
+with lib; {
   options.environments.mickours.common = {
     enable = mkEnableOption "common";
     keyFiles = mkOption {
