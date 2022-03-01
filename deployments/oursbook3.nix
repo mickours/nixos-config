@@ -33,16 +33,16 @@
   boot.kernel.sysctl = { "vm.swappiness" = 10; };
 
   # Use a specific kernel that does not fail with nouveau
-  boot.kernelPackages = pkgs.linuxPackagesFor (pkgs.linux_5_10.override {
-    argsOverride = rec {
-      version = "5.10.94";
-      src = pkgs.fetchurl {
-            url = "mirror://kernel/linux/kernel/v5.x/linux-${version}.tar.xz";
-            sha256 = "sha256-KP9Eqkqaih6lKudORI2mF0yk/wQt3CAuNrFXyVHNdQg=";
-      };
-      modDirVersion = version;
-      };
-  });
+  #boot.kernelPackages = pkgs.linuxPackagesFor (pkgs.linux_5_10.override {
+  #  argsOverride = rec {
+  #    version = "5.10.94";
+  #    src = pkgs.fetchurl {
+  #          url = "mirror://kernel/linux/kernel/v5.x/linux-${version}.tar.xz";
+  #          sha256 = "sha256-KP9Eqkqaih6lKudORI2mF0yk/wQt3CAuNrFXyVHNdQg=";
+  #    };
+  #    modDirVersion = version;
+  #    };
+  #});
 
   # Enable firmware updates
   services.fwupd.enable = true;
@@ -53,7 +53,8 @@
     libvirtd.enable = true;
     docker.enable = true;
     docker.extraOptions = "--insecure-registry ryax-registry.ryaxns:5000";
-    # docker.enableNvidia = true;
+    docker.enableNvidia = true;
+    podman.enable = true;
   };
 
   programs.singularity.enable = true;
@@ -65,30 +66,27 @@
   # Add docker and libvirt users
   users.extraUsers.mmercier.extraGroups = [ "docker" "libvirtd" ];
 
-  # Enable Nvidia Prime
-  #services.xserver.videoDrivers = [ "nvidia" ];
-  #hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.beta;
-  #nixpkgs.config.allowUnfreePredicate = pkg:
-  #    builtins.elem (lib.getName pkg) [ "nvidia-x11" "nvidia-settings" ];
+  # Enable Nvidia proprietary driver
+  # boot.kernelPackages = pkgs.linuxPackages.nvidia_x11_beta;
+  hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.beta;
+  hardware.nvidia.modesetting.enable = true;
+  hardware.nvidia.powerManagement.enable = true;
+  hardware.opengl.driSupport32Bit = true;
+  services.xserver.displayManager.gdm.nvidiaWayland = lib.mkForce true;
+  services.xserver.videoDrivers = [ "nvidia" ];
   #hardware.nvidia.prime = {
-  #  offload.enable = true;
-
-  #  # Bus ID of the Intel GPU. You can find it using lspci, either under 3D or VGA
-  #  intelBusId = "PCI:0:2:0";
+  #  sync.enable = true;
 
   #  # Bus ID of the NVIDIA GPU. You can find it using lspci, either under 3D or VGA
   #  nvidiaBusId = "PCI:1:0:0";
+
+  #  # Bus ID of the Intel GPU. You can find it using lspci, either under 3D or VGA
+  #  intelBusId = "PCI:0:2:0";
   #};
+
   services.xserver.libinput.enable = true;
 
   environment.systemPackages = let
-  #nvidia-offload = pkgs.writeShellScriptBin "nvidia-offload" ''
-  #  export __NV_PRIME_RENDER_OFFLOAD=1
-  #  export __NV_PRIME_RENDER_OFFLOAD_PROVIDER=NVIDIA-G0
-  #  export __GLX_VENDOR_LIBRARY_NAME=nvidia
-  #  export __VK_LAYER_NV_optimus=NVIDIA_only
-  #  exec -a "$0" "$@"
-  #'';
   in with pkgs; [
     # nvidia-offload
     lm_sensors
@@ -122,7 +120,7 @@
   };
 
   services.logind.extraConfig = ''
-    HandlePowerKey="suspend"
+    HandlePowerKey=suspend
     '';
 
   # Add personal account
