@@ -37,11 +37,11 @@
     argsOverride = rec {
       version = "5.10.94";
       src = pkgs.fetchurl {
-            url = "mirror://kernel/linux/kernel/v5.x/linux-${version}.tar.xz";
-            sha256 = "sha256-KP9Eqkqaih6lKudORI2mF0yk/wQt3CAuNrFXyVHNdQg=";
+        url = "mirror://kernel/linux/kernel/v5.x/linux-${version}.tar.xz";
+        sha256 = "sha256-KP9Eqkqaih6lKudORI2mF0yk/wQt3CAuNrFXyVHNdQg=";
       };
       modDirVersion = version;
-      };
+    };
   });
 
   # Enable firmware updates
@@ -60,7 +60,7 @@
 
   # Adroid management (adb, fastboot..)
   programs.adb.enable = true;
-  users.users.mmercier.extraGroups = ["adbusers"];
+  users.users.mmercier.extraGroups = [ "adbusers" ];
 
   # Add docker and libvirt users
   users.extraUsers.mmercier.extraGroups = [ "docker" "libvirtd" ];
@@ -81,32 +81,34 @@
   #};
   services.xserver.libinput.enable = true;
 
-  environment.systemPackages = let
-  #nvidia-offload = pkgs.writeShellScriptBin "nvidia-offload" ''
-  #  export __NV_PRIME_RENDER_OFFLOAD=1
-  #  export __NV_PRIME_RENDER_OFFLOAD_PROVIDER=NVIDIA-G0
-  #  export __GLX_VENDOR_LIBRARY_NAME=nvidia
-  #  export __VK_LAYER_NV_optimus=NVIDIA_only
-  #  exec -a "$0" "$@"
-  #'';
-  in with pkgs; [
-    # nvidia-offload
-    lm_sensors
-    pass
-    wl-clipboard
-    gnomeExtensions.gsconnect
-    linuxPackages.acpi_call
-    zoom-us
-    skype
-    jetbrains.pycharm-community
-    jetbrains.webstorm
-    vscode-fhs
-    go
-    pciutils
+  environment.systemPackages =
+    let
+      #nvidia-offload = pkgs.writeShellScriptBin "nvidia-offload" ''
+      #  export __NV_PRIME_RENDER_OFFLOAD=1
+      #  export __NV_PRIME_RENDER_OFFLOAD_PROVIDER=NVIDIA-G0
+      #  export __GLX_VENDOR_LIBRARY_NAME=nvidia
+      #  export __VK_LAYER_NV_optimus=NVIDIA_only
+      #  exec -a "$0" "$@"
+      #'';
+    in
+    with pkgs; [
+      # nvidia-offload
+      lm_sensors
+      pass
+      wl-clipboard
+      gnomeExtensions.gsconnect
+      linuxPackages.acpi_call
+      zoom-us
+      skype
+      jetbrains.pycharm-community
+      jetbrains.webstorm
+      vscode-fhs
+      go
+      pciutils
 
-    libreoffice
-    gnome.gnome-boxes
-  ];
+      libreoffice
+      gnome.gnome-boxes
+    ];
 
   systemd.services.vpc-backups = rec {
     description = "Backup my vpc (${startAt})";
@@ -123,7 +125,7 @@
 
   services.logind.extraConfig = ''
     HandlePowerKey="suspend"
-    '';
+  '';
 
   # Add personal account
   #users.users.mickours.isSystemUser = true;

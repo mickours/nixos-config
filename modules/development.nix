@@ -2,7 +2,8 @@
 let
   pkgs_lists = import ../config/my_pkgs_list.nix { inherit pkgs; };
   cfg = config.environment.mickours.development;
-in with lib; {
+in
+with lib; {
   options.environments.mickours.development = {
     enable = mkEnableOption "development";
   };
@@ -31,8 +32,10 @@ in with lib; {
 
     nixpkgs.config.allowUnfree = true;
     nixpkgs.config.packageOverrides = pkgs: {
-      nur = import (builtins.fetchTarball
-        "https://github.com/nix-community/NUR/archive/master.tar.gz") {
+      nur = import
+        (builtins.fetchTarball
+          "https://github.com/nix-community/NUR/archive/master.tar.gz")
+        {
           inherit pkgs;
         };
     };

@@ -1,15 +1,16 @@
 { pkgs, ... }:
 let
-    my_dotfiles = builtins.fetchGit {
-      url = "https://github.com/mickours/dotfiles";
-      ref = "master";
-      rev = "e6619f1dacb330dd66a6e60631eacc109f25d237";
-    };
-    my_vim_config = builtins.readFile (builtins.toPath "${my_dotfiles}/vimrc");
-    my_tmux_config = builtins.readFile (builtins.toPath "${my_dotfiles}/tmux.conf");
-    my_zsh_config = builtins.readFile (builtins.toPath "${my_dotfiles}/zshrc.local");
-    my_vim_plugins = pkgs.callPackage ./my_vim_plugins.nix { };
-in {
+  my_dotfiles = builtins.fetchGit {
+    url = "https://github.com/mickours/dotfiles";
+    ref = "master";
+    rev = "e6619f1dacb330dd66a6e60631eacc109f25d237";
+  };
+  my_vim_config = builtins.readFile (builtins.toPath "${my_dotfiles}/vimrc");
+  my_tmux_config = builtins.readFile (builtins.toPath "${my_dotfiles}/tmux.conf");
+  my_zsh_config = builtins.readFile (builtins.toPath "${my_dotfiles}/zshrc.local");
+  my_vim_plugins = pkgs.callPackage ./my_vim_plugins.nix { };
+in
+{
   home.packages = with pkgs; [ zsh-powerlevel10k meslo-lgs-nf ];
 
   # Bluetooth command for headsets
@@ -39,7 +40,7 @@ in {
     zsh.initExtra = my_zsh_config;
     git = {
       enable = true;
-      userName  = "Michael Mercier";
+      userName = "Michael Mercier";
     };
   };
   # Zsh extra config

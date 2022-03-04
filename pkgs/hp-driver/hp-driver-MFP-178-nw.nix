@@ -6,7 +6,8 @@ let
     if stdenv.hostPlatform.system == "x86_64-linux" then "64" else "";
   libPath = lib.makeLibraryPath [ cups libusb ]
     + ":$out/lib:${stdenv.cc.cc.lib}/lib${appendPath}";
-in stdenv.mkDerivation rec {
+in
+stdenv.mkDerivation rec {
   name = "HP-MFP-178-nw-driver-${version}";
   version = "1.00.39.12_00.15";
   src = fetchTarball {
