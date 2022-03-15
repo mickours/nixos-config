@@ -33,6 +33,7 @@
   boot.kernel.sysctl = { "vm.swappiness" = 10; };
 
   # Use a specific kernel that does not fail with nouveau
+  # WARNING: not working, still some issue after suspend (wayland restarts)
   #boot.kernelPackages = pkgs.linuxPackagesFor (pkgs.linux_5_10.override {
   #  argsOverride = rec {
   #    version = "5.10.94";
@@ -53,7 +54,6 @@
     libvirtd.enable = true;
     docker.enable = true;
     docker.extraOptions = "--insecure-registry ryax-registry.ryaxns:5000";
-    docker.enableNvidia = true;
     podman.enable = true;
   };
 
@@ -67,12 +67,16 @@
   users.extraUsers.mmercier.extraGroups = [ "docker" "libvirtd" ];
 
   # Enable Nvidia proprietary driver
-  hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.beta;
-  hardware.nvidia.modesetting.enable = true;
-  hardware.nvidia.powerManagement.enable = true;
-  hardware.opengl.driSupport32Bit = true;
-  services.xserver.displayManager.gdm.nvidiaWayland = lib.mkForce true;
-  services.xserver.videoDrivers = [ "nvidia" ];
+  # WARNING: Requires to activate "Discrete" GPU on the BIOS display setting.
+  # Also, Nvidia driver is buggy and does not work properly after suspend.
+  #
+  # hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.beta;
+  # hardware.nvidia.modesetting.enable = true;
+  # hardware.nvidia.powerManagement.enable = true;
+  # hardware.opengl.driSupport32Bit = true;
+  # services.xserver.displayManager.gdm.nvidiaWayland = lib.mkForce true;
+  # services.xserver.videoDrivers = [ "nvidia" ];
+  # virtualisation.docker.enableNvidia = true;
 
   services.xserver.libinput.enable = true;
 
