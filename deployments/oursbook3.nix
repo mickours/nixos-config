@@ -32,6 +32,7 @@
   # Use swap only if needed
   boot.kernel.sysctl = { "vm.swappiness" = 10; };
 
+
   # Use a specific kernel that does not fail with nouveau
   # WARNING: not working, still some issue after suspend (wayland restarts)
   #boot.kernelPackages = pkgs.linuxPackagesFor (pkgs.linux_5_10.override {
@@ -117,6 +118,8 @@
   services.logind.extraConfig = ''
     HandlePowerKey=suspend
   '';
+
+  services.fprintd.enable = true;
 
   # Add personal account
   #users.users.mickours.isSystemUser = true;
