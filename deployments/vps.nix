@@ -104,6 +104,9 @@ in
       "feeds.libr.fr".forceSSL = true;
       "feeds.libr.fr".enableACME = true;
 
+      "nextcloud.libr.fr".forceSSL = true;
+      "nextcloud.libr.fr".enableACME = true;
+
       "michaelmercier.fr" = {
         locations."/" = { root = "/data/public/mmercier/website"; };
         # Static file serving
@@ -240,6 +243,29 @@ in
 
     mailDirectory = "/data/vmail";
     dkimKeyDirectory = "/data/dkim";
+  };
+
+  ##***************#
+  ##   NextCloud   #
+  ##***************#
+
+  services.nextcloud = {
+    enable = true;
+    home = "/data/nextcloud";
+    hostName = "nextcloud.libr.fr";
+    https = true;
+    config.adminpassFile = "/data/admin_nextcloud";
+    config.defaultPhoneRegion = "FR";
+    # Forces Nextcloud to use HTTPS
+    config.overwriteProtocol = "https";
+    config.objectstore.s3 = {
+      enable = true;
+      region = "eu-west-3";
+      key = "AKIAZFTZEYESUAQVO5MO";
+      bucket = "nextcloud-libr-fr";
+      secretFile = "/data/s3_nextcloud";
+      autocreate = true;
+    };
   };
 
   ##***********#
