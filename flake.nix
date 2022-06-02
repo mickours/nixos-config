@@ -2,15 +2,15 @@
   description = "My personal NixOS machines configuration";
 
   inputs.deploy-rs.url = "github:serokell/deploy-rs";
-  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-21.11";
+  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-22.05";
   inputs.home-manager = {
-    url = "github:nix-community/home-manager/release-21.11";
+    url = "github:nix-community/home-manager/release-22.05";
     inputs.nixpkgs.follows = "nixpkgs";
   };
   inputs.simple-nixos-mailserver = {
     type = "git";
     url = "https://gitlab.com/simple-nixos-mailserver/nixos-mailserver";
-    ref = "nixos-21.11";
+    ref = "nixos-22.05";
     flake = false;
   };
   #inputs.my_dotfiles = {
