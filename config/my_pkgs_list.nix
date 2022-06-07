@@ -70,7 +70,6 @@ in
     aspellDicts.en
     # Message and RSS
     gnome3.polari
-    liferea
     signal-desktop
 
     # Media
