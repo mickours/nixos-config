@@ -128,6 +128,8 @@ in
     smem
     exa
     ripgrep
+    lsd
+    lazygit
     # Day to day use in Ryax
     bitwarden
     ts
