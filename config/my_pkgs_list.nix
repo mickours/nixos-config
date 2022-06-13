@@ -70,7 +70,6 @@ in
     aspellDicts.en
     # Message and RSS
     gnome3.polari
-    liferea
     signal-desktop
 
     # Media
@@ -129,6 +128,19 @@ in
     smem
     exa
     ripgrep
+    lsd
+    lazygit
+    dogdns
+    httpie
+    gtop
+    glances
+    cheat
+    fzf
+    fd
+    broot
+    duf
+    du-dust
+    delta
     # Day to day use in Ryax
     bitwarden
     ts
