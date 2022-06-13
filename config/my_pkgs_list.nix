@@ -130,6 +130,17 @@ in
     ripgrep
     lsd
     lazygit
+    dogdns
+    httpie
+    gtop
+    glances
+    cheat
+    fzf
+    fd
+    broot
+    duf
+    du-dust
+    delta
     # Day to day use in Ryax
     bitwarden
     ts
