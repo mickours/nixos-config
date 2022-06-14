@@ -72,7 +72,7 @@ in
   #};
 
   # Let's encrypt security settings of ACME
-  security.acme.email = "admin@libr.fr";
+  security.acme.defaults.email = "admin@libr.fr";
   security.acme.acceptTerms = true;
 
   #*************#
@@ -251,6 +251,7 @@ in
 
   services.nextcloud = {
     enable = true;
+    package = pkgs.nextcloud24;
     home = "/data/nextcloud";
     hostName = "nextcloud.libr.fr";
     https = true;

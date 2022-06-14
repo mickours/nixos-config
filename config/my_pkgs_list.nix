@@ -163,8 +163,8 @@ in
     jq
     qemu
     # printers
-    saneBackends
-    samsungUnifiedLinuxDriver
+    sane-backends
+    samsung-unified-linux-driver
     hplipWithPlugin
     # fun
     fortune

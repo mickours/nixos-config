@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }: {
   networking.hostName = "oursbook3";
 
-  system.stateVersion = "21.11";
+  system.stateVersion = "22.05";
 
   # Activate Flakes
   nix.package = pkgs.nixUnstable;
@@ -91,7 +91,7 @@
       gnomeExtensions.gsconnect
       linuxPackages.acpi_call
       zoom-us
-      skype
+      skypeforlinux
       jetbrains.pycharm-community
       jetbrains.webstorm
       vscode-fhs

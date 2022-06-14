@@ -20,7 +20,6 @@ with lib; {
       # NixOS allows either a lightweight build (default) or full build of PulseAudio to be installed.
       # Only the full build has Bluetooth support, so it must be selected here.
       package = pkgs.pulseaudioFull;
-      extraModules = [ pkgs.pulseaudio-modules-bt ];
       # For echo-cancelation virtual interface add the following line to the conf
       extraConfig = ''
         load-module module-echo-cancel

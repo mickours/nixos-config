@@ -20,7 +20,10 @@
     vim-grammarous
     csv
     gruvbox
-    coc-nvim
+    # Buggy in 22.05
+    # # bug: neovim: rebuilding with coc support does not work when nodejs is in PATH
+    # https://github.com/nix-community/home-manager/issues/2966
+    # coc-nvim
     coc-yaml
     coc-json
     coc-html
@@ -35,6 +38,7 @@
     llvmPackages.libclang
     ccls
     rnix-lsp
+    gitMinimal
     # For coc
     nodejs
     # NOT WORKING DUE TO sha256 mismatch

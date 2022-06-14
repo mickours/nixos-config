@@ -8,10 +8,7 @@
     inputs.nixpkgs.follows = "nixpkgs";
   };
   inputs.simple-nixos-mailserver = {
-    type = "git";
-    url = "https://gitlab.com/simple-nixos-mailserver/nixos-mailserver";
-    ref = "nixos-22.05";
-    flake = false;
+    url = "gitlab:simple-nixos-mailserver/nixos-mailserver";
   };
   #inputs.my_dotfiles = {
   #  url = "github:mickours/dotfiles";
@@ -50,7 +47,7 @@
         system = "x86_64-linux";
 
         modules = [
-          "${simple-nixos-mailserver}"
+          simple-nixos-mailserver.nixosModules.mailserver
           ./deployments/vps.nix
         ];
       };
