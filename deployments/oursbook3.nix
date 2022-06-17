@@ -32,6 +32,8 @@
   # Use swap only if needed
   boot.kernel.sysctl = { "vm.swappiness" = 10; };
 
+  # Use the latest kernel
+  boot.kernelPackages = pkgs.linuxPackages_latest;
 
   # Use a specific kernel that does not fail with nouveau
   # WARNING: not working, still some issue after suspend (wayland restarts)
