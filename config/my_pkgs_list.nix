@@ -61,10 +61,13 @@ in
     evolution
     evolution-data-server
     gnome-firmware-updater
+    gnome.gnome-tweaks
 
     # Web
     firefox
     chrome-gnome-shell
+    chromium
+
     # Dictionnaries
     aspellDicts.fr
     aspellDicts.en
@@ -80,9 +83,11 @@ in
     gnome3.gnome-disk-utility
     xorg.xkill
     deja-dup
-    # wireshark-qt
+    mesa-demos
     git-cola
     gitg
+    pdftk
+
     # storage
     ntfs3g
     exfat
@@ -93,14 +98,17 @@ in
     linuxPackages.perf
     # Password
     gnupg
-    rofi-pass
+    wl-clipboard
+
+    # Writings
+    calibre
+    libreoffice-fresh
 
     # Graphic tools
     gcolor3
     graphviz
     imagemagick
     inkscape
-    libreoffice-fresh
     gimp
 
     teams
@@ -147,6 +155,7 @@ in
     kind
     cachix
     kubernetes-helm
+    helmfile
     kubectl
     k9s
     pssh
@@ -154,6 +163,12 @@ in
     google-cloud-sdk
     docker-compose
     eksctl
+    skopeo
+    cri-tools
+    azure-cli
+    kubelogin
+    yarn
+
     # Editors
     emacs
     # Web Site
