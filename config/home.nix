@@ -3,7 +3,7 @@ let
   my_dotfiles = builtins.fetchGit {
     url = "https://github.com/mickours/dotfiles";
     ref = "master";
-    rev = "40d2975e632050256527ce0da302c32995b6fb74";
+    rev = "675551a4a72a2984722a2eb44ce0c9122d7b6536";
   };
   my_vim_config = builtins.readFile (builtins.toPath "${my_dotfiles}/vimrc");
   my_tmux_config = builtins.readFile (builtins.toPath "${my_dotfiles}/tmux.conf");
