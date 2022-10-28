@@ -185,6 +185,5 @@ in
     fortune
     sl
     wesnoth-dev
-    zeroad
   ];
 }
