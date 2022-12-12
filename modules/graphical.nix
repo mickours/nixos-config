@@ -1,6 +1,7 @@
 { config, lib, pkgs, ... }:
 let
   pkgs_lists = import ../config/my_pkgs_list.nix { inherit pkgs; };
+  hp-driver = pkgs.callPackage ../pkgs/hp-driver/hp-driver-MFP-178-nw.nix { };
   cfg = config.environments.mickours.graphical;
 in
 with lib; {
@@ -39,7 +40,7 @@ with lib; {
         enable = true;
         browsing = true;
         drivers =
-          [ pkgs.samsung-unified-linux-driver pkgs.hplipWithPlugin ];
+          [ pkgs.samsung-unified-linux-driver pkgs.hplipWithPlugin hp-driver ];
       };
       # Needed for printer discovery
       avahi.enable = true;
@@ -73,7 +74,7 @@ with lib; {
 
     # Auto unlock keyring with GDM (does not work!!!)
     # TODO create an issue...
-    security.pam.services.gdm.enableGnomeKeyring = true;
+    #security.pam.services.gdm.enableGnomeKeyring = true;
 
     # Add gdm to my user's groups
     users.extraUsers."${cfg.myuser}" = {
@@ -94,6 +95,10 @@ with lib; {
 
     # enable cron table
     services.cron.enable = true;
+
+    # Add Workaround for USB 3 Scanner for SANE
+    # See http://sane-project.org/ Note 3
+    environment.variables.SANE_USB_WORKAROUND = "1";
 
     programs.browserpass.enable = true;
     nixpkgs.config.firefox.enableBrowserpass = true;
