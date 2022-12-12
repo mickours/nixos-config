@@ -1,7 +1,7 @@
-{ config, lib, pkgs, ... }: {
+{ lib, pkgs, permittedInsecurePackages, ... }: {
   networking.hostName = "oursbook3";
 
-  system.stateVersion = "22.05";
+  system.stateVersion = "22.11";
 
   # Activate Flakes
   nix.package = pkgs.nixUnstable;

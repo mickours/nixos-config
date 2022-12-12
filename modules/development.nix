@@ -15,7 +15,7 @@ with lib; {
 
     nix = {
       # make sure dependencies are well defined
-      useSandbox = true;
+      settings.sandbox = true;
 
       # keep build dpendencies to enable offline rebuild
       extraOptions = ''
@@ -24,10 +24,11 @@ with lib; {
       '';
 
       # Add Batsim cachix to my nix cache
-      binaryCaches = [ "https://cache.nixos.org/" "https://batsim.cachix.org" ];
-      binaryCachePublicKeys =
+      settings.substituters = [ "https://cache.nixos.org/" "https://batsim.cachix.org" ];
+      settings.trusted-public-keys =
         [ "batsim.cachix.org-1:IQ/4c8P/yzhxQwp6t58LatLcvHz0qMolEHJQz9w9pxc=" ];
-      trustedUsers = [ "root" "mmercier" ];
+      settings.trusted-users = [ "root" "mmercier" ];
+      settings.cores = 0;
     };
 
     nixpkgs.config.allowUnfree = true;
@@ -40,6 +41,5 @@ with lib; {
         };
     };
 
-    nix.buildCores = 0;
   };
 }

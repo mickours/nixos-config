@@ -34,7 +34,7 @@
   dependencies = with pkgs; [
     # Vim config dependencies
     rustup
-    go-langserver
+    gopls
     llvmPackages.libclang
     ccls
     rnix-lsp

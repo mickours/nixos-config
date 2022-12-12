@@ -11,6 +11,7 @@ let
   my_vim_plugins = pkgs.callPackage ./my_vim_plugins.nix { };
 in
 {
+  home.stateVersion = "22.11";
   home.packages = with pkgs; [ zsh-powerlevel10k meslo-lgs-nf ];
 
   # Bluetooth command for headsets
