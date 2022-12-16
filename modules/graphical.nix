@@ -14,19 +14,51 @@ with lib; {
     environment.systemPackages = pkgs_lists.graphical;
 
     # Enable bluetooth
-    hardware.pulseaudio = {
-      enable = true;
+    #hardware.pulseaudio = {
+    #  enable = false;
 
-      # NixOS allows either a lightweight build (default) or full build of PulseAudio to be installed.
-      # Only the full build has Bluetooth support, so it must be selected here.
-      package = pkgs.pulseaudioFull;
-      # For echo-cancelation virtual interface add the following line to the conf
-      extraConfig = ''
-        load-module module-echo-cancel
-        load-module module-switch-on-connect
+    #  # NixOS allows either a lightweight build (default) or full build of PulseAudio to be installed.
+    #  # Only the full build has Bluetooth support, so it must be selected here.
+    #  package = pkgs.pulseaudioFull;
+    #  # For echo-cancelation virtual interface add the following line to the conf
+    #  extraConfig = ''
+    #    load-module module-echo-cancel
+    #    load-module module-switch-on-connect
+    #  '';
+    #};
+    hardware.pulseaudio.enable = false;
+    hardware.bluetooth.enable = true;
+    # rtkit is optional but recommended
+    security.rtkit.enable = true;
+    services.pipewire = {
+      enable = true;
+      alsa.enable = true;
+      alsa.support32Bit = true;
+      pulse.enable = true;
+      # If you want to use JACK applications, uncomment this
+      #jack.enable = true;
+      config.pipewire = {
+        "context.properties" = {
+          #"link.max-buffers" = 64;
+          "link.max-buffers" = 16; # version < 3 clients can't handle more than this
+          "log.level" = 2; # https://docs.pipewire.org/page_daemon.html
+          #"default.clock.rate" = 48000;
+          #"default.clock.quantum" = 1024;
+          #"default.clock.min-quantum" = 32;
+          #"default.clock.max-quantum" = 8192;
+        };
+      };
+    };
+    environment.etc = {
+      "wireplumber/bluetooth.lua.d/51-bluez-config.lua".text = ''
+        bluez_monitor.properties = {
+            ["bluez5.enable-sbc-xq"] = true,
+            ["bluez5.enable-msbc"] = true,
+            ["bluez5.enable-hw-volume"] = true,
+            ["bluez5.headset-roles"] = "[ hsp_hs hsp_ag hfp_hf hfp_ag ]"
+        }
       '';
     };
-    hardware.bluetooth.enable = true;
 
     services = {
       # Install but disable open SSH
