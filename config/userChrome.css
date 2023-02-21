@@ -1,0 +1,41 @@
+/* See for more details
+ * https://www.reddit.com/r/FirefoxCSS/comments/7emhsq/my_compact_treestyletab_css_and_sidebar_hover/
+ *
+ * WARNING: This will only apply if toolkit.legacyUserProfileCustomizations.stylesheets is set to true in about:config.
+ */
+#TabsToolbar {
+    visibility: collapse;
+}
+
+#tabbrowser-tabs { visibility: collapse !important; }
+
+#sidebar-box[sidebarcommand="treestyletab_piro_sakura_ne_jp-sidebar-action"] #sidebar-header {
+    display: none;
+}
+
+#titlebar {
+    /* margin-top: 30px !important; */
+    visibility: collapse;
+}
+/*
+#main-window[sizemode="maximized"] #nav-bar {
+    margin-right: 68px;
+}
+#titlebar-buttonbox {
+    height: 38px !important;
+}
+*/
+
+
+/* Hide tab bar in FF Quantum */
+/*
+@-moz-document url("chrome://browser/content/browser.xul") {
+    #TabsToolbar {
+        visibility: collapse !important;
+        margin-bottom: 21px !important;
+    }
+    #sidebar-box[sidebarcommand="treestyletab_piro_sakura_ne_jp-sidebar-action"] #sidebar-header {
+        visibility: collapse !important;
+    }
+}
+*/

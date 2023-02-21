@@ -9,7 +9,7 @@
       "filetypes": ["nix"]
     },
     "python": {
-      "command": "pyls",
+      "command": "pylsp",
       "args": [
         "--log-file",
         "/tmp/lsp_python.log"
@@ -19,7 +19,7 @@
         "python"
       ],
       "settings": {
-        "pyls": {
+        "pylsp": {
           "enable": true,
           "trace": {
             "server": "verbose"
