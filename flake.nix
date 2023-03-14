@@ -15,7 +15,10 @@
   #  flake = false;
   #};
 
-  outputs = { self, nixpkgs, home-manager, nixos-hardware, simple-nixos-mailserver, deploy-rs, ... }: {
+  inputs.agenix.url = "github:ryantm/agenix";
+  inputs.agenix.inputs.nixpkgs.follows = "nixpkgs";
+
+  outputs = { self, nixpkgs, home-manager, nixos-hardware, simple-nixos-mailserver, deploy-rs, agenix, ... }: {
     nixosConfigurations = {
       oursbook3 = nixpkgs.lib.nixosSystem rec {
         system = "x86_64-linux";
@@ -44,6 +47,7 @@
               home-manager.users.mickours = import ./config/home.nix;
             }
             "${builtins.fetchGit { url = "https://github.com/NixOS/nixos-hardware.git"; rev="4c9f07277bd4bc29a051ff2a0ca58c6403e3881a"; }}/lenovo/thinkpad/x1-extreme"
+            agenix.nixosModules.default
           ];
       };
       vps = nixpkgs.lib.nixosSystem {

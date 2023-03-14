@@ -149,6 +149,8 @@ in
     duf
     du-dust
     delta
+    nnn
+    zellij
     # Day to day use in Ryax
     bitwarden
     ts

@@ -33,7 +33,11 @@
   boot.kernel.sysctl = { "vm.swappiness" = 10; };
 
   # Use the latest kernel
+  # WARNING this breaks the touchpad click!!!
   boot.kernelPackages = pkgs.linuxPackages_latest;
+
+  # Needed for OAR in docker
+  systemd.enableUnifiedCgroupHierarchy = false;
 
   # Use a specific kernel that does not fail with nouveau
   # WARNING: not working, still some issue after suspend (wayland restarts)
@@ -80,8 +84,6 @@
   # services.xserver.displayManager.gdm.nvidiaWayland = lib.mkForce true;
   # services.xserver.videoDrivers = [ "nvidia" ];
   # virtualisation.docker.enableNvidia = true;
-
-  services.xserver.libinput.enable = true;
 
   environment.systemPackages =
     let

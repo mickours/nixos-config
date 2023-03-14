@@ -34,6 +34,7 @@
     size = (1024 * 16); # RAM size = 16 G
   }];
 
-  powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
+  #powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+  hardware.trackpoint.device = "TPPS/2 Elan TrackPoint";
 }
