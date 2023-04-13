@@ -64,6 +64,9 @@
     podman.enable = true;
   };
 
+  # Enable cross compilation
+  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
+
   programs.singularity.enable = true;
 
   # Adroid management (adb, fastboot..)

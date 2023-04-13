@@ -136,6 +136,7 @@ in
     smem
     exa
     ripgrep
+    zoxide
     lsd
     lazygit
     dogdns
@@ -151,6 +152,7 @@ in
     delta
     nnn
     zellij
+    bandwhich
     # Day to day use in Ryax
     bitwarden
     ts
@@ -162,7 +164,11 @@ in
     k9s
     pssh
     awscli2
-    google-cloud-sdk
+    (
+      google-cloud-sdk.withExtraComponents (
+        [ google-cloud-sdk.components.gke-gcloud-auth-plugin ]
+      )
+    )
     docker-compose
     eksctl
     skopeo
@@ -170,6 +176,7 @@ in
     azure-cli
     kubelogin
     yarn
+
 
     # Editors
     emacs

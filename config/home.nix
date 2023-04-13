@@ -54,12 +54,12 @@ in
       coc.settings = {
         "python.formatting.provider" = "black";
         "coc.preferences.formatOnType" = true;
-        "coc.preferences.formatOnSaveFiletypes" = ["python"];
+        "coc.preferences.formatOnSaveFiletypes" = [ "python" ];
         "python.pythonPath" = "nvim-python3";
         "languageserver" = {
           "nix" = {
             "command" = "rnix-lsp";
-            "filetypes" = ["nix"];
+            "filetypes" = [ "nix" ];
           };
           "python" = {
             "command" = "pyls";
