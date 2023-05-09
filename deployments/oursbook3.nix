@@ -34,7 +34,7 @@
 
   # Use the latest kernel
   # WARNING this breaks the touchpad click!!!
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  # boot.kernelPackages = pkgs.linuxPackages_latest;
 
   # Needed for OAR in docker
   systemd.enableUnifiedCgroupHierarchy = false;
