@@ -1,7 +1,7 @@
 { lib, pkgs, permittedInsecurePackages, ... }: {
   networking.hostName = "oursbook3";
 
-  system.stateVersion = "22.11";
+  system.stateVersion = "23.05";
 
   # Activate Flakes
   nix.package = pkgs.nixUnstable;
@@ -55,6 +55,12 @@
   # Enable firmware updates
   services.fwupd.enable = true;
 
+  # Microsoft exchange support in evolution
+  programs.evolution = {
+    enable = true;
+    plugins = [ pkgs.evolution-ews ];
+  };
+
   # Add virtualbox and docker
   virtualisation = {
     # virtualbox.host.enable = true;
@@ -72,6 +78,12 @@
   # Adroid management (adb, fastboot..)
   programs.adb.enable = true;
   users.users.mmercier.extraGroups = [ "adbusers" ];
+
+  # Add fzf fuzzy coppletion
+  #programs.fzf.fuzzyCompletion = true;
+
+  # Share local files wih QR codd
+  #programs.sharing.enable = true;
 
   # Add docker and libvirt users
   users.extraUsers.mmercier.extraGroups = [ "docker" "libvirtd" ];

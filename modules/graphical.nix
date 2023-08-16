@@ -37,17 +37,6 @@ with lib; {
       pulse.enable = true;
       # If you want to use JACK applications, uncomment this
       #jack.enable = true;
-      config.pipewire = {
-        "context.properties" = {
-          #"link.max-buffers" = 64;
-          "link.max-buffers" = 16; # version < 3 clients can't handle more than this
-          "log.level" = 2; # https://docs.pipewire.org/page_daemon.html
-          #"default.clock.rate" = 48000;
-          #"default.clock.quantum" = 1024;
-          #"default.clock.min-quantum" = 32;
-          #"default.clock.max-quantum" = 8192;
-        };
-      };
     };
     environment.etc = {
       "wireplumber/bluetooth.lua.d/51-bluez-config.lua".text = ''
@@ -64,7 +53,7 @@ with lib; {
       # Install but disable open SSH
       openssh = {
         enable = false;
-        permitRootLogin = "false";
+        settings.PermitRootLogin = "false";
       };
 
       # Enable CUPS to print documents.
@@ -135,6 +124,8 @@ with lib; {
     programs.browserpass.enable = true;
     nixpkgs.config.firefox.enableBrowserpass = true;
     nixpkgs.config.firefox.enableGnomeExtensions = true;
+    # Needed for browserpass to call gnupg
+    programs.gnupg.agent.enable = true;
 
   };
 }

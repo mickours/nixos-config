@@ -176,7 +176,7 @@ in
     azure-cli
     kubelogin
     yarn
-
+    terraform
 
     # Editors
     emacs

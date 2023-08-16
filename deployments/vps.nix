@@ -29,7 +29,7 @@ in
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
-  services.openssh.permitRootLogin = "yes";
+  services.openssh.settings.PermitRootLogin = "yes";
   services.openssh.passwordAuthentication = false;
   environments.mickours.common = {
     enable = true;

@@ -11,8 +11,6 @@ with lib; {
   config = mkIf config.environments.mickours.development.enable {
     environment.systemPackages = pkgs_lists.development;
 
-    services.lorri.enable = true;
-
     nix = {
       # make sure dependencies are well defined
       settings.sandbox = true;
