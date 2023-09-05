@@ -114,85 +114,91 @@ in
     teams
   ];
 
-  development = [
-    gitAndTools.gitFull
-    python3
-    poetry
-    gotop
-    gcc
-    ctags
-    gnumake
-    wget
-    cmake
-    gdb
-    direnv
-    entr
-    pandoc
-    socat
-    bind
-    bat
-    zsh-powerlevel10k
-    meld
-    smem
-    exa
-    ripgrep
-    zoxide
-    lsd
-    lazygit
-    dogdns
-    httpie
-    gtop
-    glances
-    cheat
-    fzf
-    fd
-    broot
-    duf
-    du-dust
-    delta
-    nnn
-    zellij
-    bandwhich
-    # Day to day use in Ryax
-    bitwarden
-    ts
-    kind
-    cachix
-    kubernetes-helm
-    helmfile
-    kubectl
-    k9s
-    pssh
-    awscli2
-    (
-      google-cloud-sdk.withExtraComponents (
-        [ google-cloud-sdk.components.gke-gcloud-auth-plugin ]
+  development =
+    let
+      RStudio-with-my-packages = rstudioWrapper.override {
+        packages = with rPackages; [ tidyverse snakecase ];
+      };
+    in
+    [
+      gitAndTools.gitFull
+      python3
+      poetry
+      gotop
+      gcc
+      ctags
+      gnumake
+      wget
+      cmake
+      gdb
+      direnv
+      entr
+      pandoc
+      socat
+      bind
+      bat
+      zsh-powerlevel10k
+      meld
+      smem
+      exa
+      ripgrep
+      zoxide
+      lsd
+      lazygit
+      dogdns
+      httpie
+      gtop
+      glances
+      cheat
+      fzf
+      fd
+      broot
+      duf
+      du-dust
+      delta
+      nnn
+      zellij
+      bandwhich
+      # Day to day use in Ryax
+      bitwarden
+      ts
+      kind
+      cachix
+      kubernetes-helm
+      helmfile
+      kubectl
+      pssh
+      awscli2
+      (
+        google-cloud-sdk.withExtraComponents (
+          [ google-cloud-sdk.components.gke-gcloud-auth-plugin ]
+        )
       )
-    )
-    docker-compose
-    eksctl
-    skopeo
-    cri-tools
-    azure-cli
-    kubelogin
-    yarn
-    terraform
+      docker-compose
+      eksctl
+      skopeo
+      cri-tools
+      azure-cli
+      kubelogin
+      yarn
+      terraform
+      RStudio-with-my-packages
 
-    # Editors
-    emacs
-    # Web Site
-    hugo
-    # Misc
-    cloc
-    jq
-    qemu
-    # printers
-    sane-backends
-    samsung-unified-linux-driver
-    hplipWithPlugin
-    # fun
-    fortune
-    sl
-    wesnoth-dev
-  ];
+      # Editors
+      emacs
+      # Web Site
+      hugo
+      # Misc
+      cloc
+      jq
+      qemu
+      # printers
+      sane-backends
+      samsung-unified-linux-driver
+      hplipWithPlugin
+      # fun
+      fortune
+      sl
+      wesnoth-dev
+    ];
 }
