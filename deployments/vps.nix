@@ -38,6 +38,14 @@ in
   # Add root access to mmercier
   users.users.root.openssh.authorizedKeys.keyFiles = myKeys;
 
+  # Add other users
+  users.extraUsers.beatrice = {
+    description = "Béatrice Mayaux";
+    isNormalUser = true;
+    openssh.authorizedKeys.keyFiles = [ ./keys/id_rsa_beatrice.pub ];
+    uid = 1003;
+  };
+
   system.stateVersion = "22.11";
 
   time.timeZone = "Europe/Paris";
