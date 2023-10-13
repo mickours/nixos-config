@@ -183,6 +183,7 @@ in
       yarn
       terraform
       RStudio-with-my-packages
+      ruff
 
       # Editors
       emacs
