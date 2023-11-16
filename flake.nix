@@ -5,7 +5,6 @@
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.05";
   inputs.home-manager = {
     url = "github:nix-community/home-manager/release-23.05";
-    inputs.nixpkgs.follows = "nixpkgs";
   };
   inputs.simple-nixos-mailserver = {
     url = "gitlab:simple-nixos-mailserver/nixos-mailserver";
@@ -25,10 +24,10 @@
             nixpkgsUnfree = ({
               nixpkgs = {
                 config.allowUnfree = true;
-                # overlays = [ (import ./overlays/fixes.nix) ];
                 inherit system;
+                # overlays = [ (import ./overlays/fixes.nix) ];
                 config.permittedInsecurePackages = [
-                  "python3.10-poetry-1.2.2"
+                  "teams-1.5.00.23861"
                 ];
               };
             });

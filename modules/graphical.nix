@@ -53,7 +53,6 @@ with lib; {
       # Install but disable open SSH
       openssh = {
         enable = false;
-        settings.PermitRootLogin = "false";
       };
 
       # Enable CUPS to print documents.
