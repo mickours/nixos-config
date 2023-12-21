@@ -86,6 +86,15 @@ with lib; {
     # Alernate DNS resolution server to avoid French website blocking
     networking.nameservers = [ "1.1.1.1" "9.9.9.9" ];
 
+    # Allow usage of not wrapped binaries
+    programs.nix-ld.enable = true;
+
+    programs.nix-ld.libraries = with pkgs; [
+      stdenv.cc.cc
+      zlib
+      openssl
+    ];
+
     # Add my user
     users.extraUsers.mmercier = {
       description = "Michael Mercier";

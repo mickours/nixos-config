@@ -23,14 +23,13 @@ in
 
   # Use the GRUB 2 boot loader.
   boot.loader.grub.enable = true;
-  boot.loader.grub.version = 2;
   # Define on which hard drive you want to install Grub.
   boot.loader.grub.device = "/dev/vda"; # or "nodev" for efi only
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
   services.openssh.settings.PermitRootLogin = "yes";
-  services.openssh.passwordAuthentication = false;
+  services.openssh.settings.PasswordAuthentication = false;
   environments.mickours.common = {
     enable = true;
     keyFiles = myKeys;
@@ -137,7 +136,7 @@ in
 
     # Use Let's Encrypt certificates. Note that this needs to set up a stripped
     # down nginx and opens port 80.
-    certificateScheme = 3;
+    certificateScheme = "acme-nginx";
 
     mailDirectory = "/data/vmail";
     dkimKeyDirectory = "/data/dkim";
@@ -149,7 +148,7 @@ in
 
   services.nextcloud = {
     enable = true;
-    package = pkgs.nextcloud25;
+    package = pkgs.nextcloud27;
     home = "/data/nextcloud";
     hostName = "nextcloud.libr.fr";
     https = true;
