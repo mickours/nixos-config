@@ -104,10 +104,11 @@ with lib; {
     # Make fonts better...
     fonts.fontconfig = { enable = true; };
     # Add micro$oft fonts
-    fonts.fonts = with pkgs; [
+    fonts.packages = with pkgs; [
       corefonts
       # helvetica-neue-lt-std
       twemoji-color-font
+      nerdfonts
     ];
 
     # every machine should be running antivirus
@@ -121,10 +122,8 @@ with lib; {
     environment.variables.SANE_USB_WORKAROUND = "1";
 
     programs.browserpass.enable = true;
-    nixpkgs.config.firefox.enableBrowserpass = true;
-    nixpkgs.config.firefox.enableGnomeExtensions = true;
+    programs.firefox.nativeMessagingHosts.packages = [ pkgs.browserpass pkgs.gnome-browser-connector ];
     # Needed for browserpass to call gnupg
     programs.gnupg.agent.enable = true;
-
   };
 }

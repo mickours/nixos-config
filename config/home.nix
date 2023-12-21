@@ -40,14 +40,14 @@ in
       # https://github.com/nix-community/home-manager/issues/2966
       # Solution:
       # https://github.com/sumnerevans/home-manager-config/commit/da138d4ff3d04cddb37b0ba23f61edfb5bf7b85e
-      coc.package = pkgs.vimUtils.buildVimPluginFrom2Nix {
+      coc.package = pkgs.vimUtils.buildVimPlugin {
         pname = "coc.nvim";
-        version = "2022-05-21";
+        version = "2023-12-20";
         src = pkgs.fetchFromGitHub {
           owner = "neoclide";
           repo = "coc.nvim";
-          rev = "791c9f673b882768486450e73d8bda10e391401d";
-          sha256 = "sha256-MobgwhFQ1Ld7pFknsurSFAsN5v+vGbEFojTAYD/kI9c=";
+          rev = "f82e420efdb6291d1c3fcac1e20790a7f10f1a78";
+          sha256 = "sha256-bVJtMzJuSJXBpXTV1F2pAW59PgXBysEBmQTFIHxTpz4=";
         };
         meta.homepage = "https://github.com/neoclide/coc.nvim/";
       };

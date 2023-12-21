@@ -57,7 +57,7 @@ in
 
   graphical = [
     # Gnome stuff
-    gnomeExtensions.system-monitor
+    gnomeExtensions.system-monitor-next
     evolution
     evolution-data-server
     gnome-firmware-updater
@@ -110,8 +110,6 @@ in
     imagemagick
     inkscape
     gimp
-
-    teams
   ];
 
   development =
@@ -140,7 +138,7 @@ in
       zsh-powerlevel10k
       meld
       smem
-      exa
+      eza
       ripgrep
       zoxide
       lsd

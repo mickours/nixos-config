@@ -2,9 +2,9 @@
   description = "My personal NixOS machines configuration";
 
   inputs.deploy-rs.url = "github:serokell/deploy-rs";
-  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.05";
+  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.11";
   inputs.home-manager = {
-    url = "github:nix-community/home-manager/release-23.05";
+    url = "github:nix-community/home-manager/release-23.11";
   };
   inputs.simple-nixos-mailserver = {
     url = "gitlab:simple-nixos-mailserver/nixos-mailserver";
@@ -26,9 +26,9 @@
                 config.allowUnfree = true;
                 inherit system;
                 # overlays = [ (import ./overlays/fixes.nix) ];
-                config.permittedInsecurePackages = [
-                  "teams-1.5.00.23861"
-                ];
+                #config.permittedInsecurePackages = [
+                #  "teams-1.5.00.23861"
+                #];
               };
             });
           in
