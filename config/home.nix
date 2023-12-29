@@ -135,6 +135,7 @@ in
     zsh.dotDir = ".config/zsh";
     zsh.initExtraBeforeCompInit = builtins.readFile ./zshrc;
     zsh.initExtra = my_zsh_config;
+    fzf.enableZshIntegration = true;
     git = {
       enable = true;
       userName = "Michael Mercier";
