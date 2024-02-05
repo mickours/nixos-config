@@ -58,6 +58,7 @@ in
   graphical = [
     # Gnome stuff
     gnomeExtensions.system-monitor-next
+    gnomeExtensions.battery-health-charging
     evolution
     evolution-data-server
     gnome-firmware-updater

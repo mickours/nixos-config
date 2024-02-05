@@ -7,7 +7,7 @@
     url = "github:nix-community/home-manager/release-23.11";
   };
   inputs.simple-nixos-mailserver = {
-    url = "gitlab:simple-nixos-mailserver/nixos-mailserver";
+    url = "gitlab:simple-nixos-mailserver/nixos-mailserver/nixos-23.11";
   };
   #inputs.my_dotfiles = {
   #  url = "github:mickours/dotfiles";
