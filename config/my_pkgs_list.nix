@@ -183,6 +183,7 @@ in
       terraform
       RStudio-with-my-packages
       ruff
+      velero
 
       # Editors
       emacs

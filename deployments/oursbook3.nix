@@ -101,8 +101,6 @@
   # virtualisation.docker.enableNvidia = true;
 
   environment.systemPackages =
-    let
-    in
     with pkgs; [
       lm_sensors
       pass

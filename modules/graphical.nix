@@ -79,6 +79,7 @@ with lib; {
       };
 
       gnome.gnome-online-accounts.enable = true;
+      gnome.gnome-browser-connector.enable = true;
       # Disable tracker to avoid it to suck my vitality
       gnome.tracker.enable = mkForce false;
       gnome.tracker-miners.enable = mkForce false;
@@ -122,7 +123,7 @@ with lib; {
     environment.variables.SANE_USB_WORKAROUND = "1";
 
     programs.browserpass.enable = true;
-    programs.firefox.nativeMessagingHosts.packages = [ pkgs.browserpass pkgs.gnome-browser-connector ];
+    programs.firefox.nativeMessagingHosts.browserpass = true;
     # Needed for browserpass to call gnupg
     programs.gnupg.agent.enable = true;
   };

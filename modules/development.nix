@@ -22,14 +22,14 @@ with lib; {
 
     # keep build dpendencies to enable offline rebuild
     nix.extraOptions = ''
-        gc-keep-outputs = true
-        gc-keep-derivations = true
-      '';
+      gc-keep-outputs = true
+      gc-keep-derivations = true
+    '';
 
     # Add Batsim cachix to my nix cache
     nix.settings.substituters = [ "https://cache.nixos.org/" "https://batsim.cachix.org" ];
     nix.settings.trusted-public-keys =
-        [ "batsim.cachix.org-1:IQ/4c8P/yzhxQwp6t58LatLcvHz0qMolEHJQz9w9pxc=" ];
+      [ "batsim.cachix.org-1:IQ/4c8P/yzhxQwp6t58LatLcvHz0qMolEHJQz9w9pxc=" ];
     nixpkgs.config.allowUnfree = true;
     nixpkgs.config.packageOverrides = pkgs: {
       nur = import

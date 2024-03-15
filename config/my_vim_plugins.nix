@@ -37,7 +37,6 @@
     gopls
     llvmPackages.libclang
     ccls
-    rnix-lsp
     gitMinimal
     # For coc
     nodejs

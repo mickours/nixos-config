@@ -29,7 +29,7 @@ in
       plugins = my_vim_plugins.plugins;
       extraPackages = with pkgs; [
         (python3.withPackages (ps: with ps; [ black flake8 jedi ]))
-        rnix-lsp
+        nil
       ] ++ my_vim_plugins.dependencies;
       extraPython3Packages = (ps: with ps; [ jedi ]);
 
@@ -58,8 +58,9 @@ in
         "python.pythonPath" = "nvim-python3";
         "languageserver" = {
           "nix" = {
-            "command" = "rnix-lsp";
+            "command" = "nil";
             "filetypes" = [ "nix" ];
+            "rootPatterns" =  ["flake.nix"];
           };
           "python" = {
             "command" = "pyls";
