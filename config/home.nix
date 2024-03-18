@@ -145,9 +145,5 @@ in
   # Zsh extra config
   home.file.".p10k.zsh".text = builtins.readFile ./p10k.zsh;
 
-  # Vim extra config
-  xdg.configFile."nvim/coc-settings.json".text =
-    builtins.readFile ./coc-settings.json;
-
   services.syncthing.enable = true;
 }
