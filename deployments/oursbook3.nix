@@ -1,13 +1,23 @@
-{ lib, pkgs, permittedInsecurePackages, ... }: {
+{ lib, pkgs, inputs, permittedInsecurePackages, ... }: {
   networking.hostName = "oursbook3";
 
-  system.stateVersion = "23.05";
+  system.stateVersion = "23.11";
 
   # Activate Flakes
   nix.package = pkgs.nixUnstable;
   nix.extraOptions = ''
     experimental-features = nix-command flakes
   '';
+  # Add an Acces point for WiFi sharing because gnome Hotspot does not work
+  services.create_ap = {
+    enable = true;
+    settings = {
+      INTERNET_IFACE = "enp44s0u1u4";
+      WIFI_IFACE = "wlp0s20f3";
+      SSID = "OursbookAP";
+      PASSPHRASE = "nounours666";
+    };
+  };
 
   imports = [
     ./oursbook3-hardware-configuration.nix

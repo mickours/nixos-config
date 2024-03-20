@@ -14,11 +14,11 @@
   #  flake = false;
   #};
 
-  outputs = { self, nixpkgs, home-manager, nixos-hardware, simple-nixos-mailserver, deploy-rs, ... }: {
+  outputs = { self, nixpkgs, home-manager, nixos-hardware, simple-nixos-mailserver, deploy-rs, ... }@inputs: {
     nixosConfigurations = {
       oursbook3 = nixpkgs.lib.nixosSystem rec {
         system = "x86_64-linux";
-
+        specialArgs = { inherit inputs; };
         modules =
           let
             nixpkgsUnfree = ({

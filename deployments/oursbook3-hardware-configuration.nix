@@ -18,6 +18,13 @@
   boot.extraModulePackages = [ ];
   # boot.blacklistedKernelModules = [ "nouveau" ];
 
+  # Avoid WiFi stall and Hotspot errors
+  boot.extraModprobeConfig = ''
+    options iwlwifi 11n_disable=1
+    options iwlwifi wd_disable=0
+    options iwlwifi bt_coex_active=0
+  '';
+
   fileSystems."/" =
     {
       device = "/dev/disk/by-uuid/0a73544f-6095-43fa-a61c-6e48ce861906";

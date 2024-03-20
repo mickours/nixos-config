@@ -1,4 +1,4 @@
-{ config, lib, pkgs, modulesPath, ... }:
+{ config, lib, pkgs, modulesPath, inputs, ... }:
 let
   pkgs_lists = import ../config/my_pkgs_list.nix { inherit pkgs; };
   cfg = config.environments.mickours.common;
@@ -94,6 +94,9 @@ with lib; {
       zlib
       openssl
     ];
+
+    # nix shell will use the same nixpkgs version as the system
+    nix.registry.nixpkgs.flake = inputs.nixpkgs;
 
     # Add my user
     users.extraUsers.mmercier = {
