@@ -60,7 +60,7 @@ in
           "nix" = {
             "command" = "nil";
             "filetypes" = [ "nix" ];
-            "rootPatterns" =  ["flake.nix"];
+            "rootPatterns" = [ "flake.nix" ];
           };
           "python" = {
             "command" = "pyls";

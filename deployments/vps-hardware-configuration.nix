@@ -15,7 +15,7 @@
 
   swapDevices = [{
     device = "/var/swapfile";
-    size = 1024;
+    size = 2048;
   }];
 
   nix.settings.max-jobs = lib.mkDefault 1;

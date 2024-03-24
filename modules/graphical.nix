@@ -123,7 +123,7 @@ with lib; {
     environment.variables.SANE_USB_WORKAROUND = "1";
 
     programs.browserpass.enable = true;
-    programs.firefox.nativeMessagingHosts.browserpass = true;
+    #programs.firefox.nativeMessagingHosts.browserpass = true;
     # Needed for browserpass to call gnupg
     programs.gnupg.agent.enable = true;
   };

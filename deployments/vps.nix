@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, inputs, ... }:
 let
   pkgs_lists = import ../config/my_pkgs_list.nix { inherit pkgs; };
   webPort = 80;
@@ -164,6 +164,10 @@ in
       secretFile = "/data/s3_nextcloud";
       autocreate = true;
     };
+    # For face recognition App
+    phpExtraExtensions = all: [ all.pdlib all.bz2 all.apcu ];
+    maxUploadSize = "1G";
+    fastcgiTimeout = 600;
   };
 
   #*************#
@@ -183,5 +187,8 @@ in
       goaccess # For web site traffic analytics
       ripgrep
       neovim
+      # For nextcloud apps: Memories
+      exiftool
+      ffmpeg
     ] ++ pkgs_lists.common;
 }
