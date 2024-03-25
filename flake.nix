@@ -9,12 +9,12 @@
   inputs.simple-nixos-mailserver = {
     url = "gitlab:simple-nixos-mailserver/nixos-mailserver/nixos-23.11";
   };
-  #inputs.my_dotfiles = {
-  #  url = "github:mickours/dotfiles";
-  #  flake = false;
-  #};
+  inputs.my_dotfiles = {
+    url = "github:mickours/dotfiles";
+    flake = false;
+  };
 
-  outputs = { self, nixpkgs, home-manager, nixos-hardware, simple-nixos-mailserver, deploy-rs, ... }@inputs: {
+  outputs = { self, nixpkgs, home-manager, nixos-hardware, simple-nixos-mailserver, deploy-rs, my_dotfiles, ... }@inputs: {
     nixosConfigurations = {
       oursbook3 = nixpkgs.lib.nixosSystem rec {
         system = "x86_64-linux";
@@ -39,6 +39,7 @@
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
+              home-manager.extraSpecialArgs =  { inherit my_dotfiles; };
               home-manager.users.mmercier = import ./config/home.nix;
               home-manager.users.mickours = import ./config/home.nix;
             }

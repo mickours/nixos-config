@@ -1,13 +1,9 @@
-{ pkgs, ... }:
+{ pkgs, my_dotfiles, ... }:
 let
-  my_dotfiles = builtins.fetchGit {
-    url = "https://github.com/mickours/dotfiles";
-    ref = "master";
-    rev = "6ef609dd42cf766ff21b044bb1f63a0b6f7089fb";
-  };
   my_vim_config = builtins.readFile (builtins.toPath "${my_dotfiles}/vimrc");
   my_tmux_config = builtins.readFile (builtins.toPath "${my_dotfiles}/tmux.conf");
   my_zsh_config = builtins.readFile (builtins.toPath "${my_dotfiles}/zshrc.local");
+  my_zellij_config = builtins.readFile (builtins.toPath "${my_dotfiles}/config/zellij/config.kdl");
   my_vim_plugins = pkgs.callPackage ./my_vim_plugins.nix { };
 in
 {
@@ -36,21 +32,6 @@ in
       # coc
       withNodeJs = true;
       coc.enable = true;
-      # bug: neovim: rebuilding with coc support does not work when nodejs is in PATH
-      # https://github.com/nix-community/home-manager/issues/2966
-      # Solution:
-      # https://github.com/sumnerevans/home-manager-config/commit/da138d4ff3d04cddb37b0ba23f61edfb5bf7b85e
-      coc.package = pkgs.vimUtils.buildVimPlugin {
-        pname = "coc.nvim";
-        version = "2023-12-20";
-        src = pkgs.fetchFromGitHub {
-          owner = "neoclide";
-          repo = "coc.nvim";
-          rev = "f82e420efdb6291d1c3fcac1e20790a7f10f1a78";
-          sha256 = "sha256-bVJtMzJuSJXBpXTV1F2pAW59PgXBysEBmQTFIHxTpz4=";
-        };
-        meta.homepage = "https://github.com/neoclide/coc.nvim/";
-      };
       coc.settings = {
         "python.formatting.provider" = "black";
         "coc.preferences.formatOnType" = true;
@@ -141,9 +122,12 @@ in
       enable = true;
       userName = "Michael Mercier";
     };
+    zellij.enable = true;
   };
   # Zsh extra config
   home.file.".p10k.zsh".text = builtins.readFile ./p10k.zsh;
+  # Zellij config
+  home.file.".config/zellij/config.kdl".text = my_zellij_config;
 
   services.syncthing.enable = true;
 }
