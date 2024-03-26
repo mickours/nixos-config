@@ -7,7 +7,7 @@ let
   my_vim_plugins = pkgs.callPackage ./my_vim_plugins.nix { };
 in
 {
-  home.stateVersion = "22.11";
+  home.stateVersion = "23.11";
   home.packages = with pkgs; [ zsh-powerlevel10k meslo-lgs-nf ];
 
   # Bluetooth command for headsets
@@ -117,12 +117,18 @@ in
     zsh.dotDir = ".config/zsh";
     zsh.initExtraBeforeCompInit = builtins.readFile ./zshrc;
     zsh.initExtra = my_zsh_config;
-    fzf.enableZshIntegration = true;
     git = {
       enable = true;
       userName = "Michael Mercier";
     };
+    # Modern teminal tools
+    fzf.enable = true;
+    fzf.enableZshIntegration = true;
     zellij.enable = true;
+    lf.enable = true;
+    eza.enable = true;
+    lazygit.enable = true;
+    ripgrep.enable = true;
   };
   # Zsh extra config
   home.file.".p10k.zsh".text = builtins.readFile ./p10k.zsh;
