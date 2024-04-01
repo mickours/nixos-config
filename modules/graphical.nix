@@ -37,6 +37,7 @@ with lib; {
       pulse.enable = true;
       # If you want to use JACK applications, uncomment this
       #jack.enable = true;
+      systemWide = true;
     };
     environment.etc = {
       "wireplumber/bluetooth.lua.d/51-bluez-config.lua".text = ''
@@ -99,7 +100,7 @@ with lib; {
 
     # Add gdm to my user's groups
     users.extraUsers."${cfg.myuser}" = {
-      extraGroups = [ "audio" "wheel" "lp" "networkmanager" ];
+      extraGroups = [ "audio" "wheel" "lp" "networkmanager" "pipewire" ];
     };
 
     # Make fonts better...
