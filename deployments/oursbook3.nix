@@ -152,7 +152,7 @@
   #users.users.mickours.isSystemUser = true;
   users.extraUsers.mickours = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "lp" "networkmanager" ];
+    extraGroups = [ "wheel" "lp" "networkmanager" "pipewire" ];
   };
 }
 

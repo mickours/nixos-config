@@ -39,7 +39,7 @@
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
-              home-manager.extraSpecialArgs =  { inherit my_dotfiles; };
+              home-manager.extraSpecialArgs = { inherit my_dotfiles; };
               home-manager.users.mmercier = import ./config/home.nix;
               home-manager.users.mickours = import ./config/home.nix;
             }
