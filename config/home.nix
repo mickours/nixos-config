@@ -24,8 +24,10 @@ in
       extraConfig = my_vim_config;
       plugins = my_vim_plugins.plugins;
       extraPackages = with pkgs; [
-        (python3.withPackages (ps: with ps; [ black flake8 jedi ]))
+        (python3.withPackages (ps: with ps; [ black flake8 jedi pylyzer ]))
         nil
+        ruff-lsp
+        pylyzer
       ] ++ my_vim_plugins.dependencies;
       extraPython3Packages = (ps: with ps; [ jedi ]);
 
@@ -33,7 +35,6 @@ in
       withNodeJs = true;
       coc.enable = true;
       coc.settings = {
-        "python.formatting.provider" = "black";
         "coc.preferences.formatOnType" = true;
         "coc.preferences.formatOnSaveFiletypes" = [ "python" ];
         "python.pythonPath" = "nvim-python3";
@@ -43,70 +44,13 @@ in
             "filetypes" = [ "nix" ];
             "rootPatterns" = [ "flake.nix" ];
           };
-          "python" = {
-            "command" = "pyls";
-            "args" = [
-              "--log-file"
-              "/tmp/lsp_python.log"
-            ];
-            "trace.server" = "verbose";
-            "filetypes" = [
-              "python"
-            ];
-            "settings" = {
-              "pyls" = {
-                "enable" = true;
-                "trace" = {
-                  "server" = "verbose";
-                };
-                "commandPath" = "";
-                "configurationSources" = [
-                  "pycodestyle"
-                ];
-                "plugins" = {
-                  "jedi_completion" = {
-                    "enabled" = true;
-                  };
-                  "jedi_hover" = {
-                    "enabled" = true;
-                  };
-                  "jedi_references" = {
-                    "enabled" = true;
-                  };
-                  "jedi_signature_help" = {
-                    "enabled" = true;
-                  };
-                  "jedi_symbols" = {
-                    "enabled" = true;
-                    "all_scopes" = true;
-                  };
-                  "mccabe" = {
-                    "enabled" = true;
-                    "threshold" = 15;
-                  };
-                  "preload" = {
-                    "enabled" = true;
-                  };
-                  "pycodestyle" = {
-                    "enabled" = true;
-                  };
-                  "pydocstyle" = {
-                    "enabled" = false;
-                    "match" = "(?!test_).*\\.py";
-                    "matchDir" = "[^\\.].*";
-                  };
-                  "pyflakes" = {
-                    "enabled" = true;
-                  };
-                  "rope_completion" = {
-                    "enabled" = true;
-                  };
-                  "black" = {
-                    "enabled" = true;
-                  };
-                };
-              };
-            };
+          "ruff-lsp" = {
+            "command" = "ruff-lsp";
+            "filetypes" = [ "python" ];
+          };
+          "pylyzer" = {
+            "command" = [ "pylyzer" "--server" ];
+            "filetypes" = [ "python" ];
           };
         };
       };
@@ -134,6 +78,10 @@ in
   home.file.".p10k.zsh".text = builtins.readFile ./p10k.zsh;
   # Zellij config
   home.file.".config/zellij/config.kdl".text = my_zellij_config;
+
+  # Fix browserpass
+  home.file.".mozilla/native-messaging-hosts/com.github.browserpass.native.json".source = "${pkgs.browserpass}/lib/mozilla/native-messaging-hosts/com.github.browserpass.native.json";
+  home.file.".mozilla/native-messaging-hosts/org.gnome.chrome_gnome_shell.json".source = "${pkgs.chrome-gnome-shell}/lib/mozilla/native-messaging-hosts/org.gnome.chrome_gnome_shell.json";
 
   services.syncthing.enable = true;
 }

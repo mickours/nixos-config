@@ -6,18 +6,18 @@
   # Activate Flakes
   nix.package = pkgs.nixUnstable;
   nix.extraOptions = ''
-    experimental-features = nix-command flakes
+    experimental-features = nix-command flakes ca-derivations
   '';
   # Add an Acces point for WiFi sharing because gnome Hotspot does not work
-  services.create_ap = {
-    enable = true;
-    settings = {
-      INTERNET_IFACE = "enp44s0u1u4";
-      WIFI_IFACE = "wlp0s20f3";
-      SSID = "OursbookAP";
-      PASSPHRASE = "nounours666";
-    };
-  };
+  #services.create_ap = {
+  #  enable = true;
+  #  settings = {
+  #    INTERNET_IFACE = "enp44s0u1u4";
+  #    WIFI_IFACE = "wlp0s20f3";
+  #    SSID = "OursbookAP";
+  #    PASSPHRASE = "nounours666";
+  #  };
+  #};
 
   imports = [
     ./oursbook3-hardware-configuration.nix

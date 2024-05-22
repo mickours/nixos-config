@@ -45,9 +45,12 @@ in
     uid = 1003;
   };
 
-  system.stateVersion = "22.11";
+  system.stateVersion = "23.11";
 
   time.timeZone = "Europe/Paris";
+
+  # Avoid using to much space with the logs
+  services.journald.extraConfig = "SystemMaxUse=100M";
 
   # Common config
   lib.environments.mickours.common.enable = true;
@@ -107,8 +110,8 @@ in
     # Use `mkpasswd -m sha-512` to create the salted password
     loginAccounts = {
       "mickours@libr.fr" = {
-        hashedPassword =
-          "$2y$05$y5JY.6WAld/Q6qP/0g6Ya.zr0BWlUaNffjoF9uhWx1TTkkrEXe8M.";
+        hashedPasswordFile = "/data/keys/mickours-at-libr-dot-fr";
+        # "$2y$05$y5JY.6WAld/Q6qP/0g6Ya.zr0BWlUaNffjoF9uhWx1TTkkrEXe8M.";
         aliases = [
           "info@libr.fr"
           "postmaster@libr.fr"
@@ -118,15 +121,17 @@ in
         ];
       };
       "marine.mercier@libr.fr" = {
-        hashedPassword =
-          "$2y$05$391UR0l6jzkBD1MrBhKK2.utA/VQUWZbXKQhvDRSdb9BVARQ/TUAe";
+        hashedPasswordFile ="/data/keys/marine-mercier-at-libr-dot-fr";
         aliases = [ "marine@libr.fr" ];
       };
       "me@michaelmercier.fr" = {
-        hashedPassword =
-          "$2y$05$xOVdvGnsNjWxX9t.0M8kvOgLzNOqadHKgZvnM/KdnfCPx2CNtmwFu";
+        hashedPasswordFile ="/data/keys/me-at-michaelmercier-dot-fr";
         catchAll = [ "michaelmercier.fr" ];
         aliases = [ "job@michaelmercier.fr" ];
+      };
+      "labelleverte@libr.fr" = {
+        hashedPasswordFile ="/data/keys/labelleverte-at-libr-dot-fr";
+        aliases = [ "lbv@libr.fr" ];
       };
     };
 
@@ -148,7 +153,7 @@ in
 
   services.nextcloud = {
     enable = true;
-    package = pkgs.nextcloud27;
+    package = pkgs.nextcloud28;
     home = "/data/nextcloud";
     hostName = "nextcloud.libr.fr";
     https = true;
@@ -168,7 +173,36 @@ in
     phpExtraExtensions = all: [ all.pdlib all.bz2 all.apcu ];
     maxUploadSize = "1G";
     fastcgiTimeout = 600;
+    # Computed with https://spot13.com/pmcalculator/
+    poolSettings = {
+      "pm" = "dynamic";
+      "pm.max_children" = "44";
+      "pm.start_servers" = "11";
+      "pm.min_spare_servers" = "11";
+      "pm.max_spare_servers" = "33";
+      "pm.max_requests" = "500";
+    };
   };
+
+  ## For backgroud job for face recognition
+  #systemd.timers."nextcloud-face-recognition" = {
+  #  wantedBy = [ "timers.target" ];
+  #  timerConfig = {
+  #    OnCalendar = "daily";
+  #    Persistent = true;
+  #    Unit = "nextcloud-face-recognition.service";
+  #  };
+  #};
+  #systemd.services."nextcloud-face-recognition" = {
+  #  script = ''
+  #    set -eu
+  #    ${pkgs.nextcloud28}/bin/nextcloud-occ face:background_job -t 3600
+  #  '';
+  #  serviceConfig = {
+  #    Type = "oneshot";
+  #    User = "nextcloud";
+  #  };
+  #};
 
   #*************#
   #   Network   #

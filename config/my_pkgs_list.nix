@@ -184,6 +184,8 @@ in
       RStudio-with-my-packages
       ruff
       velero
+      scaleway-cli
+      opentofu
 
       # Editors
       emacs
