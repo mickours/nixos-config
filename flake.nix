@@ -2,19 +2,19 @@
   description = "My personal NixOS machines configuration";
 
   inputs.deploy-rs.url = "github:serokell/deploy-rs";
-  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.11";
+  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
   inputs.home-manager = {
-    url = "github:nix-community/home-manager/release-23.11";
+    url = "github:nix-community/home-manager/release-24.05";
   };
   inputs.simple-nixos-mailserver = {
-    url = "gitlab:simple-nixos-mailserver/nixos-mailserver/nixos-23.11";
+    url = "gitlab:simple-nixos-mailserver/nixos-mailserver/nixos-24.05";
   };
   inputs.my_dotfiles = {
     url = "github:mickours/dotfiles";
     flake = false;
   };
 
-  outputs = { self, nixpkgs, home-manager, nixos-hardware, simple-nixos-mailserver, deploy-rs, my_dotfiles, ... }@inputs: {
+  outputs = { self, nixpkgs, home-manager, simple-nixos-mailserver, deploy-rs, my_dotfiles, ... }@inputs: {
     nixosConfigurations = {
       oursbook3 = nixpkgs.lib.nixosSystem rec {
         system = "x86_64-linux";
@@ -43,7 +43,7 @@
               home-manager.users.mmercier = import ./config/home.nix;
               home-manager.users.mickours = import ./config/home.nix;
             }
-            "${builtins.fetchGit { url = "https://github.com/NixOS/nixos-hardware.git"; rev="4c9f07277bd4bc29a051ff2a0ca58c6403e3881a"; }}/lenovo/thinkpad/x1-extreme"
+            "${builtins.fetchGit { url = "https://github.com/NixOS/nixos-hardware.git"; rev="58b52b0dd191af70f538c707c66c682331cfdffc"; }}/lenovo/thinkpad/x1-extreme"
           ];
       };
       vps = nixpkgs.lib.nixosSystem {

@@ -1,10 +1,10 @@
 { lib, pkgs, inputs, permittedInsecurePackages, ... }: {
   networking.hostName = "oursbook3";
 
-  system.stateVersion = "23.11";
+  system.stateVersion = "24.05";
 
   # Activate Flakes
-  nix.package = pkgs.nixUnstable;
+  nix.package = pkgs.nixFlakes;
   nix.extraOptions = ''
     experimental-features = nix-command flakes ca-derivations
   '';
@@ -47,7 +47,7 @@
   # boot.kernelPackages = pkgs.linuxPackages_latest;
 
   # Needed for OAR in docker
-  systemd.enableUnifiedCgroupHierarchy = false;
+  # systemd.enableUnifiedCgroupHierarchy = false;
 
   # Use a specific kernel that does not fail with nouveau
   # WARNING: not working, still some issue after suspend (wayland restarts)

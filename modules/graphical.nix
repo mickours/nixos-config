@@ -65,13 +65,13 @@ with lib; {
       };
       # Needed for printer discovery
       avahi.enable = true;
-      avahi.nssmdns = true;
+      avahi.nssmdns4 = true;
 
       # Enable the windowing system.
       xserver = {
         enable = true;
-        layout = "fr";
-        xkbOptions = "eurosign:e";
+        xkb.layout = "fr";
+        xkb.options = "eurosign:e";
         enableCtrlAltBackspace = true;
 
         # Enable the Gnome Desktop Environment.

@@ -95,9 +95,6 @@ with lib; {
       openssl
     ];
 
-    # nix shell will use the same nixpkgs version as the system
-    nix.registry.nixpkgs.flake = inputs.nixpkgs;
-
     # Add my user
     users.extraUsers.mmercier = {
       description = "Michael Mercier";

@@ -9,6 +9,7 @@ let
   ];
 in
 {
+  system.stateVersion = "24.05";
   nix.settings.trusted-users = [ "@wheel" ];
 
   # Needed for rsync backups
@@ -44,8 +45,6 @@ in
     openssh.authorizedKeys.keyFiles = [ ./keys/id_rsa_beatrice.pub ];
     uid = 1003;
   };
-
-  system.stateVersion = "23.11";
 
   time.timeZone = "Europe/Paris";
 
@@ -138,6 +137,8 @@ in
     # Use imap on port 993 and smtp on 587
     enableImap = true;
     enableImapSsl = true;
+    enableManageSieve = true;
+    hierarchySeparator = "/";
 
     # Use Let's Encrypt certificates. Note that this needs to set up a stripped
     # down nginx and opens port 80.
@@ -145,6 +146,7 @@ in
 
     mailDirectory = "/data/vmail";
     dkimKeyDirectory = "/data/dkim";
+    sieveDirectory = "/data/sieve";
   };
 
   ##***************#
@@ -153,7 +155,7 @@ in
 
   services.nextcloud = {
     enable = true;
-    package = pkgs.nextcloud28;
+    package = pkgs.nextcloud29;
     home = "/data/nextcloud";
     hostName = "nextcloud.libr.fr";
     https = true;

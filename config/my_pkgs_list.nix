@@ -180,12 +180,12 @@ in
       azure-cli
       kubelogin
       yarn
-      terraform
       RStudio-with-my-packages
       ruff
       velero
       scaleway-cli
       opentofu
+      openssl
 
       # Editors
       emacs
