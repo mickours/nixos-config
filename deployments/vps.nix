@@ -120,16 +120,16 @@ in
         ];
       };
       "marine.mercier@libr.fr" = {
-        hashedPasswordFile ="/data/keys/marine-mercier-at-libr-dot-fr";
+        hashedPasswordFile = "/data/keys/marine-mercier-at-libr-dot-fr";
         aliases = [ "marine@libr.fr" ];
       };
       "me@michaelmercier.fr" = {
-        hashedPasswordFile ="/data/keys/me-at-michaelmercier-dot-fr";
+        hashedPasswordFile = "/data/keys/me-at-michaelmercier-dot-fr";
         catchAll = [ "michaelmercier.fr" ];
         aliases = [ "job@michaelmercier.fr" ];
       };
       "labelleverte@libr.fr" = {
-        hashedPasswordFile ="/data/keys/labelleverte-at-libr-dot-fr";
+        hashedPasswordFile = "/data/keys/labelleverte-at-libr-dot-fr";
         aliases = [ "lbv@libr.fr" ];
       };
     };

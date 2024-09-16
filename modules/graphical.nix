@@ -127,5 +127,7 @@ with lib; {
     #programs.firefox.nativeMessagingHosts.browserpass = true;
     # Needed for browserpass to call gnupg
     programs.gnupg.agent.enable = true;
+    # Enable native support of AppImage format
+    programs.appimage.binfmt = true;
   };
 }
