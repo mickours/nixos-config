@@ -165,6 +165,7 @@ in
       cachix
       kubernetes-helm
       helmfile
+      helm-docs
       kubectl
       pssh
       awscli2
