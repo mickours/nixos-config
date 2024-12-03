@@ -1,4 +1,4 @@
-{ lib, pkgs, inputs, permittedInsecurePackages, ... }: {
+{ lib, pkgs, config, inputs, permittedInsecurePackages, ... }: {
   networking.hostName = "oursbook3";
 
   system.stateVersion = "24.05";
@@ -101,18 +101,21 @@
   # Enable Nvidia proprietary driver
   # WARNING: Requires to activate "Discrete" GPU on the BIOS display setting.
   # Also, Nvidia driver is buggy and does not work properly after suspend.
-  hardware.nvidia.open = true;
+  services.xserver.videoDrivers = [ "nvidia" ];
+  hardware.nvidia.nvidiaSettings = true;
+  hardware.nvidia.powerManagement.enable = true;
+  hardware.nvidia.powerManagement.finegrained = false;
+  hardware.nvidia.modesetting.enable = true;
+  hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;  # (installs 550)
   hardware.nvidia.prime = {
     offload.enable = true;
+    offload.enableOffloadCmd = true;
     # Bus ID of the Intel GPU. You can find it using lspci, either under 3D or VGA
     intelBusId = "PCI:0:2:0";
     # Bus ID of the NVIDIA GPU. You can find it using lspci, either under 3D or VGA
     nvidiaBusId = "PCI:1:0:0";
   };
-  hardware.nvidia.modesetting.enable = true;
-  hardware.nvidia.powerManagement.enable = true;
-  hardware.opengl.driSupport32Bit = true;
-  services.xserver.videoDrivers = [ "nvidia" ];
+  # Add docker support
   hardware.nvidia-container-toolkit.enable = true;
 
   environment.systemPackages =
