@@ -1,10 +1,10 @@
 { lib, pkgs, config, inputs, permittedInsecurePackages, ... }: {
   networking.hostName = "oursbook3";
 
-  system.stateVersion = "24.05";
+  system.stateVersion = "24.11";
 
   # Activate Flakes
-  nix.package = pkgs.nixFlakes;
+  nix.package = pkgs.nixVersions.stable;
   nix.extraOptions = ''
     experimental-features = nix-command flakes ca-derivations
   '';
@@ -106,7 +106,7 @@
   hardware.nvidia.powerManagement.enable = true;
   hardware.nvidia.powerManagement.finegrained = false;
   hardware.nvidia.modesetting.enable = true;
-  hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;  # (installs 550)
+  hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;
   hardware.nvidia.prime = {
     offload.enable = true;
     offload.enableOffloadCmd = true;
@@ -116,6 +116,7 @@
     nvidiaBusId = "PCI:1:0:0";
   };
   # Add docker support
+  hardware.nvidia.open = true;
   hardware.nvidia-container-toolkit.enable = true;
 
   environment.systemPackages =
@@ -134,7 +135,7 @@
       pciutils
 
       libreoffice
-      gnome.gnome-boxes
+      gnome-boxes
     ];
 
   # for GSConnect

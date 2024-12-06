@@ -81,9 +81,9 @@ with lib; {
 
       gnome.gnome-online-accounts.enable = true;
       gnome.gnome-browser-connector.enable = true;
-      # Disable tracker to avoid it to suck my vitality
-      gnome.tracker.enable = mkForce false;
-      gnome.tracker-miners.enable = mkForce false;
+      # Disable file tracker to avoid it to suck my vitality
+      gnome.tinysparql.enable = mkForce false;
+      gnome.localsearch.enable = mkForce false;
 
       syncthing = {
         enable = true;

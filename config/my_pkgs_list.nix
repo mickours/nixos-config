@@ -62,7 +62,7 @@ in
     evolution
     evolution-data-server
     gnome-firmware-updater
-    gnome.gnome-tweaks
+    gnome-tweaks
 
     # Web
     firefox
@@ -73,7 +73,6 @@ in
     aspellDicts.fr
     aspellDicts.en
     # Message and RSS
-    gnome3.polari
     signal-desktop
 
     # Media
@@ -81,7 +80,7 @@ in
     gthumb
     obs-studio
     # Utils
-    gnome3.gnome-disk-utility
+    gnome-disk-utility
     xorg.xkill
     deja-dup
     mesa-demos

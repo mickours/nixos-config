@@ -13,8 +13,9 @@
     url = "github:mickours/dotfiles";
     flake = false;
   };
+  inputs.nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
-  outputs = { self, nixpkgs, home-manager, simple-nixos-mailserver, deploy-rs, my_dotfiles, ... }@inputs: {
+  outputs = { self, nixpkgs, home-manager, simple-nixos-mailserver, deploy-rs, my_dotfiles, nixos-hardware, ... }@inputs: {
     nixosConfigurations = {
       oursbook3 = nixpkgs.lib.nixosSystem rec {
         system = "x86_64-linux";
@@ -43,7 +44,7 @@
               home-manager.users.mmercier = import ./config/home.nix;
               home-manager.users.mickours = import ./config/home.nix;
             }
-            "${builtins.fetchGit { url = "https://github.com/NixOS/nixos-hardware.git"; rev="58b52b0dd191af70f538c707c66c682331cfdffc"; }}/lenovo/thinkpad/x1-extreme"
+            nixos-hardware.nixosModules.lenovo-thinkpad-x1-extreme-gen3
           ];
       };
       vps = nixpkgs.lib.nixosSystem {
