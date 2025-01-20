@@ -3,18 +3,24 @@
 
   inputs.deploy-rs.url = "github:serokell/deploy-rs";
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
+
   inputs.home-manager = {
     url = "github:nix-community/home-manager/release-24.11";
   };
+  inputs.home-manager.inputs.nixpkgs.follows = "nixpkgs";
+
   inputs.simple-nixos-mailserver = {
-    url = "gitlab:simple-nixos-mailserver/nixos-mailserver/nixos-24.05";
+    url = "gitlab:simple-nixos-mailserver/nixos-mailserver/nixos-24.11";
   };
+  inputs.simple-nixos-mailserver.inputs.nixpkgs-24_11.follows = "nixpkgs";
+
   inputs.my_dotfiles = {
     url = "github:mickours/dotfiles";
     flake = false;
   };
   inputs.nixos-hardware.url = "github:NixOS/nixos-hardware/master";
-  inputs.pinnedZoomPkgs.url = "github:NixOS/nixpkgs/0c19708cf035f50d28eb4b2b8e7a79d4dc52f6bb";
+  inputs.nixos-hardware.inputs.nixpkgs.follows = "nixpkgs";
+  # inputs.pinnedZoomPkgs.url = "github:NixOS/nixpkgs/0c19708cf035f50d28eb4b2b8e7a79d4dc52f6bb";
 
   outputs = { self, nixpkgs, home-manager, simple-nixos-mailserver, deploy-rs, my_dotfiles, nixos-hardware, ... }@inputs: {
     nixosConfigurations = {
@@ -27,7 +33,7 @@
               nixpkgs = {
                 config.allowUnfree = true;
                 inherit system;
-                overlays = [ (self: super: { zoom-us = (import inputs.pinnedZoomPkgs {inherit system; config.allowUnfree = true;}).zoom-us; })  ];
+                # overlays = [ (self: super: { zoom-us = (import inputs.pinnedZoomPkgs {inherit system; config.allowUnfree = true;}).zoom-us; })  ];
                 # overlays = [ (import ./overlays/fixes.nix) ];
                 #config.permittedInsecurePackages = [
                 #  "teams-1.5.00.23861"
