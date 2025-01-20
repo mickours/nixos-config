@@ -42,9 +42,8 @@
   # Use swap only if needed
   boot.kernel.sysctl = { "vm.swappiness" = 10; };
 
-  # Use the latest kernel
-  # WARNING this breaks the touchpad click!!!
-  # boot.kernelPackages = pkgs.linuxPackages_latest;
+  # Use a pinned kernel
+  # boot.kernelPackages = pkgs.linuxPackages_6_1;
 
   # Needed for OAR in docker
   # systemd.enableUnifiedCgroupHierarchy = false;
@@ -101,23 +100,23 @@
   # Enable Nvidia proprietary driver
   # WARNING: Requires to activate "Discrete" GPU on the BIOS display setting.
   # Also, Nvidia driver is buggy and does not work properly after suspend.
-  services.xserver.videoDrivers = [ "nvidia" ];
-  hardware.nvidia.nvidiaSettings = true;
-  hardware.nvidia.powerManagement.enable = true;
-  hardware.nvidia.powerManagement.finegrained = false;
-  hardware.nvidia.modesetting.enable = true;
-  hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;
-  hardware.nvidia.prime = {
-    offload.enable = true;
-    offload.enableOffloadCmd = true;
-    # Bus ID of the Intel GPU. You can find it using lspci, either under 3D or VGA
-    intelBusId = "PCI:0:2:0";
-    # Bus ID of the NVIDIA GPU. You can find it using lspci, either under 3D or VGA
-    nvidiaBusId = "PCI:1:0:0";
-  };
-  # Add docker support
-  hardware.nvidia.open = true;
-  hardware.nvidia-container-toolkit.enable = true;
+  # services.xserver.videoDrivers = [ "nvidia" ];
+  # hardware.nvidia.nvidiaSettings = true;
+  # hardware.nvidia.powerManagement.enable = true;
+  # hardware.nvidia.powerManagement.finegrained = false;
+  # hardware.nvidia.modesetting.enable = true;
+  # hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;
+  # hardware.nvidia.prime = {
+  #   offload.enable = true;
+  #   offload.enableOffloadCmd = true;
+  #   # Bus ID of the Intel GPU. You can find it using lspci, either under 3D or VGA
+  #   intelBusId = "PCI:0:2:0";
+  #   # Bus ID of the NVIDIA GPU. You can find it using lspci, either under 3D or VGA
+  #   nvidiaBusId = "PCI:1:0:0";
+  # };
+  # # Add docker support
+  # hardware.nvidia.open = true;
+  # hardware.nvidia-container-toolkit.enable = true;
 
   environment.systemPackages =
     with pkgs; [

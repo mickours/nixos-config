@@ -14,6 +14,7 @@
     flake = false;
   };
   inputs.nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+  inputs.pinnedZoomPkgs.url = "github:NixOS/nixpkgs/0c19708cf035f50d28eb4b2b8e7a79d4dc52f6bb";
 
   outputs = { self, nixpkgs, home-manager, simple-nixos-mailserver, deploy-rs, my_dotfiles, nixos-hardware, ... }@inputs: {
     nixosConfigurations = {
@@ -26,6 +27,7 @@
               nixpkgs = {
                 config.allowUnfree = true;
                 inherit system;
+                overlays = [ (self: super: { zoom-us = (import inputs.pinnedZoomPkgs {inherit system; config.allowUnfree = true;}).zoom-us; })  ];
                 # overlays = [ (import ./overlays/fixes.nix) ];
                 #config.permittedInsecurePackages = [
                 #  "teams-1.5.00.23861"

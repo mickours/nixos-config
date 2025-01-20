@@ -9,7 +9,7 @@ let
   ];
 in
 {
-  system.stateVersion = "24.05";
+  system.stateVersion = "24.11";
   nix.settings.trusted-users = [ "@wheel" ];
 
   # Needed for rsync backups
@@ -155,7 +155,7 @@ in
 
   services.nextcloud = {
     enable = true;
-    package = pkgs.nextcloud29;
+    package = pkgs.nextcloud30;
     home = "/data/nextcloud";
     hostName = "nextcloud.libr.fr";
     https = true;
@@ -183,6 +183,9 @@ in
       "pm.min_spare_servers" = "11";
       "pm.max_spare_servers" = "33";
       "pm.max_requests" = "500";
+    };
+    phpOptions = {
+      "opcache.interned_strings_buffer" = "16";
     };
   };
 

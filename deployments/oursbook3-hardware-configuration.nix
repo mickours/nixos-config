@@ -22,8 +22,8 @@
   boot.extraModprobeConfig = ''
     options iwlwifi 11n_disable=1
     options iwlwifi wd_disable=0
-    options iwlwifi bt_coex_active=0
   '';
+  #options iwlwifi bt_coex_active=0
 
   fileSystems."/" =
     {
