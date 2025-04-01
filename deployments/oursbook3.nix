@@ -132,6 +132,7 @@
       vscode-fhs
       go
       pciutils
+      nextcloud-client
 
       libreoffice
       gnome-boxes

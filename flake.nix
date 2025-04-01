@@ -19,8 +19,6 @@
     flake = false;
   };
   inputs.nixos-hardware.url = "github:NixOS/nixos-hardware/master";
-  inputs.nixos-hardware.inputs.nixpkgs.follows = "nixpkgs";
-  # inputs.pinnedZoomPkgs.url = "github:NixOS/nixpkgs/0c19708cf035f50d28eb4b2b8e7a79d4dc52f6bb";
 
   outputs = { self, nixpkgs, home-manager, simple-nixos-mailserver, deploy-rs, my_dotfiles, nixos-hardware, ... }@inputs: {
     nixosConfigurations = {
