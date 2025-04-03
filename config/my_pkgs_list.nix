@@ -183,6 +183,7 @@ in
       opentofu
       openssl
       jetbrains.pycharm-professional
+      uv
 
       # Editors
       emacs
