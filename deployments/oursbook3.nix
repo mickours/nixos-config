@@ -126,7 +126,6 @@
       gnomeExtensions.gsconnect
       linuxPackages.acpi_call
       zoom-us
-      skypeforlinux
       jetbrains.pycharm-community
       jetbrains.webstorm
       vscode-fhs
