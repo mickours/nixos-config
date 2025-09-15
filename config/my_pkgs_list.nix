@@ -153,6 +153,7 @@ in
       zellij
       bandwhich
       sniffnet
+      pigz
       # Day to day use in Ryax
       bitwarden
       ts
