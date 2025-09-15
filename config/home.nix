@@ -26,7 +26,7 @@ in
       extraPackages = with pkgs; [
         (python3.withPackages (ps: with ps; [ black flake8 jedi pylyzer ]))
         nil
-        ruff-lsp
+        ruff
         pylyzer
       ] ++ my_vim_plugins.dependencies;
       extraPython3Packages = (ps: with ps; [ jedi ]);
@@ -59,8 +59,7 @@ in
     tmux.extraConfig = my_tmux_config;
     zsh.enable = true;
     zsh.dotDir = ".config/zsh";
-    zsh.initExtraBeforeCompInit = builtins.readFile ./zshrc;
-    zsh.initExtra = my_zsh_config;
+    zsh.initContent = (builtins.readFile ./zshrc) + my_zsh_config;
     git = {
       enable = true;
       userName = "Michael Mercier";

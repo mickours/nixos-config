@@ -1,23 +1,28 @@
 {
   description = "My personal NixOS machines configuration";
 
-  inputs.deploy-rs.url = "github:serokell/deploy-rs";
-  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
+  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
+
+  inputs.deploy-rs = {
+    url = "github:serokell/deploy-rs";
+    inputs.nixpkgs.follows = "nixpkgs";
+  };
 
   inputs.home-manager = {
-    url = "github:nix-community/home-manager/release-24.11";
+    url = "github:nix-community/home-manager/release-25.05";
+    inputs.nixpkgs.follows = "nixpkgs";
   };
-  inputs.home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
   inputs.simple-nixos-mailserver = {
-    url = "gitlab:simple-nixos-mailserver/nixos-mailserver/nixos-24.11";
+    url = "gitlab:simple-nixos-mailserver/nixos-mailserver/nixos-25.05";
+    inputs.nixpkgs.follows = "nixpkgs";
   };
-  inputs.simple-nixos-mailserver.inputs.nixpkgs-24_11.follows = "nixpkgs";
 
   inputs.my_dotfiles = {
     url = "github:mickours/dotfiles";
     flake = false;
   };
+
   inputs.nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
   outputs = { self, nixpkgs, home-manager, simple-nixos-mailserver, deploy-rs, my_dotfiles, nixos-hardware, ... }@inputs: {

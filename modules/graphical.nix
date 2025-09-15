@@ -26,7 +26,7 @@ with lib; {
     #    load-module module-switch-on-connect
     #  '';
     #};
-    hardware.pulseaudio.enable = false;
+    services.pulseaudio.enable = false;
     hardware.bluetooth.enable = true;
     # rtkit is optional but recommended
     security.rtkit.enable = true;
@@ -110,8 +110,7 @@ with lib; {
       corefonts
       # helvetica-neue-lt-std
       twemoji-color-font
-      nerdfonts
-    ];
+    ] ++ builtins.filter lib.attrsets.isDerivation (builtins.attrValues pkgs.nerd-fonts);
 
     # every machine should be running antivirus
     services.clamav.updater.enable = true;

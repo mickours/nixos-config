@@ -1,7 +1,7 @@
 { lib, pkgs, config, inputs, permittedInsecurePackages, ... }: {
   networking.hostName = "oursbook3";
 
-  system.stateVersion = "24.11";
+  system.stateVersion = "25.05";
 
   # Activate Flakes
   nix.package = pkgs.nixVersions.stable;
@@ -100,11 +100,11 @@
   # Enable Nvidia proprietary driver
   # WARNING: Requires to activate "Discrete" GPU on the BIOS display setting.
   # Also, Nvidia driver is buggy and does not work properly after suspend.
-  # services.xserver.videoDrivers = [ "nvidia" ];
+  services.xserver.videoDrivers = [ "nvidia" ];
   # hardware.nvidia.nvidiaSettings = true;
-  # hardware.nvidia.powerManagement.enable = true;
+  hardware.nvidia.powerManagement.enable = true;
   # hardware.nvidia.powerManagement.finegrained = false;
-  # hardware.nvidia.modesetting.enable = true;
+  hardware.nvidia.modesetting.enable = true;
   # hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;
   # hardware.nvidia.prime = {
   #   offload.enable = true;
@@ -115,8 +115,8 @@
   #   nvidiaBusId = "PCI:1:0:0";
   # };
   # # Add docker support
-  # hardware.nvidia.open = true;
-  # hardware.nvidia-container-toolkit.enable = true;
+  hardware.nvidia.open = true;
+  hardware.nvidia-container-toolkit.enable = true;
 
   environment.systemPackages =
     with pkgs; [
@@ -132,6 +132,7 @@
       go
       pciutils
       nextcloud-client
+      nh
 
       libreoffice
       gnome-boxes
