@@ -9,7 +9,7 @@ let
   ];
 in
 {
-  system.stateVersion = "24.11";
+  system.stateVersion = "25.05";
   nix.settings.trusted-users = [ "@wheel" ];
 
   # Needed for rsync backups

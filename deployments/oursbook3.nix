@@ -1,4 +1,4 @@
-{ lib, pkgs, config, inputs, permittedInsecurePackages, ... }: {
+{ lib, pkgs, config, inputs, adrienPkgs, permittedInsecurePackages, ... }: {
   networking.hostName = "oursbook3";
 
   system.stateVersion = "25.05";

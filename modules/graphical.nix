@@ -1,6 +1,6 @@
 { config, lib, pkgs, inputs, ... }:
 let
-  pkgs_lists = import ../config/my_pkgs_list.nix { inherit pkgs; dotfiles = inputs.my_dotfiles; };
+  pkgs_lists = import ../config/my_pkgs_list.nix { inherit pkgs; dotfiles = inputs.my_dotfiles; adrienPkgs = inputs.adrien_config.packages; };
   hp-driver = pkgs.callPackage ../pkgs/hp-driver/hp-driver-MFP-178-nw.nix { };
   cfg = config.environments.mickours.graphical;
 in

@@ -1,6 +1,6 @@
-{ config, lib, pkgs, inputs, ... }:
+{ config, lib, pkgs, inputs, adrienPkgs, ... }:
 let
-  pkgs_lists = import ../config/my_pkgs_list.nix { inherit pkgs; dotfiles = inputs.my_dotfiles; };
+  pkgs_lists = import ../config/my_pkgs_list.nix { inherit pkgs; dotfiles = inputs.my_dotfiles; inherit adrienPkgs; };
   cfg = config.environment.mickours.development;
 in
 with lib; {
