@@ -129,6 +129,10 @@ in {
         hashedPasswordFile = "/data/keys/labelleverte-at-libr-dot-fr";
         aliases = [ "lbv@libr.fr" ];
       };
+      "nextcloud@libr.fr" = {
+        hashedPasswordFile = "/data/keys/nextcloud-at-libr-dot-fr";
+        aliases = [ "ne-pas-repondre@libr.fr" ];
+      };
     };
 
     # Use imap on port 993 and smtp on 587
@@ -157,17 +161,17 @@ in {
     hostName = "nextcloud.libr.fr";
     https = true;
     config.adminpassFile = "/data/admin_nextcloud";
-    config.defaultPhoneRegion = "FR";
     config.dbtype = "sqlite";
     # Forces Nextcloud to use HTTPS
-    config.overwriteProtocol = "https";
+    settings.overwriteProtocol = "https";
+    settings.default_phone_region = "FR";
     config.objectstore.s3 = {
       enable = true;
       region = "eu-west-3";
       key = "AKIAZFTZEYESUAQVO5MO";
       bucket = "nextcloud-libr-fr";
       secretFile = "/data/s3_nextcloud";
-      autocreate = true;
+      verify_bucket_exists = true;
     };
     # For face recognition App
     phpExtraExtensions = all: [ all.pdlib all.bz2 all.apcu ];
