@@ -133,6 +133,7 @@
       pciutils
       nextcloud-client
       nh
+      helix
 
       libreoffice
       gnome-boxes

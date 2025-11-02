@@ -1,14 +1,11 @@
-{ config, pkgs, lib, inputs, ... }:
+{ config, pkgs, lib, inputs, adrienPkgs, dotfiles, ... }:
 let
-  pkgs_lists = import ../config/my_pkgs_list.nix { inherit pkgs; };
+  pkgs_lists =
+    import ../config/my_pkgs_list.nix { inherit pkgs adrienPkgs dotfiles; };
   webPort = 80;
   webSslPort = 443;
-  myKeys = [
-    ./keys/id_rsa_oursbook.pub
-    ./keys/id_rsa_vps_passless.pub
-  ];
-in
-{
+  myKeys = [ ./keys/id_rsa_oursbook.pub ./keys/id_rsa_vps_passless.pub ];
+in {
   system.stateVersion = "25.05";
   nix.settings.trusted-users = [ "@wheel" ];
 
@@ -155,12 +152,13 @@ in
 
   services.nextcloud = {
     enable = true;
-    package = pkgs.nextcloud30;
+    package = pkgs.nextcloud31;
     home = "/data/nextcloud";
     hostName = "nextcloud.libr.fr";
     https = true;
     config.adminpassFile = "/data/admin_nextcloud";
     config.defaultPhoneRegion = "FR";
+    config.dbtype = "sqlite";
     # Forces Nextcloud to use HTTPS
     config.overwriteProtocol = "https";
     config.objectstore.s3 = {
@@ -184,9 +182,7 @@ in
       "pm.max_spare_servers" = "33";
       "pm.max_requests" = "500";
     };
-    phpOptions = {
-      "opcache.interned_strings_buffer" = "16";
-    };
+    phpOptions = { "opcache.interned_strings_buffer" = "16"; };
   };
 
   ## For backgroud job for face recognition
@@ -219,7 +215,6 @@ in
   #*************#
   environment.systemPackages = with pkgs;
     [
-      dstat
       wget
       git # Needed for radicale backup
       rsync # for backups
