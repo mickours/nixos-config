@@ -30,6 +30,39 @@ in {
           insert = "bar";
           select = "underline";
         };
+        keys.normal = {
+          # Muscle memory
+          "$" = "goto_line_end";
+          "^" = "goto_first_nonwhitespace";
+          # Escape the madness! No more fighting with the cursor! Or with multiple cursors!
+          esc = ["collapse_selection" "keep_primary_selection"];
+
+          # Search for word under cursor
+          "*" = ["move_char_right" "move_prev_word_start" "move_next_word_end" "search_selection" "search_next"];
+          "#" = ["move_char_right" "move_prev_word_start" "move_next_word_end" "search_selection" "search_prev"];
+
+        };
+        keys.insert = {
+          # Escape the madness! No more fighting with the cursor! Or with multiple cursors!
+          esc = ["collapse_selection" "normal_mode"];
+        };
+        keys.select = {
+          # Muscle memory
+          "$" = "goto_line_end";
+          "^" = "goto_first_nonwhitespace";
+          G = "goto_file_end";
+          "%" = "match_brackets";
+
+          # Clipboards over registers ye ye
+          d = ["yank_main_selection_to_clipboard" "delete_selection"];
+          x = ["yank_main_selection_to_clipboard" "delete_selection"];
+          y = ["yank_main_selection_to_clipboard" "normal_mode" "flip_selections" "collapse_selection"];
+          p = "replace_selections_with_clipboard"; # No life without this
+          P = "paste_clipboard_before";
+
+          # Escape the madness! No more fighting with the cursor! Or with multiple cursors!
+          esc = ["collapse_selection" "keep_primary_selection" "normal_mode"];
+        };
       };
       languages.language-server.typescript-language-server =
         with pkgs.nodePackages; {
