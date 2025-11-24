@@ -19,9 +19,11 @@
   # boot.blacklistedKernelModules = [ "nouveau" ];
 
   # Avoid WiFi stall and Hotspot errors
+  # Avoid Black screen or logout after suspend
   boot.extraModprobeConfig = ''
     options iwlwifi 11n_disable=1
     options iwlwifi wd_disable=0
+    options nvidia_modeset vblank_sem_control=0 nvidia NVreg_PreserveVideoMemoryAllocations=1 NVreg_TemporaryFilePath=/var/tmp
   '';
   #options iwlwifi bt_coex_active=0
 
