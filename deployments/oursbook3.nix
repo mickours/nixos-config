@@ -134,6 +134,7 @@
       nextcloud-client
       nh
       helix
+      android-studio
 
       libreoffice
       gnome-boxes
