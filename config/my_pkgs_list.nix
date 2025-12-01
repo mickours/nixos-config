@@ -103,10 +103,10 @@ in
       };
     in
     [
+      zulu
       gitAndTools.gitFull
       python3
-      poetry
-      gotop
+      btop
       gcc
       ctags
       gnumake
