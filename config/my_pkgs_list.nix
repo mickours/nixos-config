@@ -85,7 +85,7 @@ in
     wl-clipboard
 
     # Writings
-    calibre
+    ((calibre.override {unrarSupport = true;}).overrideAttrs {installCheckPhase = "";})
     libreoffice-fresh
 
     # Graphic tools
