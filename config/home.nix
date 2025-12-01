@@ -1,4 +1,9 @@
-{ pkgs, my_dotfiles, ... }:
+{
+  pkgs,
+  my_dotfiles,
+  config,
+  ...
+}:
 let
   my_tmux_config = builtins.readFile (builtins.toPath "${my_dotfiles}/tmux.conf");
   my_zsh_config = builtins.readFile (builtins.toPath "${my_dotfiles}/zshrc.local");
@@ -137,6 +142,7 @@ in
     tmux.enable = true;
     tmux.extraConfig = my_tmux_config;
     zsh.enable = true;
+    zsh.dotDir = "${config.xdg.configHome}/zsh";
     zsh.initContent = (builtins.readFile ./zshrc) + my_zsh_config;
     git = {
       enable = true;
