@@ -20,11 +20,11 @@ with lib; {
     environment.systemPackages = pkgs_lists.common;
 
     # use NeoVim by default
-    environment.sessionVariables.EDITOR = "nvim";
-    environment.sessionVariables.VISUAL = "nvim";
+    environment.sessionVariables.EDITOR = "hx";
+    environment.sessionVariables.VISUAL = "hx";
     environment.shellAliases = {
-      "vim" = "nvim";
-      "v" = "vim";
+      "vim" = "hx";
+      "v" = "hx";
     };
 
     # Keyboard and locale support
@@ -43,8 +43,6 @@ with lib; {
         source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
       '';
       zsh.promptInit = ""; # otherwise it'll override the grml prompt
-
-      ssh.startAgent = true;
       gnupg.agent.enable = true;
 
       bash = {

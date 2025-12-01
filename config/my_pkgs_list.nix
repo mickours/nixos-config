@@ -45,12 +45,12 @@ in
     gnomeExtensions.battery-health-charging
     evolution
     evolution-data-server
-    gnome-firmware-updater
+    gnome-firmware
     gnome-tweaks
 
     # Web
     firefox
-    chrome-gnome-shell
+    gnome-browser-connector
     chromium
 
     # Dictionnaries
@@ -79,7 +79,7 @@ in
     hdparm
     sysstat
     gsmartcontrol
-    linuxPackages.perf
+    perf
     # Password
     gnupg
     wl-clipboard
@@ -104,7 +104,7 @@ in
     in
     [
       zulu
-      gitAndTools.gitFull
+      gitFull
       python3
       btop
       gcc
@@ -136,7 +136,7 @@ in
       fd
       broot
       duf
-      du-dust
+      dust
       delta
       nnn
       zellij
@@ -144,7 +144,7 @@ in
       sniffnet
       pigz
       # Day to day use in Ryax
-      bitwarden
+      bitwarden-desktop
       ts
       kind
       cachix
@@ -186,11 +186,9 @@ in
       qemu
       # printers
       sane-backends
-      samsung-unified-linux-driver
-      hplipWithPlugin
       # fun
       fortune
       sl
-      wesnoth-dev
+      wesnoth
     ];
 }

@@ -1,7 +1,16 @@
-{ lib, pkgs, config, inputs, adrienPkgs, permittedInsecurePackages, ... }: {
+{
+  lib,
+  pkgs,
+  config,
+  inputs,
+  adrienPkgs,
+  permittedInsecurePackages,
+  ...
+}:
+{
   networking.hostName = "oursbook3";
 
-  system.stateVersion = "25.05";
+  system.stateVersion = "25.11";
 
   # Activate Flakes
   nix.package = pkgs.nixVersions.stable;
@@ -40,13 +49,12 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   # Use swap only if needed
-  boot.kernel.sysctl = { "vm.swappiness" = 10; };
+  boot.kernel.sysctl = {
+    "vm.swappiness" = 10;
+  };
 
   # Use a pinned kernel
   # boot.kernelPackages = pkgs.linuxPackages_6_1;
-
-  # Needed for OAR in docker
-  # systemd.enableUnifiedCgroupHierarchy = false;
 
   # Use a specific kernel that does not fail with nouveau
   # WARNING: not working, still some issue after suspend (wayland restarts)
@@ -64,11 +72,7 @@
   # Enable firmware updates
   services.fwupd.enable = true;
 
-  # Microsoft exchange support in evolution
-  programs.evolution = {
-    enable = true;
-    plugins = [ pkgs.evolution-ews ];
-  };
+  programs.evolution.enable = true;
 
   # Add virtualbox and docker
   virtualisation = {
@@ -95,7 +99,10 @@
   #programs.sharing.enable = true;
 
   # Add docker and libvirt users
-  users.extraUsers.mmercier.extraGroups = [ "docker" "libvirtd" ];
+  users.extraUsers.mmercier.extraGroups = [
+    "docker"
+    "libvirtd"
+  ];
 
   # Enable Nvidia proprietary driver
   # WARNING: Requires to activate "Discrete" GPU on the BIOS display setting.
@@ -118,52 +125,55 @@
   hardware.nvidia.open = true;
   hardware.nvidia-container-toolkit.enable = true;
 
-  environment.systemPackages =
-    with pkgs; [
-      lm_sensors
-      pass
-      wl-clipboard
-      gnomeExtensions.gsconnect
-      linuxPackages.acpi_call
-      zoom-us
-      jetbrains.pycharm-community
-      jetbrains.webstorm
-      vscode-fhs
-      go
-      pciutils
-      nextcloud-client
-      nh
-      helix
-      android-studio
+  environment.systemPackages = with pkgs; [
+    lm_sensors
+    pass
+    wl-clipboard
+    gnomeExtensions.gsconnect
+    linuxPackages.acpi_call
+    zoom-us
+    jetbrains.pycharm-community
+    jetbrains.webstorm
+    vscode-fhs
+    go
+    pciutils
+    nextcloud-client
+    nh
+    helix
+    android-studio
 
-      libreoffice
-      gnome-boxes
-    ];
+    libreoffice
+    gnome-boxes
+  ];
 
   # for GSConnect
   networking.firewall.allowedTCPPortRanges = [
-    { from = 1714; to = 1764; }
+    {
+      from = 1714;
+      to = 1764;
+    }
   ];
   networking.firewall.allowedUDPPortRanges = [
-    { from = 1714; to = 1764; }
+    {
+      from = 1714;
+      to = 1764;
+    }
   ];
 
-  systemd.services.vpc-backups = rec {
-    description = "Backup my vpc (${startAt})";
+  systemd.services.vps-backups = rec {
+    description = "Backup my VPS (${startAt})";
     startAt = "daily";
-    path = [ pkgs.openssh pkgs.rsync ];
+    path = [
+      pkgs.openssh
+      pkgs.rsync
+    ];
 
     serviceConfig = {
       User = "mmercier";
       Group = "users";
-      ExecStart = ''
-        ${pkgs.rsync}/bin/rsync --rsync-path=/run/current-system/sw/bin/rsync -e"ssh -v -o StrictHostKeyChecking=no" -avz root@vps:/data /home/mmercier/Backups/vpc'';
+      ExecStart = ''${pkgs.rsync}/bin/rsync --rsync-path=/run/current-system/sw/bin/rsync -e"ssh -v -o StrictHostKeyChecking=no" -avz root@vps:/data /home/mmercier/Backups/VPS'';
     };
   };
-
-  services.logind.extraConfig = ''
-    HandlePowerKey=suspend
-  '';
 
   services.fprintd.enable = true;
 
@@ -171,7 +181,12 @@
   #users.users.mickours.isSystemUser = true;
   users.extraUsers.mickours = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "lp" "networkmanager" "pipewire" ];
+    extraGroups = [
+      "wheel"
+      "lp"
+      "networkmanager"
+      "pipewire"
+    ];
+    shell = pkgs.zsh;
   };
 }
-
