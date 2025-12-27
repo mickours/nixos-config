@@ -1,10 +1,21 @@
-{ config, lib, pkgs, inputs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}:
 let
-  pkgs_lists = import ../config/my_pkgs_list.nix { inherit pkgs; dotfiles = inputs.my_dotfiles; adrienPkgs = inputs.adrien_config.packages; };
+  pkgs_lists = import ../config/my_pkgs_list.nix {
+    inherit pkgs;
+    dotfiles = inputs.my_dotfiles;
+    adrienPkgs = inputs.adrien_config.packages;
+  };
   hp-driver = pkgs.callPackage ../pkgs/hp-driver/hp-driver-MFP-178-nw.nix { };
   cfg = config.environments.mickours.graphical;
 in
-with lib; {
+with lib;
+{
   options.environments.mickours.graphical = {
     enable = mkEnableOption "graphical";
     myuser = mkOption { type = types.str; };
@@ -47,8 +58,11 @@ with lib; {
       printing = {
         enable = true;
         browsing = true;
-        drivers =
-          [ pkgs.samsung-unified-linux-driver pkgs.hplipWithPlugin hp-driver ];
+        drivers = [
+          pkgs.samsung-unified-linux-driver
+          pkgs.hplipWithPlugin
+          hp-driver
+        ];
       };
       # Needed for printer discovery
       avahi.enable = true;
@@ -67,21 +81,37 @@ with lib; {
 
       gnome.gnome-online-accounts.enable = true;
       gnome.gnome-browser-connector.enable = true;
+      # Enable Keyring
+      gnome.gnome-keyring.enable = true;
+
     };
+    # Auto unlock Keyring on login
+    security.pam.services.login.enableGnomeKeyring = true;
 
     # Add gdm to my user's groups
     users.extraUsers."${cfg.myuser}" = {
-      extraGroups = [ "audio" "wheel" "lp" "networkmanager" "pipewire" ];
+      extraGroups = [
+        "audio"
+        "wheel"
+        "lp"
+        "networkmanager"
+        "pipewire"
+      ];
     };
 
     # Make fonts better...
-    fonts.fontconfig = { enable = true; };
+    fonts.fontconfig = {
+      enable = true;
+    };
     # Add micro$oft fonts
-    fonts.packages = with pkgs; [
-      corefonts
-      # helvetica-neue-lt-std
-      twemoji-color-font
-    ] ++ builtins.filter lib.attrsets.isDerivation (builtins.attrValues pkgs.nerd-fonts);
+    fonts.packages =
+      with pkgs;
+      [
+        corefonts
+        # helvetica-neue-lt-std
+        twemoji-color-font
+      ]
+      ++ builtins.filter lib.attrsets.isDerivation (builtins.attrValues pkgs.nerd-fonts);
 
     # every machine should be running antivirus
     services.clamav.updater.enable = true;
