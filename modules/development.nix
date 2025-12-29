@@ -1,9 +1,21 @@
-{ config, lib, pkgs, inputs, adrienPkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  inputs,
+  adrienPkgs,
+  ...
+}:
 let
-  pkgs_lists = import ../config/my_pkgs_list.nix { inherit pkgs; dotfiles = inputs.my_dotfiles; inherit adrienPkgs; };
+  pkgs_lists = import ../config/my_pkgs_list.nix {
+    inherit pkgs;
+    dotfiles = inputs.my_dotfiles;
+    inherit adrienPkgs;
+  };
   cfg = config.environment.mickours.development;
 in
-with lib; {
+with lib;
+{
   options.environments.mickours.development = {
     enable = mkEnableOption "development";
   };
@@ -15,7 +27,10 @@ with lib; {
     nix.settings.sandbox = true;
 
     # allow my user to build
-    nix.settings.trusted-users = [ "root" "mmercier" ];
+    nix.settings.trusted-users = [
+      "root"
+      "mmercier"
+    ];
 
     # Use all cores
     nix.settings.cores = 0;
@@ -27,18 +42,19 @@ with lib; {
     '';
 
     # Add Batsim cachix to my nix cache
-    nix.settings.substituters = [ "https://cache.nixos.org/" "https://batsim.cachix.org" ];
-    nix.settings.trusted-public-keys =
-      [ "batsim.cachix.org-1:IQ/4c8P/yzhxQwp6t58LatLcvHz0qMolEHJQz9w9pxc=" ];
+    nix.settings.substituters = [
+      "https://cache.nixos.org/"
+      "https://cache.nixos-cuda.org"
+    ];
+    trusted-public-keys = [
+      "cache.nixos-cuda.org:74DUi4Ye579gUqzH4ziL9IyiJBlDpMRn9MBN8oNan9M="
+    ];
     nixpkgs.config.allowUnfree = true;
-    nixpkgs.config.packageOverrides = pkgs: {
-      nur = import
-        (builtins.fetchTarball
-          "https://github.com/nix-community/NUR/archive/master.tar.gz")
-        {
-          inherit pkgs;
-        };
-    };
+    # nixpkgs.config.packageOverrides = pkgs: {
+    #   nur = import (builtins.fetchTarball "https://github.com/nix-community/NUR/archive/master.tar.gz") {
+    #     inherit pkgs;
+    #   };
+    # };
 
     # Enable CCache to avoid recompiling everyhing everytime
     programs.ccache.enable = true;
