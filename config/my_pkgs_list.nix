@@ -1,4 +1,8 @@
-{ pkgs, dotfiles, adrienPkgs }:
+{
+  pkgs,
+  dotfiles,
+  adrienPkgs,
+}:
 
 with pkgs;
 let
@@ -37,7 +41,8 @@ in
     w3m # web
     poppler # PDF
     mediainfo # audio and video
-  ] ++ my_vim_plugins.dependencies;
+  ]
+  ++ my_vim_plugins.dependencies;
 
   graphical = [
     # Gnome stuff
@@ -85,7 +90,7 @@ in
     wl-clipboard
 
     # Writings
-    ((calibre.override {unrarSupport = true;}).overrideAttrs {installCheckPhase = "";})
+    ((calibre.override { unrarSupport = true; }).overrideAttrs { installCheckPhase = ""; })
     libreoffice-fresh
 
     # Graphic tools
@@ -99,7 +104,10 @@ in
   development =
     let
       RStudio-with-my-packages = rstudioWrapper.override {
-        packages = with rPackages; [ tidyverse snakecase ];
+        packages = with rPackages; [
+          tidyverse
+          snakecase
+        ];
       };
     in
     [
@@ -154,11 +162,7 @@ in
       kubectl
       pssh
       awscli2
-      (
-        google-cloud-sdk.withExtraComponents (
-          [ google-cloud-sdk.components.gke-gcloud-auth-plugin ]
-        )
-      )
+      (google-cloud-sdk.withExtraComponents ([ google-cloud-sdk.components.gke-gcloud-auth-plugin ]))
       docker-compose
       eksctl
       skopeo
@@ -175,6 +179,7 @@ in
       jetbrains.pycharm-professional
       uv
       adrienPkgs.cgvg-rs
+      heimdall
 
       # Editors
       emacs
