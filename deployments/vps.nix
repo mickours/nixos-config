@@ -161,9 +161,21 @@ in
     # down nginx and opens port 80.
     certificateScheme = "acme-nginx";
 
+    # Enable DKIM reporting
+    dmarcReporting.enable = true;
+
     # manage data migration
     stateVersion = 3;
 
+    # Enable monit monitoring and alerting
+    monitoring.enable = true;
+    monitoring.alertAddress = "admin@libr.fr";
+
+    # Enable local rsnapshot backup
+    backup.enable = true;
+    backup.snapshotRoot = "/data/mail-backups";
+
+    # put everything in the /data folder to simplify backups
     mailDirectory = "/data/vmail";
     dkimKeyDirectory = "/data/dkim";
     sieveDirectory = "/data/sieve";

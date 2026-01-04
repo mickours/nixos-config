@@ -5,9 +5,6 @@
 }:
 
 with pkgs;
-let
-  my_vim_plugins = pkgs.callPackage ./my_vim_plugins.nix { };
-in
 {
   common = [
     # nix_utils
@@ -33,16 +30,10 @@ in
     # tools
     zsh
     tmux
-    ranger
-    # ranger previews
-    libcaca # video
-    highlight # code
-    atool # archives
-    w3m # web
-    poppler # PDF
-    mediainfo # audio and video
-  ]
-  ++ my_vim_plugins.dependencies;
+    yazi
+    scooter
+    helix
+  ];
 
   graphical = [
     # Gnome stuff
@@ -73,7 +64,6 @@ in
     xorg.xkill
     deja-dup
     mesa-demos
-    git-cola
     gitg
     pdftk
 
