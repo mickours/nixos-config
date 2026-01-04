@@ -191,6 +191,11 @@ in
       bucket = "nextcloud-libr-fr";
       secretFile = "/data/s3_nextcloud";
       verify_bucket_exists = true;
+      # region = "fr-par";
+      # key = "SCWM8NR3996ET9FMHQCC";
+      # bucket = "primary0-nextcloud-libr-fr";
+      # secretFile = "/data/s3_nextcloud_scw";
+
     };
     # For face recognition App
     phpExtraExtensions = all: [
