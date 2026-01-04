@@ -1,12 +1,23 @@
-{ config, pkgs, lib, inputs, adrienPkgs, dotfiles, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  inputs,
+  adrienPkgs,
+  dotfiles,
+  ...
+}:
 let
-  pkgs_lists =
-    import ../config/my_pkgs_list.nix { inherit pkgs adrienPkgs dotfiles; };
+  pkgs_lists = import ../config/my_pkgs_list.nix { inherit pkgs adrienPkgs dotfiles; };
   webPort = 80;
   webSslPort = 443;
-  myKeys = [ ./keys/id_rsa_oursbook.pub ./keys/id_rsa_vps_passless.pub ];
-in {
-  system.stateVersion = "25.05";
+  myKeys = [
+    ./keys/id_rsa_oursbook.pub
+    ./keys/id_rsa_vps_passless.pub
+  ];
+in
+{
+  system.stateVersion = "25.11";
   nix.settings.trusted-users = [ "@wheel" ];
 
   # Needed for rsync backups
@@ -69,7 +80,9 @@ in {
       "nextcloud.libr.fr".enableACME = true;
 
       "michaelmercier.fr" = {
-        locations."/" = { root = "/data/public/mmercier/website"; };
+        locations."/" = {
+          root = "/data/public/mmercier/website";
+        };
         # Static file serving
         locations."/files/" = {
           root = "/data/public/mmercier";
@@ -101,7 +114,10 @@ in {
   mailserver = {
     enable = true;
     fqdn = "mail.libr.fr";
-    domains = [ "libr.fr" "michaelmercier.fr" ];
+    domains = [
+      "libr.fr"
+      "michaelmercier.fr"
+    ];
 
     # Use `mkpasswd -m sha-512` to create the salted password
     loginAccounts = {
@@ -145,6 +161,9 @@ in {
     # down nginx and opens port 80.
     certificateScheme = "acme-nginx";
 
+    # manage data migration
+    stateVersion = 3;
+
     mailDirectory = "/data/vmail";
     dkimKeyDirectory = "/data/dkim";
     sieveDirectory = "/data/sieve";
@@ -156,7 +175,7 @@ in {
 
   services.nextcloud = {
     enable = true;
-    package = pkgs.nextcloud31;
+    package = pkgs.nextcloud32;
     home = "/data/nextcloud";
     hostName = "nextcloud.libr.fr";
     https = true;
@@ -174,7 +193,11 @@ in {
       verify_bucket_exists = true;
     };
     # For face recognition App
-    phpExtraExtensions = all: [ all.pdlib all.bz2 all.apcu ];
+    phpExtraExtensions = all: [
+      all.pdlib
+      all.bz2
+      all.apcu
+    ];
     maxUploadSize = "1G";
     fastcgiTimeout = 600;
     # Computed with https://spot13.com/pmcalculator/
@@ -186,7 +209,9 @@ in {
       "pm.max_spare_servers" = "33";
       "pm.max_requests" = "500";
     };
-    phpOptions = { "opcache.interned_strings_buffer" = "16"; };
+    phpOptions = {
+      "opcache.interned_strings_buffer" = "16";
+    };
   };
 
   ## For backgroud job for face recognition
@@ -212,21 +237,31 @@ in {
   #*************#
   #   Network   #
   #*************#
-  networking = { firewall.allowedTCPPorts = [ webPort webSslPort ]; };
+  networking = {
+    firewall.allowedTCPPorts = [
+      webPort
+      webSslPort
+    ];
+  };
 
   #*************#
   # Admin tools #
   #*************#
-  environment.systemPackages = with pkgs;
+  environment.systemPackages =
+    with pkgs;
     [
       wget
       git # Needed for radicale backup
       rsync # for backups
       goaccess # For web site traffic analytics
+      # Extra tools
       ripgrep
       neovim
+      jq
+      restic
       # For nextcloud apps: Memories
       exiftool
       ffmpeg
-    ] ++ pkgs_lists.common;
+    ]
+    ++ pkgs_lists.common;
 }
