@@ -198,16 +198,16 @@ in
     settings.default_phone_region = "FR";
     config.objectstore.s3 = {
       enable = true;
-      region = "eu-west-3";
-      key = "AKIAZFTZEYESUAQVO5MO";
-      bucket = "nextcloud-libr-fr";
-      secretFile = "/data/s3_nextcloud";
-      verify_bucket_exists = true;
-      # region = "fr-par";
-      # key = "SCWM8NR3996ET9FMHQCC";
-      # bucket = "primary0-nextcloud-libr-fr";
-      # secretFile = "/data/s3_nextcloud_scw";
-
+      # region = "eu-west-3";
+      # key = "AKIAZFTZEYESUAQVO5MO";
+      # bucket = "nextcloud-libr-fr";
+      # secretFile = "/data/s3_nextcloud";
+      # verify_bucket_exists = true;
+      region = "fr-par";
+      hostname = "s3.fr-par.scw.cloud";
+      key = "SCWM8NR3996ET9FMHQCC";
+      bucket = "primary0-nextcloud-libr-fr";
+      secretFile = "/data/s3_nextcloud_scw";
     };
     # For face recognition App
     phpExtraExtensions = all: [
