@@ -192,22 +192,26 @@ in
     hostName = "nextcloud.libr.fr";
     https = true;
     config.adminpassFile = "/data/admin_nextcloud";
-    config.dbtype = "sqlite";
+    # DB config
+    # config.dbtype = "sqlite";
+    config.dbtype = "pgsql";
+    config.dbhost = "/run/postgresql";
+
     # Forces Nextcloud to use HTTPS
     settings.overwriteProtocol = "https";
     settings.default_phone_region = "FR";
     config.objectstore.s3 = {
       enable = true;
-      # region = "eu-west-3";
-      # key = "AKIAZFTZEYESUAQVO5MO";
-      # bucket = "nextcloud-libr-fr";
-      # secretFile = "/data/s3_nextcloud";
+      region = "eu-west-3";
+      key = "AKIAZFTZEYESUAQVO5MO";
+      bucket = "nextcloud-libr-fr";
+      secretFile = "/data/s3_nextcloud";
       # verify_bucket_exists = true;
-      region = "fr-par";
-      hostname = "s3.fr-par.scw.cloud";
-      key = "SCWM8NR3996ET9FMHQCC";
-      bucket = "primary0-nextcloud-libr-fr";
-      secretFile = "/data/s3_nextcloud_scw";
+      # region = "fr-par";
+      # hostname = "s3.fr-par.scw.cloud";
+      # key = "SCWM8NR3996ET9FMHQCC";
+      # bucket = "primary0-nextcloud-libr-fr";
+      # secretFile = "/data/s3_nextcloud_scw";
     };
     # For face recognition App
     phpExtraExtensions = all: [
@@ -229,6 +233,26 @@ in
     phpOptions = {
       "opcache.interned_strings_buffer" = "16";
     };
+  };
+
+  services.postgresql = {
+    # Copied & adapted from nixpkgs
+    enable = true;
+    identMap = ''
+      nextcloud nextcloud nextcloud
+      nextcloud root nextcloud
+    '';
+    authentication = ''
+      local all nextcloud peer map=nextcloud
+    '';
+    ensureDatabases = [ "nextcloud" ];
+    ensureUsers = [
+      {
+        name = "nextcloud";
+        ensureDBOwnership = true;
+      }
+    ];
+    dataDir = "/data/psql/${config.services.postgresql.package.psqlSchema}";
   };
 
   ## For backgroud job for face recognition
@@ -276,6 +300,7 @@ in
       neovim
       jq
       restic
+      sqlite-interactive
       # For nextcloud apps: Memories
       exiftool
       ffmpeg
