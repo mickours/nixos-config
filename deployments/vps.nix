@@ -54,6 +54,7 @@ in
   };
   # Add root access to mmercier
   users.users.root.openssh.authorizedKeys.keyFiles = myKeys;
+  users.users.root.shell = pkgs.zsh;
 
   # Add other users
   users.extraUsers.beatrice = {
@@ -279,6 +280,10 @@ in
       }
     ];
     dataDir = "/data/psql/${config.services.postgresql.package.psqlSchema}";
+  };
+  services.postgresqlBackup = {
+    enable = true;
+    backupAll = true;
   };
 
   # Fix nextcloud memories indexing
