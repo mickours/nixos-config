@@ -144,6 +144,7 @@
 
     libreoffice
     gnome-boxes
+    krita
   ];
 
   # for GSConnect

@@ -223,6 +223,7 @@ in
       mail_smtpname = "nextcloud@libr.fr";
       mail_smtptimeout = 30;
       mail_smtpdebug = true;
+      # WARNING smtp password is injected manually
 
       apps.memories.exiftool_no_local = true;
     };
@@ -284,6 +285,7 @@ in
   services.postgresqlBackup = {
     enable = true;
     backupAll = true;
+    location = "/data/psql-backups";
   };
 
   # Fix nextcloud memories indexing
@@ -331,9 +333,11 @@ in
     with pkgs;
     [
       wget
-      git # Needed for radicale backup
-      rsync # for backups
-      goaccess # For web site traffic analytics
+      # for backups
+      rsync
+      borgbackup
+      # For web site traffic analytics
+      goaccess
       # Extra tools
       ripgrep
       neovim
@@ -342,6 +346,7 @@ in
       sqlite-interactive
       dig
       unixtools.netstat
+      git
       # For nextcloud apps: Memories
       exiftool_13_44
       ffmpeg
