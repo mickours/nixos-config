@@ -283,7 +283,9 @@ in
 
   # Fix nextcloud memories indexing
   systemd.services.nextcloud-cron = {
-    path = [ exiftool_13_44 ];
+    path = [
+      (pkgs.perl.withPackages (ps: [ exiftool_13_44 ]))
+    ];
   };
 
   ## For backgroud job for face recognition
