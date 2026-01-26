@@ -1,4 +1,6 @@
-{ pkgs ? import <nixpkgs-unstable> { } }:
+{
+  pkgs ? import <nixpkgs-unstable> { },
+}:
 with pkgs;
 let
   plugins = with vimPlugins; [
@@ -51,20 +53,3 @@ in
     };
   };
 })
-#(vim_configurable.customize {
-#    name = "v";
-#    # add my custom .vimrc
-#    vimrcConfig.customRC = my_vim_config + ''
-#    '';
-#    vimrcConfig.plug.plugins = plugins;
-#    #vimrcConfig.packages.myVimPackage = {
-#    #    # loaded on launch
-#    #    start = plugins;
-#    #    # manually loadable by calling `:packadd $plugin-name`
-#    #    opt = [  ];
-#    #    # To automatically load a plugin when opening a filetype, add vimrc lines like:
-#    #    # autocmd FileType php :packadd phpCompletion
-#    #};
-#  }
-#)
-

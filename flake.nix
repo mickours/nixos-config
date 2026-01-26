@@ -87,6 +87,15 @@
             ./deployments/vps.nix
           ];
         };
+        vps2 = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          specialArgs = { inherit inputs adrienPkgs; };
+
+          modules = [
+            simple-nixos-mailserver.nixosModules.mailserver
+            ./deployments/vps2.nix
+          ];
+        };
       };
 
       deploy.nodes.vps.hostname = "vps";
@@ -95,10 +104,16 @@
         sshUser = "root";
         path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.vps;
       };
+      deploy.nodes.vps2.hostname = "vps2";
+      deploy.nodes.vps2.profiles.system = {
+        user = "root";
+        sshUser = "root";
+        path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.vps2;
+      };
 
       # This is highly advised, and will prevent many possible mistakes
       checks = builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy) deploy-rs.lib;
       # Enable autoformat
-      formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixpkgs-fmt;
+      formatter.x86_64-linux = (import nixpkgs { system = "x86_64-linux"; }).pkgs.nixfmt-tree;
     };
 }

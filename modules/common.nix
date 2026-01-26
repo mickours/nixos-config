@@ -1,9 +1,21 @@
-{ config, lib, pkgs, modulesPath, inputs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  modulesPath,
+  inputs,
+  ...
+}:
 let
-  pkgs_lists = import ../config/my_pkgs_list.nix { inherit pkgs; dotfiles = inputs.my_dotfiles; adrienPkgs = inputs.adrien_config.packages; };
+  pkgs_lists = import ../config/my_pkgs_list.nix {
+    inherit pkgs;
+    dotfiles = inputs.my_dotfiles;
+    adrienPkgs = inputs.adrien_config.packages;
+  };
   cfg = config.environments.mickours.common;
 in
-with lib; {
+with lib;
+{
   options.environments.mickours.common = {
     enable = mkEnableOption "common";
     keyFiles = mkOption {
@@ -31,7 +43,10 @@ with lib; {
     console.keyMap = "fr";
     i18n = {
       defaultLocale = "en_US.UTF-8";
-      extraLocaleSettings = { LC_MESSAGES = "en_US.UTF-8"; LC_TIME = "fr_FR.UTF-8"; };
+      extraLocaleSettings = {
+        LC_MESSAGES = "en_US.UTF-8";
+        LC_TIME = "fr_FR.UTF-8";
+      };
       inputMethod.ibus.engines = with pkgs.ibus-engines; [ typing-booster ];
     };
 
@@ -69,12 +84,11 @@ with lib; {
     };
 
     # Get ctrl+arrows works in nix-shell bash
-    environment.etc."inputrc".text =
-      builtins.readFile (modulesPath + "/programs/bash/inputrc") + ''
-        "\e[A": history-search-backward
-        "\e[B": history-search-forward
-        set completion-ignore-case on
-      '';
+    environment.etc."inputrc".text = builtins.readFile (modulesPath + "/programs/bash/inputrc") + ''
+      "\e[A": history-search-backward
+      "\e[B": history-search-forward
+      set completion-ignore-case on
+    '';
 
     # Avoid journald to store GigaBytes of logs
     services.journald.extraConfig = ''
@@ -82,7 +96,10 @@ with lib; {
     '';
 
     # Alernate DNS resolution server to avoid French website blocking
-    networking.nameservers = [ "1.1.1.1" "9.9.9.9" ];
+    networking.nameservers = [
+      "1.1.1.1"
+      "9.9.9.9"
+    ];
 
     # Allow usage of not wrapped binaries
     programs.nix-ld.enable = true;

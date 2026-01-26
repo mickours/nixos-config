@@ -1,10 +1,22 @@
-{ config, lib, pkgs, modulesPath, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  modulesPath,
+  ...
+}:
 
 {
   imports = [ (modulesPath + "/profiles/qemu-guest.nix") ];
 
-  boot.initrd.availableKernelModules =
-    [ "ata_piix" "uhci_hcd" "ehci_pci" "virtio_pci" "sr_mod" "virtio_blk" ];
+  boot.initrd.availableKernelModules = [
+    "ata_piix"
+    "uhci_hcd"
+    "ehci_pci"
+    "virtio_pci"
+    "sr_mod"
+    "virtio_blk"
+  ];
   boot.kernelModules = [ ];
   boot.extraModulePackages = [ ];
 
@@ -13,11 +25,12 @@
     fsType = "ext4";
   };
 
-  swapDevices = [{
-    device = "/var/swapfile";
-    size = 2048;
-  }];
+  swapDevices = [
+    {
+      device = "/var/swapfile";
+      size = 2048;
+    }
+  ];
 
   nix.settings.max-jobs = lib.mkDefault 1;
 }
-

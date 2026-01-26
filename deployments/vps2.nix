@@ -15,15 +15,6 @@ let
     ./keys/id_rsa_oursbook.pub
     ./keys/id_rsa_vps_passless.pub
   ];
-  exiftool_13_44 = pkgs.exiftool.overrideAttrs (oldAttrs: rec {
-    src = pkgs.fetchFromGitHub {
-      owner = "exiftool";
-      repo = "exiftool";
-      tag = version;
-      hash = "sha256-o9/qg+BQSc2MiZIqvyFKPtCBHU64QLMhA2AcvDCph04=";
-    };
-    version = "13.44";
-  });
 in
 {
   system.stateVersion = "25.11";
@@ -34,15 +25,10 @@ in
 
   imports = [
     # Include the results of the hardware scan.
-    ./vps-hardware-configuration.nix
+    ./vps2-hardware-configuration.nix
     # Common config
     ../modules/common.nix
   ];
-
-  # Use the GRUB 2 boot loader.
-  boot.loader.grub.enable = true;
-  # Define on which hard drive you want to install Grub.
-  boot.loader.grub.device = "/dev/vda"; # or "nodev" for efi only
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
@@ -201,9 +187,9 @@ in
     https = true;
     config.adminpassFile = "/data/admin_nextcloud";
     # DB config
-    # config.dbtype = "sqlite";
-    config.dbtype = "pgsql";
-    config.dbhost = "/run/postgresql";
+    config.dbtype = "sqlite";
+    # config.dbtype = "pgsql";
+    # config.dbhost = "/run/postgresql";
 
     # Forces Nextcloud to use HTTPS
     settings = {
@@ -281,11 +267,6 @@ in
     dataDir = "/data/psql/${config.services.postgresql.package.psqlSchema}";
   };
 
-  # Fix nextcloud memories indexing
-  systemd.services.nextcloud-cron = {
-    path = [ exiftool_13_44 ];
-  };
-
   ## For backgroud job for face recognition
   #systemd.timers."nextcloud-face-recognition" = {
   #  wantedBy = [ "timers.target" ];
@@ -320,7 +301,6 @@ in
   # Admin tools #
   #*************#
   environment.systemPackages =
-
     with pkgs;
     [
       wget
@@ -336,7 +316,15 @@ in
       dig
       unixtools.netstat
       # For nextcloud apps: Memories
-      exiftool_13_44
+      (exiftool.overrideAttrs (oldAttrs: rec {
+        src = fetchFromGitHub {
+          owner = "exiftool";
+          repo = "exiftool";
+          tag = version;
+          hash = "sha256-o9/qg+BQSc2MiZIqvyFKPtCBHU64QLMhA2AcvDCph04=";
+        };
+        version = "13.44";
+      }))
       ffmpeg
     ]
     ++ pkgs_lists.common;
