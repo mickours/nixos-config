@@ -226,6 +226,8 @@ in
       # WARNING smtp password is injected manually
 
       apps.memories.exiftool_no_local = true;
+      # Fix memories place setup
+      dbtableprefix = "oc_";
     };
 
     config.objectstore.s3 = {
