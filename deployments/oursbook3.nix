@@ -79,7 +79,6 @@
     # virtualbox.host.enable = true;
     libvirtd.enable = true;
     docker.enable = true;
-    docker.extraOptions = "--insecure-registry ryax-registry.ryaxns:5000";
     podman.enable = true;
   };
 
@@ -88,20 +87,11 @@
 
   programs.singularity.enable = true;
 
-  # Adroid management (adb, fastboot..)
-  programs.adb.enable = true;
-  users.users.mmercier.extraGroups = [ "adbusers" ];
-
-  # Add fzf fuzzy coppletion
-  #programs.fzf.fuzzyCompletion = true;
-
-  # Share local files wih QR codd
-  #programs.sharing.enable = true;
-
   # Add docker and libvirt users
   users.extraUsers.mmercier.extraGroups = [
     "docker"
     "libvirtd"
+    "kvm"
   ];
 
   # Enable Nvidia proprietary driver
@@ -126,6 +116,7 @@
   hardware.nvidia-container-toolkit.enable = true;
 
   environment.systemPackages = with pkgs; [
+    android-tools
     lm_sensors
     pass
     wl-clipboard
