@@ -123,7 +123,6 @@
     gnomeExtensions.gsconnect
     linuxPackages.acpi_call
     zoom-us
-    jetbrains.pycharm-community
     jetbrains.webstorm
     vscode-fhs
     go

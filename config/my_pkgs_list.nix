@@ -166,7 +166,7 @@ with pkgs;
       scaleway-cli
       opentofu
       openssl
-      jetbrains.pycharm-professional
+      jetbrains.pycharm
       uv
       adrienPkgs.cgvg-rs
       heimdall
