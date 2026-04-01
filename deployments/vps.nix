@@ -1,10 +1,9 @@
 {
   config,
   pkgs,
-  lib,
-  inputs,
   adrienPkgs,
   dotfiles,
+  monProjetDeVie,
   ...
 }:
 let
@@ -39,6 +38,12 @@ in
     ../modules/common.nix
   ];
 
+  services.mon-projet-de-vie = {
+    enable = true;
+    nginx.enable = true;
+    nginx.hostName = "mon-projet-de-vie.libr.fr";
+    package = monProjetDeVie.default;
+  };
   # Use the GRUB 2 boot loader.
   boot.loader.grub.enable = true;
   # Define on which hard drive you want to install Grub.

@@ -33,6 +33,7 @@ with pkgs;
     yazi
     scooter
     helix
+    gemini-cli
   ];
 
   graphical = [
