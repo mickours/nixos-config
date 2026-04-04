@@ -28,7 +28,7 @@
     inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  inputs.monProjetDeVieInput.url = "git+file:///home/mickours/Projects/mon-projet-de-vie-libr";
+  inputs.leProjetDeVieInput.url = "git+file:///home/mickours/Projects/le-projet-de-vie-libr";
   # inputs.monProjetDeVie.url = "github:mickours/monProjetDeVie-web-site/main";
 
   inputs.nixos-hardware.url = "github:NixOS/nixos-hardware/master";
@@ -43,13 +43,13 @@
       my_dotfiles,
       nixos-hardware,
       adrien_config,
-      monProjetDeVieInput,
+      leProjetDeVieInput,
       ...
     }@inputs:
     let
       system = "x86_64-linux";
       adrienPkgs = adrien_config.packages."${system}";
-      monProjetDeVie = monProjetDeVieInput.packages."${system}";
+      monProjetDeVie = leProjetDeVieInput.packages."${system}";
     in
     {
       nixosConfigurations = {
@@ -90,7 +90,7 @@
           modules = [
             simple-nixos-mailserver.nixosModules.mailserver
             ./deployments/vps.nix
-            monProjetDeVieInput.nixosModules.default
+            leProjetDeVieInput.nixosModules.default
           ];
         };
         vps2 = nixpkgs.lib.nixosSystem {

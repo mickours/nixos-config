@@ -41,7 +41,7 @@ in
   services.mon-projet-de-vie = {
     enable = true;
     nginx.enable = true;
-    nginx.hostName = "mon-projet-de-vie.libr.fr";
+    nginx.hostName = "le-projet-de-vie.libr.fr";
     package = monProjetDeVie.default;
   };
   # Use the GRUB 2 boot loader.
