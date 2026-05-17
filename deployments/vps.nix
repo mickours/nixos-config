@@ -318,7 +318,7 @@ in
   systemd.services."nextcloud-face-recognition" = {
     script = ''
       set -eu
-      ${pkgs.nextcloud32}/bin/nextcloud-occ face:background_job -t 3600
+      /run/current-system/sw/bin/nextcloud-occ face:background_job -t 3600 face:background_job -t 3600
     '';
     serviceConfig = {
       Type = "oneshot";
