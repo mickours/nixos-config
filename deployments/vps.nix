@@ -301,28 +301,34 @@ in
   systemd.services.nextcloud-cron = {
     path = [
       (pkgs.perl.withPackages (ps: [ exiftool_13_44 ]))
+      pkgs.procps
+      pkgs.which
     ];
   };
 
   ## For backgroud job for face recognition
-  #systemd.timers."nextcloud-face-recognition" = {
-  #  wantedBy = [ "timers.target" ];
-  #  timerConfig = {
-  #    OnCalendar = "daily";
-  #    Persistent = true;
-  #    Unit = "nextcloud-face-recognition.service";
-  #  };
-  #};
-  #systemd.services."nextcloud-face-recognition" = {
-  #  script = ''
-  #    set -eu
-  #    ${pkgs.nextcloud28}/bin/nextcloud-occ face:background_job -t 3600
-  #  '';
-  #  serviceConfig = {
-  #    Type = "oneshot";
-  #    User = "nextcloud";
-  #  };
-  #};
+  systemd.timers."nextcloud-face-recognition" = {
+    wantedBy = [ "timers.target" ];
+    timerConfig = {
+      OnCalendar = "daily";
+      Persistent = true;
+      Unit = "nextcloud-face-recognition.service";
+    };
+  };
+  systemd.services."nextcloud-face-recognition" = {
+    script = ''
+      set -eu
+      ${pkgs.nextcloud32}/bin/nextcloud-occ face:background_job -t 3600
+    '';
+    serviceConfig = {
+      Type = "oneshot";
+      User = "nextcloud";
+      LoadCredential = "s3_secret:/data/s3_nextcloud";
+    };
+    environment = {
+      NEXTCLOUD_CONFIG_DIR = "/data/nextcloud/config";
+    };
+  };
 
   #*************#
   #   Network   #
