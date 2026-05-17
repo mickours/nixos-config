@@ -3,7 +3,7 @@
   pkgs,
   adrienPkgs,
   dotfiles,
-  monProjetDeVie,
+  leProjetDeVie,
   ...
 }:
 let
@@ -38,11 +38,13 @@ in
     ../modules/common.nix
   ];
 
-  services.mon-projet-de-vie = {
+  services.le-projet-de-vie = {
     enable = true;
-    nginx.enable = true;
-    nginx.hostName = "le-projet-de-vie.libr.fr";
-    package = monProjetDeVie.default;
+    nginx = {
+      enable = true;
+      hostName = "le-projet-de-vie.libr.fr";
+    };
+    package = leProjetDeVie.default;
   };
   # Use the GRUB 2 boot loader.
   boot.loader.grub.enable = true;

@@ -29,8 +29,8 @@
   };
 
   # For dev
-  # inputs.leProjetDeVieInput.url = "git+file:///home/mickours/Projects/le-projet-de-vie-libr";
-  inputs.leProjetDeVieInput.url = "github:mickours/le-projet-de-vie-web-site";
+  inputs.leProjetDeVieInput.url = "git+file:///home/mickours/Projects/le-projet-de-vie-libr";
+  # inputs.leProjetDeVieInput.url = "github:mickours/le-projet-de-vie-web-site";
 
   inputs.nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
@@ -50,7 +50,7 @@
     let
       system = "x86_64-linux";
       adrienPkgs = adrien_config.packages."${system}";
-      monProjetDeVie = leProjetDeVieInput.packages."${system}";
+      leProjetDeVie = leProjetDeVieInput.packages."${system}";
     in
     {
       nixosConfigurations = {
@@ -86,7 +86,7 @@
         };
         vps = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
-          specialArgs = { inherit inputs adrienPkgs monProjetDeVie; };
+          specialArgs = { inherit inputs adrienPkgs leProjetDeVie; };
 
           modules = [
             simple-nixos-mailserver.nixosModules.mailserver
