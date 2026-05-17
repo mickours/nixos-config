@@ -28,8 +28,9 @@
     inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  inputs.leProjetDeVieInput.url = "git+file:///home/mickours/Projects/le-projet-de-vie-libr";
-  # inputs.monProjetDeVie.url = "github:mickours/monProjetDeVie-web-site/main";
+  # For dev
+  # inputs.leProjetDeVieInput.url = "git+file:///home/mickours/Projects/le-projet-de-vie-libr";
+  inputs.leProjetDeVieInput.url = "github:mickours/le-projet-de-vie-web-site";
 
   inputs.nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 

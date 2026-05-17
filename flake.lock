@@ -14,11 +14,11 @@
         "sops-nix": "sops-nix"
       },
       "locked": {
-        "lastModified": 1771951078,
-        "narHash": "sha256-42muiw3Q3xPdK3Add61ijkgXZ5kNpGiE5BUm8ZhRbXo=",
+        "lastModified": 1775486643,
+        "narHash": "sha256-oIyAaxE/++HhRJhcb71HxOk9beU6ydB6XJf8O5JbM/U=",
         "owner": "adfaure",
         "repo": "nix_configuration",
-        "rev": "8617aebec68a494ab940b0bd9d208576e17b8d4a",
+        "rev": "1db27deb010da98650513c37b377f7a8b6e1bb29",
         "type": "github"
       },
       "original": {
@@ -355,11 +355,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1775077333,
-        "narHash": "sha256-OXcxobt7lBkh1B8AjwreU+24myhtKpqeLfAeIyNLFY8=",
+        "lastModified": 1778401693,
+        "narHash": "sha256-OVHdCqXXUF5UdGkH+FF2ZL06OLZjj2kvP2dIUmzVWoo=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "49ca96b2714c5931e17401eff87f3edd42d2b0f2",
+        "rev": "389b83002efc26f1145e89a6a8e6edc5a6435948",
         "type": "github"
       },
       "original": {
@@ -375,17 +375,17 @@
         "utils": "utils_2"
       },
       "locked": {
-        "lastModified": 1775314912,
-        "narHash": "sha256-lSoN2QY53JVIAqXckYwd52Y7yjIHs/tHy28X+/W1GOo=",
-        "ref": "refs/heads/feat/django-migration",
-        "rev": "b3678b22dc42662f64a080863edcacc55b35e3db",
-        "revCount": 46,
-        "type": "git",
-        "url": "file:///home/mickours/Projects/le-projet-de-vie-libr"
+        "lastModified": 1775294235,
+        "narHash": "sha256-29DNakL5ApH6Gmo+u30MrpurLzVb1sn2nYOA0cp3gJI=",
+        "owner": "mickours",
+        "repo": "le-projet-de-vie-web-site",
+        "rev": "8a112f5cbecc7c916f8738cb38e83fd38d6331b6",
+        "type": "github"
       },
       "original": {
-        "type": "git",
-        "url": "file:///home/mickours/Projects/le-projet-de-vie-libr"
+        "owner": "mickours",
+        "repo": "le-projet-de-vie-web-site",
+        "type": "github"
       }
     },
     "my-dotfiles": {
@@ -443,11 +443,11 @@
     },
     "nixos-hardware": {
       "locked": {
-        "lastModified": 1775203647,
-        "narHash": "sha256-6MWaMLXK9QMndI94CIxeiPafi3wuO+imCtK9tfhsZdw=",
+        "lastModified": 1778593042,
+        "narHash": "sha256-xYGrSg6354UK2K4WSQd4+TfyvfqmvFbSY+ZtGQUXK0c=",
         "owner": "NixOS",
         "repo": "nixos-hardware",
-        "rev": "80afbd13eea0b7c4ac188de949e1711b31c2b5f0",
+        "rev": "9bd7c80d43e258aaa607d83b43661df11444d808",
         "type": "github"
       },
       "original": {
@@ -614,11 +614,11 @@
     },
     "nixpkgs_7": {
       "locked": {
-        "lastModified": 1775002709,
-        "narHash": "sha256-d3Yx83vSrN+2z/loBh4mJpyRqr9aAJqlke4TkpFmRJA=",
+        "lastModified": 1778430510,
+        "narHash": "sha256-Ti+ZBvW6yrWWAg2szExVTwCd4qOJ3KlVr1tFHfyfi8Q=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "bcd464ccd2a1a7cd09aa2f8d4ffba83b761b1d0e",
+        "rev": "8fd9daa3db09ced9700431c5b7ad0e8ba199b575",
         "type": "github"
       },
       "original": {

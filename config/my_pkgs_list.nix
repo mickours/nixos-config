@@ -161,7 +161,8 @@ with pkgs;
       azure-cli
       kubelogin
       yarn
-      RStudio-with-my-packages
+      # Broken in 25.11
+      # RStudio-with-my-packages
       ruff
       velero
       scaleway-cli
