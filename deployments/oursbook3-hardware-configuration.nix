@@ -24,10 +24,19 @@
     "cryptd"
   ];
   boot.initrd.kernelModules = [ ];
-  boot.kernelModules = [ "kvm-intel" ];
+  boot.kernelModules = [
+    "kvm-intel"
+    "nvidia_uvm"
+    "nvidia_modeset"
+    "nvidia_drm"
+    "nvidia"
+  ];
   # Avoid touchpad click to tap (clickpad) bug. For more details see:
   # https://wiki.archlinux.org/title/Touchpad_Synaptics#Touchpad_does_not_work_after_resuming_from_hibernate/suspend
-  boot.kernelParams = [ "psmouse.synaptics_intertouch=0" ];
+  boot.kernelParams = [
+    "psmouse.synaptics_intertouch=0"
+    "nvidia-drm.modeset=1"
+  ];
   boot.extraModulePackages = [ ];
   # boot.blacklistedKernelModules = [ "nouveau" ];
 

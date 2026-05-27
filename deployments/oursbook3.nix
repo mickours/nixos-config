@@ -98,19 +98,11 @@
   # WARNING: Requires to activate "Discrete" GPU on the BIOS display setting.
   # Also, Nvidia driver is buggy and does not work properly after suspend.
   services.xserver.videoDrivers = [ "nvidia" ];
-  # hardware.nvidia.nvidiaSettings = true;
+  hardware.nvidia.nvidiaSettings = true;
   hardware.nvidia.powerManagement.enable = true;
-  # hardware.nvidia.powerManagement.finegrained = false;
+  hardware.nvidia.powerManagement.finegrained = false;
   hardware.nvidia.modesetting.enable = true;
   # hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;
-  # hardware.nvidia.prime = {
-  #   offload.enable = true;
-  #   offload.enableOffloadCmd = true;
-  #   # Bus ID of the Intel GPU. You can find it using lspci, either under 3D or VGA
-  #   intelBusId = "PCI:0:2:0";
-  #   # Bus ID of the NVIDIA GPU. You can find it using lspci, either under 3D or VGA
-  #   nvidiaBusId = "PCI:1:0:0";
-  # };
   # # Add docker support
   hardware.nvidia.open = true;
   hardware.nvidia-container-toolkit.enable = true;
