@@ -127,7 +127,14 @@
     libreoffice
     gnome-boxes
     krita
+    geary
   ];
+
+  services.ollama = {
+    enable = true;
+    package = pkgs.ollama-cuda;
+    # loadModels = [ "llama3.2:3b" "deepseek-r1:1.5b"];
+  };
 
   # for GSConnect
   networking.firewall.allowedTCPPortRanges = [
