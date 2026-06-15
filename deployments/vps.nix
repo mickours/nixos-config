@@ -25,7 +25,7 @@ let
   });
 in
 {
-  system.stateVersion = "25.11";
+  system.stateVersion = "26.05";
   nix.settings.trusted-users = [ "@wheel" ];
 
   # Needed for rsync backups
@@ -203,7 +203,7 @@ in
 
   services.nextcloud = {
     enable = true;
-    package = pkgs.nextcloud32;
+    package = pkgs.nextcloud33;
     home = "/data/nextcloud";
     hostName = "nextcloud.libr.fr";
     https = true;

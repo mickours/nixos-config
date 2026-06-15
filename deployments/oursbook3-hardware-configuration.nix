@@ -35,19 +35,14 @@
   # https://wiki.archlinux.org/title/Touchpad_Synaptics#Touchpad_does_not_work_after_resuming_from_hibernate/suspend
   boot.kernelParams = [
     "psmouse.synaptics_intertouch=0"
-    "nvidia-drm.modeset=1"
   ];
   boot.extraModulePackages = [ ];
   # boot.blacklistedKernelModules = [ "nouveau" ];
 
-  # Avoid WiFi stall and Hotspot errors
   # Avoid Black screen or logout after suspend
   boot.extraModprobeConfig = ''
-    options iwlwifi 11n_disable=1
-    options iwlwifi wd_disable=0
     options nvidia_modeset vblank_sem_control=0 nvidia NVreg_PreserveVideoMemoryAllocations=1 NVreg_TemporaryFilePath=/var/tmp
   '';
-  #options iwlwifi bt_coex_active=0
 
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/0a73544f-6095-43fa-a61c-6e48ce861906";
