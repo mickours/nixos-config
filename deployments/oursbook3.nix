@@ -1,16 +1,11 @@
 {
-  lib,
   pkgs,
-  config,
-  inputs,
-  adrienPkgs,
-  permittedInsecurePackages,
   ...
 }:
 {
   networking.hostName = "oursbook3";
 
-  system.stateVersion = "25.11";
+  system.stateVersion = "26.05";
 
   # Activate Flakes
   nix.package = pkgs.nixVersions.stable;
@@ -77,20 +72,21 @@
   # Add virtualbox and docker
   virtualisation = {
     # virtualbox.host.enable = true;
-    libvirtd.enable = true;
+    # libvirtd.enable = true;
     docker.enable = true;
+    docker.package = pkgs.docker_29;
     podman.enable = true;
   };
 
   # Enable cross compilation
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
-  programs.singularity.enable = true;
+  # programs.singularity.enable = true;
 
   # Add docker and libvirt users
   users.extraUsers.mmercier.extraGroups = [
     "docker"
-    "libvirtd"
+    # "libvirtd"
     "kvm"
   ];
 
@@ -110,22 +106,13 @@
   environment.systemPackages = with pkgs; [
     android-tools
     lm_sensors
-    pass
-    wl-clipboard
-    gnomeExtensions.gsconnect
-    linuxPackages.acpi_call
-    zoom-us
     jetbrains.webstorm
     vscode-fhs
     go
-    pciutils
-    nextcloud-client
     nh
     helix
     android-studio
 
-    libreoffice
-    gnome-boxes
     krita
     geary
   ];
@@ -135,20 +122,6 @@
     package = pkgs.ollama-cuda;
     # loadModels = [ "llama3.2:3b" "deepseek-r1:1.5b"];
   };
-
-  # for GSConnect
-  networking.firewall.allowedTCPPortRanges = [
-    {
-      from = 1714;
-      to = 1764;
-    }
-  ];
-  networking.firewall.allowedUDPPortRanges = [
-    {
-      from = 1714;
-      to = 1764;
-    }
-  ];
 
   systemd.services.vps-backups = rec {
     description = "Backup my VPS (${startAt})";
@@ -176,6 +149,7 @@
       "lp"
       "networkmanager"
       "pipewire"
+      "docker"
     ];
     shell = pkgs.zsh;
   };

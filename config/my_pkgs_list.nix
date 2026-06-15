@@ -39,7 +39,6 @@ with pkgs;
   graphical = [
     # Gnome stuff
     gnomeExtensions.system-monitor-next
-    gnomeExtensions.battery-health-charging
     evolution
     evolution-data-server
     gnome-firmware
@@ -62,7 +61,6 @@ with pkgs;
     obs-studio
     # Utils
     gnome-disk-utility
-    xorg.xkill
     deja-dup
     mesa-demos
     gitg
@@ -102,10 +100,8 @@ with pkgs;
       };
     in
     [
-      zulu
       gitFull
       python3
-      btop
       gcc
       ctags
       gnumake
@@ -120,30 +116,19 @@ with pkgs;
       bat
       zsh-powerlevel10k
       meld
-      smem
       eza
       ripgrep
-      zoxide
       lsd
       lazygit
-      dogdns
-      httpie
       gtop
-      glances
-      cheat
       fzf
-      fd
-      broot
-      duf
-      dust
       delta
-      nnn
       zellij
       bandwhich
-      sniffnet
       pigz
+      heimdall
       # Day to day use in Ryax
-      bitwarden-desktop
+      # bitwarden-desktop # Depends on EOL Electron
       ts
       kind
       cachix
@@ -170,8 +155,7 @@ with pkgs;
       openssl
       jetbrains.pycharm
       uv
-      adrienPkgs.cgvg-rs
-      heimdall
+      adrienPkgs.rgvg
 
       # Editors
       emacs
@@ -186,6 +170,5 @@ with pkgs;
       # fun
       fortune
       sl
-      wesnoth
     ];
 }
