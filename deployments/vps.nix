@@ -194,7 +194,6 @@ in
     # put everything in the /data folder to simplify backups
     mailDirectory = "/data/vmail";
     dkimKeyDirectory = "/data/dkim";
-    sieveDirectory = "/data/sieve";
   };
 
   ##***************#
