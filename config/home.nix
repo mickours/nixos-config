@@ -10,7 +10,7 @@ let
   my_zellij_config = builtins.readFile (builtins.toPath "${my_dotfiles}/config/zellij/config.kdl");
 in
 {
-  home.stateVersion = "25.11";
+  home.stateVersion = "26.05";
   home.packages = with pkgs; [
     zsh-powerlevel10k
     meslo-lgs-nf
@@ -107,7 +107,7 @@ in
           ];
         };
       };
-      languages.language-server.typescript-language-server = with pkgs.nodePackages; {
+      languages.language-server.typescript-language-server = with pkgs; {
         command = "${typescript-language-server}/bin/typescript-language-server";
         args = [
           "--stdio"
@@ -124,7 +124,7 @@ in
         {
           name = "nix";
           auto-format = true;
-          formatter.command = "${pkgs.nixfmt-rfc-style}/bin/nixfmt";
+          formatter.command = "${pkgs.nixfmt}/bin/nixfmt";
           file-types = [ "nix" ];
         }
         {

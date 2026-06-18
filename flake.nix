@@ -1,7 +1,7 @@
 {
   description = "My personal NixOS machines configuration";
 
-  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
+  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
 
   inputs.deploy-rs = {
     url = "github:serokell/deploy-rs";
@@ -9,12 +9,12 @@
   };
 
   inputs.home-manager = {
-    url = "github:nix-community/home-manager/release-25.11";
+    url = "github:nix-community/home-manager/release-26.05";
     inputs.nixpkgs.follows = "nixpkgs";
   };
 
   inputs.simple-nixos-mailserver = {
-    url = "gitlab:simple-nixos-mailserver/nixos-mailserver/nixos-25.11";
+    url = "gitlab:simple-nixos-mailserver/nixos-mailserver/nixos-26.05";
     inputs.nixpkgs.follows = "nixpkgs";
   };
 
@@ -29,8 +29,9 @@
   };
 
   # For dev
-  inputs.leProjetDeVieInput.url = "git+file:///home/mickours/Projects/le-projet-de-vie-libr";
-  # inputs.leProjetDeVieInput.url = "github:mickours/le-projet-de-vie-web-site";
+  # inputs.leProjetDeVieInput.url = "git+file:///home/mickours/Projects/le-projet-de-vie-libr";
+  inputs.leProjetDeVieInput.url = "github:mickours/le-projet-de-vie-web-site";
+
   inputs.bgremove.url = "github:RustyShare/bgremove/main";
 
   inputs.nixos-hardware.url = "github:NixOS/nixos-hardware/master";
