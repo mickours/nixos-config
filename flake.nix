@@ -31,7 +31,7 @@
   # For dev
   inputs.leProjetDeVieInput.url = "git+file:///home/mickours/Projects/le-projet-de-vie-libr";
   # inputs.leProjetDeVieInput.url = "github:mickours/le-projet-de-vie-web-site";
-  inputs.bgremove.url = "github:RustyShare/rmbackgroud";
+  inputs.bgremove.url = "github:RustyShare/bgremove/main";
 
   inputs.nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
