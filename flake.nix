@@ -31,6 +31,7 @@
   # For dev
   inputs.leProjetDeVieInput.url = "git+file:///home/mickours/Projects/le-projet-de-vie-libr";
   # inputs.leProjetDeVieInput.url = "github:mickours/le-projet-de-vie-web-site";
+  inputs.bgremove.url = "github:RustyShare/rmbackgroud";
 
   inputs.nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
@@ -45,6 +46,7 @@
       nixos-hardware,
       adrien_config,
       leProjetDeVieInput,
+      bgremove,
       ...
     }@inputs:
     let
@@ -92,6 +94,7 @@
             simple-nixos-mailserver.nixosModules.mailserver
             ./deployments/vps.nix
             leProjetDeVieInput.nixosModules.default
+            bgremove.nixosModules.default
           ];
         };
         vps2 = nixpkgs.lib.nixosSystem {

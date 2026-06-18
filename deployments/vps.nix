@@ -330,6 +330,18 @@ in
     };
   };
 
+  services.bgremove = {
+    enable = true;
+    host = "0.0.0.0"; # default 127.0.0.1
+    port = 8000;
+    openFirewall = true; # default false
+    nginx = {
+      enable = true;
+      fqdn = "bgremove.libr.fr";
+      enableACME = true; # Let's Encrypt cert + force HTTPS (default false)
+    };
+  };
+
   #*************#
   #   Network   #
   #*************#
