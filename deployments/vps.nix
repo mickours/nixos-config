@@ -82,6 +82,15 @@ in
   # Let's encrypt security settings of ACME
   security.acme.defaults.email = "admin@libr.fr";
   security.acme.acceptTerms = true;
+  security.acme.certs = {
+    "libr.fr" = {
+      webroot = "/var/lib/acme/acme-challenge/";
+      email = "admin@libr.com";
+      extraDomainNames = [
+        "mail.libr.fr"
+      ];
+    };
+  };
 
   #*************#
   #    Nginx    #
@@ -95,6 +104,9 @@ in
     virtualHosts = {
       "nextcloud.libr.fr".forceSSL = true;
       "nextcloud.libr.fr".enableACME = true;
+
+      "bgremove.libr.fr".forceSSL = true;
+      "bgremove.libr.fr".enableACME = true;
 
       "michaelmercier.fr" = {
         locations."/" = {
@@ -136,8 +148,10 @@ in
       "michaelmercier.fr"
     ];
 
+    x509.useACMEHost = "libr.fr";
+
     # Use `mkpasswd -m sha-512` to create the salted password
-    loginAccounts = {
+    accounts = {
       "mickours@libr.fr" = {
         hashedPasswordFile = "/data/keys/mickours-at-libr-dot-fr";
         aliases = [
@@ -170,30 +184,18 @@ in
     # Use imap on port 993 and smtp on 587
     enableImap = true;
     enableImapSsl = true;
-    enableManageSieve = true;
+    # enableManageSieve = true;
     hierarchySeparator = "/";
-
-    # Use Let's Encrypt certificates. Note that this needs to set up a stripped
-    # down nginx and opens port 80.
-    certificateScheme = "acme-nginx";
 
     # Enable DKIM reporting
     dmarcReporting.enable = true;
 
     # manage data migration
-    stateVersion = 3;
-
-    # Enable monit monitoring and alerting
-    monitoring.enable = true;
-    monitoring.alertAddress = "admin@libr.fr";
-
-    # Enable local rsnapshot backup
-    backup.enable = true;
-    backup.snapshotRoot = "/data/mail-backups";
+    stateVersion = 4;
 
     # put everything in the /data folder to simplify backups
-    mailDirectory = "/data/vmail";
-    dkimKeyDirectory = "/data/dkim";
+    storage.path = "/data/vmail";
+    dkim.keyDirectory = "/data/dkim";
   };
 
   ##***************#
@@ -332,12 +334,12 @@ in
   services.bgremove = {
     enable = true;
     host = "0.0.0.0"; # default 127.0.0.1
-    port = 8000;
+    port = 8081;
     openFirewall = true; # default false
     nginx = {
       enable = true;
       fqdn = "bgremove.libr.fr";
-      enableACME = true; # Let's Encrypt cert + force HTTPS (default false)
+      # enableACME = true; # Let's Encrypt cert + force HTTPS (default false)
     };
   };
 

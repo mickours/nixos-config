@@ -98,15 +98,15 @@
             bgremove.nixosModules.default
           ];
         };
-        vps2 = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          specialArgs = { inherit inputs adrienPkgs; };
+        # vps2 = nixpkgs.lib.nixosSystem {
+        #   system = "x86_64-linux";
+        #   specialArgs = { inherit inputs adrienPkgs; };
 
-          modules = [
-            simple-nixos-mailserver.nixosModules.mailserver
-            ./deployments/vps2.nix
-          ];
-        };
+        #   modules = [
+        #     simple-nixos-mailserver.nixosModules.mailserver
+        #     ./deployments/vps2.nix
+        #   ];
+        # };
       };
 
       deploy.nodes.vps.hostname = "vps";
@@ -114,13 +114,14 @@
         user = "root";
         sshUser = "root";
         path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.vps;
+        autoRollback = false;
       };
-      deploy.nodes.vps2.hostname = "vps2";
-      deploy.nodes.vps2.profiles.system = {
-        user = "root";
-        sshUser = "root";
-        path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.vps2;
-      };
+      # deploy.nodes.vps2.hostname = "vps2";
+      # deploy.nodes.vps2.profiles.system = {
+      #   user = "root";
+      #   sshUser = "root";
+      #   path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.vps2;
+      # };
 
       # This is highly advised, and will prevent many possible mistakes
       checks = builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy) deploy-rs.lib;
