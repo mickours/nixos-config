@@ -66,11 +66,11 @@
         "nixpkgs": "nixpkgs_6"
       },
       "locked": {
-        "lastModified": 1781870729,
-        "narHash": "sha256-AyPrJbmse0AwnQpHjOP2ZUPHr1lDun9QkZy9LG9BajY=",
+        "lastModified": 1781871348,
+        "narHash": "sha256-eYxWLBS8p9AtZsfrbk51JhAIrN7/jrth2aD8VJlVc/s=",
         "owner": "RustyShare",
         "repo": "bgremove",
-        "rev": "7e711bdb948819653702e7428d8971756f141f30",
+        "rev": "06dc602d640f368fba4f5fff56c0bb01f3627242",
         "type": "github"
       },
       "original": {
