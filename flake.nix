@@ -114,7 +114,7 @@
         user = "root";
         sshUser = "root";
         path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.vps;
-        autoRollback = false;
+        # autoRollback = false;
       };
       # deploy.nodes.vps2.hostname = "vps2";
       # deploy.nodes.vps2.profiles.system = {
