@@ -257,6 +257,26 @@ in
       all.bz2
       all.apcu
     ];
+
+    # Install facerecognition from upstream master (v0.9.90) instead of the
+    # appstore. The latest released version (v0.9.70) still calls the
+    # deprecated QueryBuilder::execute(), which Nextcloud 33 removed, so
+    # `face:background_job` crashes. Master (PR #840 "nc33-upgrade") migrated
+    # all DB calls to executeQuery()/executeStatement() and declares NC 31-33
+    # support, but is not yet tagged in a release.
+    # NOTE: this is the git source (no built JS), so the facerecognition app's
+    # own web settings page has degraded assets. The background job and the
+    # Memories "People" view (which read the same DB) work fully.
+    extraApps.facerecognition = pkgs.fetchFromGitHub {
+      owner = "matiasdelellis";
+      repo = "facerecognition";
+      rev = "6edb9f405a7d2273a678e55524a2f7b4ccbc63b5"; # master @ 2026-06-09, v0.9.90
+      hash = "sha256-2b8u6hlUVoDZVapnHNUs8jalRj7Eh8EUiXPew752GAg=";
+    };
+    extraAppsEnable = true;
+    # extraApps disables the appstore UI by default; keep it on so the other
+    # appstore-installed apps (Memories, etc.) can still be managed/updated.
+    appstoreEnable = true;
     maxUploadSize = "1G";
     fastcgiTimeout = 600;
     # Computed with https://spot13.com/pmcalculator/
