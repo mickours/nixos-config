@@ -3,18 +3,8 @@
 
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
 
-  inputs.deploy-rs = {
-    url = "github:serokell/deploy-rs";
-    inputs.nixpkgs.follows = "nixpkgs";
-  };
-
   inputs.home-manager = {
     url = "github:nix-community/home-manager/release-26.05";
-    inputs.nixpkgs.follows = "nixpkgs";
-  };
-
-  inputs.simple-nixos-mailserver = {
-    url = "gitlab:simple-nixos-mailserver/nixos-mailserver/nixos-26.05";
     inputs.nixpkgs.follows = "nixpkgs";
   };
 
@@ -28,12 +18,6 @@
     inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  # For dev
-  # inputs.leProjetDeVieInput.url = "git+file:///home/mickours/Projects/le-projet-de-vie-libr";
-  inputs.leProjetDeVieInput.url = "github:mickours/le-projet-de-vie-web-site";
-
-  inputs.bgremove.url = "github:RustyShare/bgremove/main";
-
   inputs.nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
   outputs =
@@ -41,19 +25,14 @@
       self,
       nixpkgs,
       home-manager,
-      simple-nixos-mailserver,
-      deploy-rs,
       my_dotfiles,
       nixos-hardware,
       adrien_config,
-      leProjetDeVieInput,
-      bgremove,
       ...
     }@inputs:
     let
       system = "x86_64-linux";
       adrienPkgs = adrien_config.packages."${system}";
-      leProjetDeVie = leProjetDeVieInput.packages."${system}";
     in
     {
       nixosConfigurations = {
@@ -87,44 +66,7 @@
               nixos-hardware.nixosModules.lenovo-thinkpad-x1-extreme-gen3
             ];
         };
-        vps = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          specialArgs = { inherit inputs adrienPkgs leProjetDeVie; };
-
-          modules = [
-            simple-nixos-mailserver.nixosModules.mailserver
-            ./deployments/vps.nix
-            leProjetDeVieInput.nixosModules.default
-            bgremove.nixosModules.default
-          ];
-        };
-        # vps2 = nixpkgs.lib.nixosSystem {
-        #   system = "x86_64-linux";
-        #   specialArgs = { inherit inputs adrienPkgs; };
-
-        #   modules = [
-        #     simple-nixos-mailserver.nixosModules.mailserver
-        #     ./deployments/vps2.nix
-        #   ];
-        # };
       };
-
-      deploy.nodes.vps.hostname = "vps";
-      deploy.nodes.vps.profiles.system = {
-        user = "root";
-        sshUser = "root";
-        path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.vps;
-        # autoRollback = false;
-      };
-      # deploy.nodes.vps2.hostname = "vps2";
-      # deploy.nodes.vps2.profiles.system = {
-      #   user = "root";
-      #   sshUser = "root";
-      #   path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.vps2;
-      # };
-
-      # This is highly advised, and will prevent many possible mistakes
-      checks = builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy) deploy-rs.lib;
       # Enable autoformat
       formatter.x86_64-linux = (import nixpkgs { system = "x86_64-linux"; }).pkgs.nixfmt-tree;
     };

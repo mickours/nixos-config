@@ -101,6 +101,7 @@ with pkgs;
     in
     [
       gitFull
+      git-lfs
       python3
       gcc
       ctags
