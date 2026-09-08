@@ -103,6 +103,15 @@
   hardware.nvidia.open = true;
   hardware.nvidia-container-toolkit.enable = true;
 
+  # enable nitrokey
+  hardware.nitrokey.enable = true;
+  services.pcscd.enable = true;
+  programs.gnupg.agent.enable = true;
+  programs.gnupg.agent.enableSSHSupport = true;
+  # Additional packages
+  # nitrokey-app2
+  # pynitrokey
+
   environment.systemPackages = with pkgs; [
     android-tools
     lm_sensors
@@ -112,6 +121,9 @@
     nh
     helix
     android-studio
+    pass
+    nitrokey-app2
+    pynitrokey
 
     krita
     geary

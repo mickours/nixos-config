@@ -122,6 +122,7 @@ with lib;
     programs.browserpass.enable = true;
     # Needed for browserpass to call gnupg
     programs.gnupg.agent.enable = true;
+    programs.gnupg.agent.enableSSHSupport = true;
     # Enable native support of AppImage format
     programs.appimage.binfmt = true;
   };
