@@ -124,6 +124,8 @@
     pass
     nitrokey-app2
     pynitrokey
+    # fido2-token, to set/query the FIDO2 PIN of the key
+    libfido2
 
     krita
     geary

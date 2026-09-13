@@ -90,10 +90,17 @@ with lib;
     # 1. Enable the PAM U2F global module pointing to your keys
     security.pam.u2f = {
       enable = true;
-      cue = true;
-      # Tells PAM where your mapped keys are located
-      # Leave this to default to have a per user key
-      # settings.authfile = ".config/Yubico/u2f_keys";
+      settings = {
+        # Ask the user to touch the device
+        cue = true;
+        # Require the FIDO2 PIN on top of the touch, so a stolen key is
+        # useless without it. The PIN must be set on the key beforehand:
+        #   fido2-token -S /dev/hidraw0
+        pinverification = 1;
+        # Tells PAM where your mapped keys are located
+        # Leave this to default to have a per user key
+        # authfile = ".config/Yubico/u2f_keys";
+      };
     };
 
     # 2. Activate U2F for the GNOME Display Manager (GDM)

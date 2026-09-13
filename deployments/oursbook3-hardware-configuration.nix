@@ -66,6 +66,11 @@
     }
   ];
 
+  # FIDO2 unlock. The PIN requirement lives in the LUKS header, not here: it is
+  # recorded at enrollment time, and systemd-cryptsetup then asks for the PIN
+  # before the touch. Enroll (or re-enroll) each device with:
+  #   systemd-cryptenroll --fido2-device=auto --fido2-with-client-pin=yes \
+  #     --wipe-slot=fido2 /dev/disk/by-uuid/<uuid>
   boot.initrd.luks.devices = {
     "crypted" = {
       crypttabExtraOpts = [ "fido2-device=auto" ];
