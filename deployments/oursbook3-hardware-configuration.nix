@@ -67,8 +67,14 @@
   ];
 
   boot.initrd.luks.devices = {
-    "crypted".device = "/dev/disk/by-uuid/38f1c94c-5dfa-4e0a-8ec0-ae78126ac3c0";
-    "cryptedHome".device = "/dev/disk/by-uuid/49de7905-4a45-4333-8b3a-b9ee9a71ef25";
+    "crypted" = {
+      crypttabExtraOpts = [ "fido2-device=auto" ];
+      device = "/dev/disk/by-uuid/38f1c94c-5dfa-4e0a-8ec0-ae78126ac3c0";
+    };
+    "cryptedHome" = {
+      device = "/dev/disk/by-uuid/49de7905-4a45-4333-8b3a-b9ee9a71ef25";
+      crypttabExtraOpts = [ "fido2-device=auto" ];
+    };
   };
 
   #powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";

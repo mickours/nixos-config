@@ -87,6 +87,28 @@ with lib;
     };
     # Auto unlock Keyring on login
     security.pam.services.login.enableGnomeKeyring = true;
+    # 1. Enable the PAM U2F global module pointing to your keys
+    security.pam.u2f = {
+      enable = true;
+      cue = true;
+      # Tells PAM where your mapped keys are located
+      # Leave this to default to have a per user key
+      # settings.authfile = ".config/Yubico/u2f_keys";
+    };
+
+    # 2. Activate U2F for the GNOME Display Manager (GDM)
+    security.pam.services.gdm-password.u2f.enable = true;
+
+    # 3. (Optional) Activate U2F for sudo in the terminal
+    security.pam.services.sudo.u2f.enable = true;
+
+    # Lock screen when the nitrokey is removed
+    services.udev.extraRules = ''
+      ACTION=="remove", \
+      ENV{ID_BUS}=="usb", \
+      ENV{ID_VENDOR_ID}=="20a0", \
+      RUN+="${pkgs.systemd}/bin/loginctl lock-sessions"
+    '';
 
     # Add gdm to my user's groups
     users.extraUsers."${cfg.myuser}" = {
