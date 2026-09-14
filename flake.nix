@@ -18,6 +18,11 @@
     inputs.nixpkgs.follows = "nixpkgs";
   };
 
+  nix-index-database = {
+    url = "github:nix-community/nix-index-database";
+    inputs.nixpkgs.follows = "nixpkgs";
+  };
+
   inputs.nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
   outputs =
@@ -28,6 +33,7 @@
       my_dotfiles,
       nixos-hardware,
       adrien_config,
+      nix-index-database,
       ...
     }@inputs:
     let
@@ -64,6 +70,7 @@
                 home-manager.users.mickours = import ./config/home.nix;
               }
               nixos-hardware.nixosModules.lenovo-thinkpad-x1-extreme-gen3
+              nix-index-database.nixosModules.default
             ];
         };
       };

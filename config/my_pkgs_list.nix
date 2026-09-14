@@ -54,6 +54,7 @@ with pkgs;
     aspellDicts.en
     # Message and RSS
     signal-desktop
+    zoom-us
 
     # Media
     vlc
