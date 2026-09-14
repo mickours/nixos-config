@@ -70,9 +70,16 @@ with lib;
           HISTSIZE=5000
         '';
       };
+      # NOTE: Disabled because we use nix-index instead and they are mutually exclusive
       # Whether interactive shells should show which Nix package (if any)
       # provides a missing command.
-      command-not-found.enable = true;
+      # command-not-found.enable = true;
+      nix-index = {
+        enable = true;
+        enableBashIntegration = true;
+        enableZshIntegration = true;
+      };
+
     };
 
     # Make sudo funnier!
