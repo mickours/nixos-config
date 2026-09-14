@@ -154,6 +154,14 @@
 
   services.fprintd.enable = true;
 
+  services.usbguard = {
+    enable = true;
+    # Use the folowing command to udate the rules to allow all connected devices
+    # usbguard generate-policy > /etc/usbguard/rules.conf
+    # NOTE: This file is not in the store, only on the local disk
+    ruleFile = "/etc/usbguard/rules.conf";
+  };
+
   # Add personal account
   #users.users.mickours.isSystemUser = true;
   users.extraUsers.mickours = {
