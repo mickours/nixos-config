@@ -158,10 +158,10 @@
 
   services.usbguard = {
     enable = true;
-    # Use the folowing command to udate the rules to allow all connected devices
-    # usbguard generate-policy > /etc/usbguard/rules.conf
-    # NOTE: This file is not in the store, only on the local disk
-    ruleFile = "/etc/usbguard/rules.conf";
+    # To allow all currently connected devices, regenerate the rules with:
+    #   usbguard generate-policy | sed 's/[[:space:]]*$//' > deployments/oursbook3-usbguard-rules.conf
+    # Rules are NixOS-managed, so they can't be changed through the usbguard IPC.
+    rules = builtins.readFile ./oursbook3-usbguard-rules.conf;
   };
 
   # Add personal account
